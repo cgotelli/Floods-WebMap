@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Leaflet TimeDimension + Leaflet.draw with shapes and preloaded images</title>
+  <meta charset="utf-8"/>
+  <!-- CSS de Leaflet -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.5.1/dist/leaflet.css" />
+  <!-- CSS de Leaflet TimeDimension -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-timedimension@1.1.1/dist/leaflet.timedimension.control.min.css" />
+  <!-- CSS de Leaflet Measure -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-measure@3.1.0/dist/leaflet-measure.min.css">
+  <!-- CSS de Leaflet.draw (v0.4.2) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css"/>
+  <!-- CSS de FontAwesome para iconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+    /* The map container will be 100% wide, 600px tall, position relative. */
+    #map {
+      position: relative;
+      width: 100%;
+      height: 600px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Map container; legend is placed inside this container -->
+  <div id="map">
+    <div id="legend" style="position: absolute; bottom: 15px; right: 10px; background: rgba(255,255,255,0); padding: 5px; border: 0px solid #ccc; z-index: 1000;">
+      <img src="https://github.com/cgotelli/cgotelli.github.io/raw/refs/heads/main/dems/legend.png" alt="Depth Legend">
+    </div>
+  </div>
+  
+  <!-- JS: Leaflet, Iso8601, TimeDimension, Measure, Leaflet.draw -->
+  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.5.1/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/iso8601-js-period@0.2.1/iso8601.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/leaflet-timedimension@1.1.1/dist/leaflet.timedimension.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/leaflet-measure@3.1.0/dist/leaflet-measure.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
+  
+  <script>
+    /*************************************************
+     * Function to preload images
+     *************************************************/
+    function preloadImages(urls, callback) {
+      let loadedCount = 0;
+      const total = urls.length;
+      urls.forEach(url => {
+        const img = new Image();
+        img.onload = img.onerror = function() {
+          loadedCount++;
+          if (loadedCount === total) {
+            callback(urls);
+          }
+        };
+        img.src = url;
+      });
+    }
+    
+    /*************************************************
+     * Function to get PNG URLs from GitHub folder
+     *************************************************/
+    function getPNGFilesFromGitHubFolder(folderUrl, callback) {
+      fetch(folderUrl)
+        .then(response => response.json())
+        .then(json => {
+          let pngFiles = json.filter(item =>
+            item.type === "file" && item.name.toLowerCase().startsWith("depth")
+          ).map(item => item.download_url);
+          pngFiles.sort();
+          callback(pngFiles);
+        })
+        .catch(error => {
+          console.error("Error fetching GitHub folder:", error);
+          callback([]);
+        });
+    }
+    
+    /*************************************************
+     * Subclass for ImageOverlay in TimeDimension
+     *************************************************/
+    L.TimeDimension.Layer.ImageOverlay = L.TimeDimension.Layer.extend({
+      initialize: function(layer, options) {
+        L.TimeDimension.Layer.prototype.initialize.call(this, layer, options);
+        if (typeof this.options.time === 'string') {
+          this._time = new Date(this.options.time).getTime();
+        } else if (this.options.time instanceof Date) {
+          this._time = this.options.time.getTime();
+        } else {
+          this._time = this.options.time;
+        }
+      },
+      _onNewTimeLoading: function(ev) {
+        this.fire('timeload', { time: ev.time });
+      },
+      isReady: function(time) {
+        return true;
+      },
+      _update: function() {
+        if (!this._map) return;
+        var currentTime = this._timeDimension.getCurrentTime();
+        var tolerance = 500;
+        console.log("Overlay time: " + this._time + ", currentTime: " + currentTime);
+        if (Math.abs(currentTime - this._time) < tolerance) {
+          if (!this._map.hasLayer(this._baseLayer)) {
+            console.log("Adding overlay for time " + this._time);
+            this._map.addLayer(this._baseLayer);
+          }
+        } else {
+          if (this._map.hasLayer(this._baseLayer)) {
+            console.log("Removing overlay for time " + this._time);
+            this._map.removeLayer(this._baseLayer);
+          }
+        }
+        return true;
+      }
+    });
+    L.timeDimension.layer.imageOverlay = function(layer, options) {
+      return new L.TimeDimension.Layer.ImageOverlay(layer, options);
+    };
+    
+    /*************************************************
+     * Map initialization
+     *************************************************/
+    var folderUrl = "https://api.github.com/repos/cgotelli/cgotelli.github.io/contents/dems";
+    
+    getPNGFilesFromGitHubFolder(folderUrl, function(pngFiles) {
+      console.log("Obtained PNG URLs:", pngFiles);
+      
+      preloadImages(pngFiles, function(loadedUrls) {
+        console.log("All images have been preloaded.");
+        
+        var times = [];
+        var startTime = new Date("2025-01-01T00:00:00Z");
+        for (var i = 0; i < loadedUrls.length; i++) {
+          var time = new Date(startTime.getTime() + i * 1000);
+          times.push(time.toISOString());
+        }
+        
+        var imageBounds = [[46.51992735666653, 6.630928610923491], [46.52114372474644, 6.636266774000215]];
+        var mapCenter = [46.52054, 6.63360];
+        
+        var mapStartTime = times[0];
+        var mapEndTime = times[times.length - 1];
+        
+        var map = L.map('map', {
+          center: mapCenter,
+          zoom: 16,
+          timeDimension: true,
+          timeDimensionOptions: {
+            timeInterval: mapStartTime + "/" + mapEndTime,
+            period: "PT1S",
+            currentTime: new Date(mapStartTime).getTime()
+          }
+        });
+        
+        L.control.timeDimension({
+          autoPlay: false,
+          loopButton: true,
+          timeSliderDragUpdate: true,
+          speedSlider: true,
+          playerOptions: {
+            transitionTime: 100,
+            loop: true,
+            startOver: true
+          },
+          minSpeed: 0.1,
+          maxSpeed: 20,
+          displayDate: false
+        }).addTo(map);
+        
+        /********************
+         * Base layers
+         ********************/
+        var osmStandard = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { 
+          attribution: '© OpenStreetMap Contributors' 
+        });
+        var swissColor = L.tileLayer(
+          'https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.pixelkarte-farbe/default/current/3857/{z}/{x}/{y}.jpeg',
+          { 
+            attribution: '© swisstopo <img src="https://upload.wikimedia.org/wikipedia/commons/f/f3/Flag_of_Switzerland.svg" style="height:16px; vertical-align:middle;" alt="Swiss Flag">' 
+          }
+        );
+        var swissTopo = L.tileLayer(
+          'https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.swissimage/default/current/3857/{z}/{x}/{y}.jpeg',
+          { 
+            attribution: '© swisstopo <img src="https://upload.wikimedia.org/wikipedia/commons/f/f3/Flag_of_Switzerland.svg" style="height:16px; vertical-align:middle;" alt="Swiss Flag">' 
+          }
+        );
+        var cartoPositron = L.tileLayer(
+          'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+          { attribution: '© OpenStreetMap contributors, © CartoDB' }
+        );
+        var cartoDark = L.tileLayer(
+          'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+          { attribution: '© OpenStreetMap contributors, © CartoDB' }
+        );
+        
+        var baseLayers = {
+          "OSM Standard": osmStandard,
+          "Swiss Color": swissColor,
+          "Swiss Topo": swissTopo,
+          "CartoDB Positron": cartoPositron,
+          "CartoDB Dark Matter": cartoDark
+        };
+        
+        var drawnItems = new L.FeatureGroup();
+        map.addLayer(drawnItems);
+        
+        L.control.layers(baseLayers, { "Dibujos": drawnItems }).addTo(map);
+        
+        var measureControl = new L.Control.Measure({
+          primaryLengthUnit: 'meters',
+          primaryAreaUnit: 'hectares',
+          position: 'topleft'
+        });
+        measureControl.addTo(map);
+        
+        swissTopo.addTo(map);
+        
+        // Add each PNG as a temporal overlay in TimeDimension
+        for (let i = 0; i < loadedUrls.length; i++) {
+          var overlay = L.imageOverlay(loadedUrls[i], imageBounds, { opacity: 0.75 });
+          var tdLayer = L.timeDimension.layer.imageOverlay(overlay, { time: times[i] });
+          tdLayer.addTo(map);
+        }
+        
+        /*************************************************
+         * Leaflet.draw
+         *************************************************/
+        var drawControl = new L.Control.Draw({
+          edit: { featureGroup: drawnItems },
+          draw: {
+            polygon: true,
+            polyline: true,
+            rectangle: true,
+            circle: true,
+            marker: true
+          }
+        });
+        map.addControl(drawControl);
+        
+        map.on('draw:created', function(e) {
+          var type = e.layerType,
+              layer = e.layer;
+          drawnItems.addLayer(layer);
+          var infoText = "";
+          if (type === 'polygon' || type === 'rectangle') {
+            var latlngs = layer.getLatLngs();
+            if (Array.isArray(latlngs[0])) { latlngs = latlngs[0]; }
+            var area = L.GeometryUtil.geodesicArea(latlngs);
+            var perimeter = 0;
+            for (var i = 0; i < latlngs.length; i++) {
+              var next = latlngs[(i + 1) % latlngs.length];
+              perimeter += latlngs[i].distanceTo(next);
+            }
+            infoText = "Área: " + area.toFixed(2) + " m², Perímetro: " + perimeter.toFixed(2) + " m";
+          } else if (type === 'circle') {
+            var r = layer.getRadius();
+            var area = Math.PI * r * r;
+            var circumference = 2 * Math.PI * r;
+            infoText = "Área (círculo): " + area.toFixed(2) + " m², Circunferencia: " + circumference.toFixed(2) + " m";
+          } else if (type === 'polyline') {
+            var latlngs = layer.getLatLngs();
+            var length = 0;
+            for (var i = 0; i < latlngs.length - 1; i++) {
+              length += latlngs[i].distanceTo(latlngs[i+1]);
+            }
+            infoText = "Longitud: " + length.toFixed(2) + " m";
+          } else if (type === 'marker') {
+            var latlng = layer.getLatLng();
+            infoText = "Coordenadas: " + latlng.lat.toFixed(5) + ", " + latlng.lng.toFixed(5);
+          }
+          layer.bindPopup(infoText).openPopup();
+        });
+      });
+    });
+  </script>
+</body>
+</html>
