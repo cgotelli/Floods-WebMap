@@ -1,20 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Leaflet TimeDimension + Leaflet.draw with shapes and preloaded images</title>
+  <title>Leaflet TimeDimension + Leaflet.draw with shapes and precached images</title>
   <meta charset="utf-8"/>
-  <!-- CSS de Leaflet -->
+  <!-- CSS: Leaflet -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.5.1/dist/leaflet.css" />
-  <!-- CSS de Leaflet TimeDimension -->
+  <!-- CSS: Leaflet TimeDimension -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-timedimension@1.1.1/dist/leaflet.timedimension.control.min.css" />
-  <!-- CSS de Leaflet Measure -->
+  <!-- CSS: Leaflet Measure -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-measure@3.1.0/dist/leaflet-measure.min.css">
-  <!-- CSS de Leaflet.draw (v0.4.2) -->
+  <!-- CSS: Leaflet.draw (v0.4.2) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css"/>
-  <!-- CSS de FontAwesome para iconos -->
+  <!-- CSS: FontAwesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <style>
-    /* The map container will be 100% wide, 600px tall, position relative. */
     #map {
       position: relative;
       width: 100%;
@@ -23,10 +22,10 @@
   </style>
 </head>
 <body>
-  <!-- Map container; legend is placed inside this container -->
   <div id="map">
+    <!-- Legend in the lower-right corner -->
     <div id="legend" style="position: absolute; bottom: 15px; right: 10px; background: rgba(255,255,255,0); padding: 5px; border: 0px solid #ccc; z-index: 1000;">
-      <img src="https://github.com/cgotelli/cgotelli.github.io/raw/refs/heads/main/dems/legend.png" alt="Depth Legend">
+      <img src="https://github.com/cgotelli/Floods-WebMap/raw/refs/heads/main/legend.png" alt="Depth Legend">
     </div>
   </div>
   
@@ -39,7 +38,7 @@
   
   <script>
     /*************************************************
-     * Function to preload images
+     * preloadImages: loads all image URLs in parallel
      *************************************************/
     function preloadImages(urls, callback) {
       let loadedCount = 0;
@@ -57,13 +56,13 @@
     }
     
     /*************************************************
-     * Function to get PNG URLs from GitHub folder
+     * getPNGFilesFromGitHubFolder: fetch Depth_*.png from new repo
      *************************************************/
     function getPNGFilesFromGitHubFolder(folderUrl, callback) {
       fetch(folderUrl)
         .then(response => response.json())
         .then(json => {
-          let pngFiles = json.filter(item =>
+          let pngFiles = json.filter(item => 
             item.type === "file" && item.name.toLowerCase().startsWith("depth")
           ).map(item => item.download_url);
           pngFiles.sort();
@@ -119,9 +118,9 @@
     };
     
     /*************************************************
-     * Map initialization
+     * Initialization
      *************************************************/
-    var folderUrl = "https://api.github.com/repos/cgotelli/cgotelli.github.io/contents/dems";
+    var folderUrl = "https://api.github.com/repos/cgotelli/Floods-WebMap/contents/simulation_files/png";
     
     getPNGFilesFromGitHubFolder(folderUrl, function(pngFiles) {
       console.log("Obtained PNG URLs:", pngFiles);
@@ -130,7 +129,7 @@
         console.log("All images have been preloaded.");
         
         var times = [];
-        var startTime = new Date("2025-01-01T00:00:00Z");
+        var startTime = new Date('2025-01-01T00:00:00Z');
         for (var i = 0; i < loadedUrls.length; i++) {
           var time = new Date(startTime.getTime() + i * 1000);
           times.push(time.toISOString());
@@ -217,7 +216,7 @@
         
         swissTopo.addTo(map);
         
-        // Add each PNG as a temporal overlay in TimeDimension
+        // Add each PNG as a time-based overlay
         for (let i = 0; i < loadedUrls.length; i++) {
           var overlay = L.imageOverlay(loadedUrls[i], imageBounds, { opacity: 0.75 });
           var tdLayer = L.timeDimension.layer.imageOverlay(overlay, { time: times[i] });
@@ -249,9 +248,9 @@
             if (Array.isArray(latlngs[0])) { latlngs = latlngs[0]; }
             var area = L.GeometryUtil.geodesicArea(latlngs);
             var perimeter = 0;
-            for (var i = 0; i < latlngs.length; i++) {
-              var next = latlngs[(i + 1) % latlngs.length];
-              perimeter += latlngs[i].distanceTo(next);
+            for (var j = 0; j < latlngs.length; j++) {
+              var next = latlngs[(j + 1) % latlngs.length];
+              perimeter += latlngs[j].distanceTo(next);
             }
             infoText = "Área: " + area.toFixed(2) + " m², Perímetro: " + perimeter.toFixed(2) + " m";
           } else if (type === 'circle') {
@@ -262,8 +261,8 @@
           } else if (type === 'polyline') {
             var latlngs = layer.getLatLngs();
             var length = 0;
-            for (var i = 0; i < latlngs.length - 1; i++) {
-              length += latlngs[i].distanceTo(latlngs[i+1]);
+            for (var k = 0; k < latlngs.length - 1; k++) {
+              length += latlngs[k].distanceTo(latlngs[k+1]);
             }
             infoText = "Longitud: " + length.toFixed(2) + " m";
           } else if (type === 'marker') {
