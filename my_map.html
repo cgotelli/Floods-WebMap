@@ -135,15 +135,15 @@
           times.push(time.toISOString());
         }
         
-        var imageBounds = [[46.51992735666653, 6.630928610923491], [46.52114372474644, 6.636266774000215]];
-        var mapCenter = [46.52054, 6.63360];
+        var imageBounds = [[46.11154694989198, 7.629544581614603], [46.12684212936793, 7.633233336951433]];
+        var mapCenter = [46.11919, 7.63139];
         
         var mapStartTime = times[0];
         var mapEndTime = times[times.length - 1];
         
         var map = L.map('map', {
           center: mapCenter,
-          zoom: 16,
+          zoom: 15,
           timeDimension: true,
           timeDimensionOptions: {
             timeInterval: mapStartTime + "/" + mapEndTime,
