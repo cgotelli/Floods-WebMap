@@ -9,12 +9,12 @@ This repository provides a complete workflow for converting hydrodynamic simulat
 ```raw
 .
 ├── simulation_files/
-│   ├── asc_files/         # Original .asc files from Iber (ASCII raster grids)
-│   └── png_files/         # Generated PNG files (after running the notebook)
-├── build_map.ipynb   		# Jupyter notebook that processes ASC -> PNG and generates HTML
-├── legend.png        		# Generated vertical legend image
-├── my_map.html       		# Final HTML map (Leaflet + TimeDimension + measure + draw)
-└── README.md         	   # This README
+│   ├── asc_files/      # Original .asc files from Iber (ASCII raster grids)
+│   └── png_files/      # Generated PNG files (after running the notebook)
+├── build_map.ipynb     # Jupyter notebook that processes ASC -> PNG and generates HTML
+├── legend.png          # Generated vertical legend image
+├── my_map.html       	# Final HTML map (Leaflet + TimeDimension + measure + draw)
+└── README.md         	# This README
 ```
 
 1. **simulation_files/asc/**  
