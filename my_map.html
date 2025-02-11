@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Leaflet TimeDimension + Leaflet.draw with shapes and precached images</title>
+  <title>My Custom Map Title</title>
   <meta charset="utf-8"/>
   <!-- CSS: Leaflet -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.5.1/dist/leaflet.css" />
@@ -202,11 +202,43 @@
           "CartoDB Dark Matter": cartoDark
         };
         
+        /********************
+         * Overlay layers
+         ********************/
+        // FeatureGroup for drawings (Leaflet.draw)
         var drawnItems = new L.FeatureGroup();
         map.addLayer(drawnItems);
         
-        L.control.layers(baseLayers, { "Drawings": drawnItems }).addTo(map);
+        // Animation layer 1: group all time-based image overlays
+        var animationLayer = L.layerGroup();
+        for (let i = 0; i < loadedUrls.length; i++) {
+          var overlay = L.imageOverlay(loadedUrls[i], imageBounds, { opacity: 0.75 });
+          var tdLayer = L.timeDimension.layer.imageOverlay(overlay, { time: times[i] });
+          animationLayer.addLayer(tdLayer);
+        }
+        // Add the first animation layer to the map by default
+        animationLayer.addTo(map);
         
+        // Animation layer 2: identical to the first (for demonstration)
+        var animationLayer2 = L.layerGroup();
+        for (let i = 0; i < loadedUrls.length; i++) {
+          var overlay = L.imageOverlay(loadedUrls[i], imageBounds, { opacity: 0.75 });
+          var tdLayer = L.timeDimension.layer.imageOverlay(overlay, { time: times[i] });
+          animationLayer2.addLayer(tdLayer);
+        }
+        // Add the second animation layer to the map by default
+        animationLayer2.addTo(map);
+        
+        // Layers control: base layers and overlays (with user-defined names)
+        L.control.layers(baseLayers, {
+          "T = 10 years": animationLayer,
+          "T = 100 years": animationLayer2,
+          "Drawings Layer": drawnItems
+        }).addTo(map);
+        
+        /********************
+         * Measure control
+         ********************/
         var measureControl = new L.Control.Measure({
           primaryLengthUnit: 'meters',
           primaryAreaUnit: 'hectares',
@@ -214,14 +246,8 @@
         });
         measureControl.addTo(map);
         
+        // Add one of the base layers by default
         swissTopo.addTo(map);
-        
-        // Add each PNG as a time-based overlay
-        for (let i = 0; i < loadedUrls.length; i++) {
-          var overlay = L.imageOverlay(loadedUrls[i], imageBounds, { opacity: 0.75 });
-          var tdLayer = L.timeDimension.layer.imageOverlay(overlay, { time: times[i] });
-          tdLayer.addTo(map);
-        }
         
         /*************************************************
          * Leaflet.draw
