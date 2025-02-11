@@ -205,7 +205,7 @@
         var drawnItems = new L.FeatureGroup();
         map.addLayer(drawnItems);
         
-        L.control.layers(baseLayers, { "Dibujos": drawnItems }).addTo(map);
+        L.control.layers(baseLayers, { "Drawings": drawnItems }).addTo(map);
         
         var measureControl = new L.Control.Measure({
           primaryLengthUnit: 'meters',
@@ -238,6 +238,40 @@
         });
         map.addControl(drawControl);
         
+        // --- New Control: Button to save drawings ---
+        var saveDrawingsControl = L.Control.extend({
+          options: {
+            position: 'topleft'
+          },
+          onAdd: function(map) {
+            var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control');
+            container.style.backgroundColor = 'white';
+            container.style.padding = '10px';
+            container.style.cursor = 'pointer';
+            container.title = 'Save drawings';
+            container.innerHTML = '<i class="fa fa-save"></i>';
+            L.DomEvent.disableClickPropagation(container);
+            L.DomEvent.on(container, 'click', function(e) {
+              // Convert the drawings layer to GeoJSON
+              var data = drawnItems.toGeoJSON();
+              var convertedData = JSON.stringify(data, null, 2);
+              // Create a Blob and generate a URL for download
+              var blob = new Blob([convertedData], { type: 'application/json' });
+              var url = URL.createObjectURL(blob);
+              var a = document.createElement('a');
+              a.href = url;
+              a.download = 'drawings.geojson';
+              document.body.appendChild(a);
+              a.click();
+              document.body.removeChild(a);
+              URL.revokeObjectURL(url);
+            });
+            return container;
+          }
+        });
+        map.addControl(new saveDrawingsControl());
+        // --- End of save control ---
+        
         map.on('draw:created', function(e) {
           var type = e.layerType,
               layer = e.layer;
@@ -252,22 +286,22 @@
               var next = latlngs[(j + 1) % latlngs.length];
               perimeter += latlngs[j].distanceTo(next);
             }
-            infoText = "Área: " + area.toFixed(2) + " m², Perímetro: " + perimeter.toFixed(2) + " m";
+            infoText = "Area: " + area.toFixed(2) + " m², Perimeter: " + perimeter.toFixed(2) + " m";
           } else if (type === 'circle') {
             var r = layer.getRadius();
             var area = Math.PI * r * r;
             var circumference = 2 * Math.PI * r;
-            infoText = "Área (círculo): " + area.toFixed(2) + " m², Circunferencia: " + circumference.toFixed(2) + " m";
+            infoText = "Circle Area: " + area.toFixed(2) + " m², Circumference: " + circumference.toFixed(2) + " m";
           } else if (type === 'polyline') {
             var latlngs = layer.getLatLngs();
             var length = 0;
             for (var k = 0; k < latlngs.length - 1; k++) {
               length += latlngs[k].distanceTo(latlngs[k+1]);
             }
-            infoText = "Longitud: " + length.toFixed(2) + " m";
+            infoText = "Length: " + length.toFixed(2) + " m";
           } else if (type === 'marker') {
             var latlng = layer.getLatLng();
-            infoText = "Coordenadas: " + latlng.lat.toFixed(5) + ", " + latlng.lng.toFixed(5);
+            infoText = "Coordinates: " + latlng.lat.toFixed(5) + ", " + latlng.lng.toFixed(5);
           }
           layer.bindPopup(infoText).openPopup();
         });
