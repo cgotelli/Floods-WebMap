@@ -207,7 +207,7 @@
          ********************/
         // FeatureGroup for drawings (Leaflet.draw)
         var drawnItems = new L.FeatureGroup();
-        map.addLayer(drawnItems);
+        // (Do not add drawnItems to the map by default)
         
         // Animation layer 1: group all time-based image overlays
         var animationLayer = L.layerGroup();
@@ -216,7 +216,7 @@
           var tdLayer = L.timeDimension.layer.imageOverlay(overlay, { time: times[i] });
           animationLayer.addLayer(tdLayer);
         }
-        // Add the first animation layer to the map by default
+        // Add only Animation Layer 1 to the map by default
         animationLayer.addTo(map);
         
         // Animation layer 2: identical to the first (for demonstration)
@@ -226,13 +226,12 @@
           var tdLayer = L.timeDimension.layer.imageOverlay(overlay, { time: times[i] });
           animationLayer2.addLayer(tdLayer);
         }
-        // Add the second animation layer to the map by default
-        animationLayer2.addTo(map);
+        // (Do not add Animation Layer 2 to the map by default)
         
         // Layers control: base layers and overlays (with user-defined names)
         L.control.layers(baseLayers, {
-          "T = 10 years": animationLayer,
-          "T = 100 years": animationLayer2,
+          "Animation Layer 1": animationLayer,
+          "Animation Layer 2": animationLayer2,
           "Drawings Layer": drawnItems
         }).addTo(map);
         
