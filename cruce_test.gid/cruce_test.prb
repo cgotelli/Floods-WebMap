@@ -15,10 +15,10 @@ QUESTION: Max_simulation_time_[s]
 VALUE: 350
 HELP: Time for ending the simulation
 QUESTION: Results_2D_time_interval_[s]
-VALUE: 1
+VALUE: 10
 HELP: Interval for writing 2D results
 QUESTION: Timeseries_time_interval_[s]
-VALUE: 1
+VALUE: 10
 HELP: Interval for timeseries results
 QUESTION: _#CB#(_)
 VALUE: 
