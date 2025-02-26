@@ -170,44 +170,40 @@
         /********************
          * Base layers
          ********************/
-        var osmStandard = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { 
-          attribution: '© OpenStreetMap Contributors' 
+        var swissGray = L.tileLayer('https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.landeskarte-grau-10/default/current/3857/{z}/{x}/{y}.png', {
+          attribution: '© swisstopo'
         });
-        var swissColor = L.tileLayer(
-          'https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.pixelkarte-farbe/default/current/3857/{z}/{x}/{y}.jpeg',
-          { 
-            attribution: '© swisstopo <img src="https://upload.wikimedia.org/wikipedia/commons/f/f3/Flag_of_Switzerland.svg" style="height:16px; vertical-align:middle;" alt="Swiss Flag">' 
-          }
-        );
-        var swissTopo = L.tileLayer(
-          'https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.swissimage/default/current/3857/{z}/{x}/{y}.jpeg',
-          { 
-            attribution: '© swisstopo <img src="https://upload.wikimedia.org/wikipedia/commons/f/f3/Flag_of_Switzerland.svg" style="height:16px; vertical-align:middle;" alt="Swiss Flag">' 
-          }
-        );
-        var cartoPositron = L.tileLayer(
-          'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
-          { attribution: '© OpenStreetMap contributors, © CartoDB' }
-        );
-        var cartoDark = L.tileLayer(
-          'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
-          { attribution: '© OpenStreetMap contributors, © CartoDB' }
-        );
+        var swissTLM = L.tileLayer('https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.swisstlm3d-karte-grau/default/current/3857/{z}/{x}/{y}.png', {
+          attribution: '© swisstopo'
+        });
+        var lightBaseMap = L.tileLayer('https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.leichte-basiskarte_reliefschattierung/default/current/3857/{z}/{x}/{y}.png', {
+          attribution: '© swisstopo'
+        });
+        var swissALTI3D = L.tileLayer('https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.swissalti3d-reliefschattierung/default/current/3857/{z}/{x}/{y}.png', {
+          attribution: '© swisstopo'
+        });
+        var swissImage = L.tileLayer('https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.swissimage/default/current/3857/{z}/{x}/{y}.jpeg', {
+          attribution: '© swisstopo'
+        });
+        var osmStandard = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '© OpenStreetMap contributors'
+        });
         
         var baseLayers = {
-          "OSM Standard": osmStandard,
-          "Swiss Color": swissColor,
-          "Swiss Topo": swissTopo,
-          "CartoDB Positron": cartoPositron,
-          "CartoDB Dark Matter": cartoDark
+          "Swiss Gray Map": swissGray,
+          "Swiss TLM Map": swissTLM,
+          "Light Base Map": lightBaseMap,
+          "Swiss ALTI3D Multidirectional Hillshade": swissALTI3D,
+          "Swiss Image": swissImage,
+          "OSM Standard": osmStandard
         };
         
         /********************
          * Overlay layers
          ********************/
-        // FeatureGroup for drawings (Leaflet.draw)
+        // FeatureGroup for drawings (Leaflet.draw) - now added by default
         var drawnItems = new L.FeatureGroup();
-        // (Do not add drawnItems to the map by default)
+        drawnItems.addTo(map);
         
         // Animation layer 1: group all time-based image overlays
         var animationLayer = L.layerGroup();
@@ -216,7 +212,6 @@
           var tdLayer = L.timeDimension.layer.imageOverlay(overlay, { time: times[i] });
           animationLayer.addLayer(tdLayer);
         }
-        // Add only Animation Layer 1 to the map by default
         animationLayer.addTo(map);
         
         // Animation layer 2: identical to the first (for demonstration)
@@ -226,7 +221,6 @@
           var tdLayer = L.timeDimension.layer.imageOverlay(overlay, { time: times[i] });
           animationLayer2.addLayer(tdLayer);
         }
-        // (Do not add Animation Layer 2 to the map by default)
         
         // Layers control: base layers and overlays (with user-defined names)
         L.control.layers(baseLayers, {
@@ -245,8 +239,8 @@
         });
         measureControl.addTo(map);
         
-        // Add one of the base layers by default
-        swissTopo.addTo(map);
+        // Add the default base layer: Swiss Image
+        swissImage.addTo(map);
         
         /*************************************************
          * Leaflet.draw
@@ -277,10 +271,8 @@
             container.innerHTML = '<i class="fa fa-save"></i>';
             L.DomEvent.disableClickPropagation(container);
             L.DomEvent.on(container, 'click', function(e) {
-              // Convert the drawings layer to GeoJSON
               var data = drawnItems.toGeoJSON();
               var convertedData = JSON.stringify(data, null, 2);
-              // Create a Blob and generate a URL for download
               var blob = new Blob([convertedData], { type: 'application/json' });
               var url = URL.createObjectURL(blob);
               var a = document.createElement('a');
