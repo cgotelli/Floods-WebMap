@@ -1,0 +1,1284 @@
+PROBLEM DATA
+BOOK: Data
+TITLE: Time_Parameters
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Simulation#CB#(New,Resume)
+VALUE: New
+HELP: New: deletes existing results \n Resume: continues existing simulation
+DEPENDENCIES: (New,RESTORE,Initial_time_[s],#CURRENT#,RESTORE,Max_simulation_time_[s],#CURRENT#,RESTORE,Results_2D_time_interval_[s],#CURRENT#,RESTORE,Timeseries_time_interval_[s],#CURRENT#,HIDE,Simulation_plan,#CURRENT#,HIDE,Plan_ID,#CURRENT#)
+DEPENDENCIES: (Resume,HIDE,Initial_time_[s],#CURRENT#,RESTORE,Max_simulation_time_[s],#CURRENT#,RESTORE,Results_2D_time_interval_[s],#CURRENT#,RESTORE,Timeseries_time_interval_[s],#CURRENT#,HIDE,Simulation_plan,#CURRENT#,HIDE,Plan_ID,#CURRENT#)
+QUESTION: Initial_time_[s]
+VALUE: 0
+HELP: Time for starting the simulation
+QUESTION: Max_simulation_time_[s]
+VALUE: 350
+HELP: Time for ending the simulation
+QUESTION: Results_2D_time_interval_[s]
+VALUE: 1
+HELP: Interval for writing 2D results
+QUESTION: Timeseries_time_interval_[s]
+VALUE: 1
+HELP: Interval for timeseries results
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Simulation_plan#CB#(Enabled,Disabled)
+VALUE: Disabled
+STATE: HIDDEN
+HELP: Allows to analyse more than one scenario
+DEPENDENCIES: (Enabled,RESTORE,Plan_ID,#CURRENT#)
+DEPENDENCIES: (Disabled,HIDE,Plan_ID,#CURRENT#)
+QUESTION: Plan_ID
+VALUE: 0
+STATE: HIDDEN
+HELP: Each plan must have a different ID. Use only positive integer numbers
+TITLE: General
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Analysis#CB#(2D)
+VALUE: 2D
+STATE: HIDDEN
+HELP: For multiprocessors computers, select the number of them that you want to use. If number is greater than the actually available, maxim is used.
+QUESTION: Numerical_Scheme#CB#(1st_Order_[Fastest],2nd_Order,DHD,DHD_Basin)
+VALUE: 1st_Order_[Fastest]
+STATE: NORMAL
+HELP: Flux Limiter Function of Numerical Scheme. Recommended:2nd_Order  Faster:First_Order  Hydrological:DHD or DHD_Basin
+DEPENDENCIES: (1st_Order_[Fastest],HIDE,tvd,0)
+DEPENDENCIES: (2nd_Order,HIDE,tvd,1)
+DEPENDENCIES: (DHD,HIDE,tvd,10)
+DEPENDENCIES: (DHD_Basin,HIDE,tvd,101)
+QUESTION: tvd
+VALUE: 0
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: GPU_id
+VALUE: 0
+STATE: HIDDEN
+QUESTION: Number_of_Threads
+VALUE: 1
+QUESTION: CFL
+VALUE: 0.45
+HELP: Courant-Friedrichs-Lewy Number. Recommended lower than 1
+QUESTION: Max_time_increment_[s]
+VALUE: 1
+QUESTION: _#CB#(_)
+VALUE: 
+HELP: Time step for simulation
+QUESTION: Wet-Dry_limit_[m]
+VALUE: 0.01
+HELP: Water depth that determine if an element is wet or dry.
+QUESTION: Drying_Method#CB#(Default,Hydrological,Strict)
+VALUE: Default
+DEPENDENCIES: (Default,HIDE,Hydrological_Drying,0,HIDE,Strict_Drying,No)
+DEPENDENCIES: (Hydrological,HIDE,Hydrological_Drying,1,HIDE,Strict_Drying,No)
+DEPENDENCIES: (Strict,HIDE,Hydrological_Drying,0,HIDE,Strict_Drying,Yes)
+HELP: Bates
+QUESTION: Hydrological_Drying#CB#(1,0)
+VALUE: 0
+QUESTION: Strict_Drying#CB#(No,Yes)
+VALUE: No
+DEPENDENCIES: (No,HIDE,Dry_elements_depth_buffer_[m],9999)
+DEPENDENCIES: (Yes,HIDE,Dry_elements_depth_buffer_[m],0)
+QUESTION: Dry_elements_depth_buffer_[m]
+VALUE: 9999
+HELP: Value of possible negative depth in dry elements (reduces precision but increases speed in wetting and drying processes)
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: General_Options#CB#(Hide,Show)
+VALUE: Hide
+DEPENDENCIES: (Hide,HIDE,Strict_Courant_Condition,#CURRENT#,HIDE,Tolerance_stepped_discharge_[%],#CURRENT#,HIDE,Wall_friction,#CURRENT#,HIDE,Wall_Roughness,#CURRENT#,HIDE,Wall_Manning,#CURRENT#,HIDE,Multiplier_n,#CURRENT#,HIDE,Molecular_viscosity_[m2/s],#CURRENT#,HIDE,Baroclinic_Pressure,#CURRENT#,HIDE,Coriolis,#CURRENT#,HIDE,Latitude_[degrees],#CURRENT#,HIDE,Fill_Sinks,#CURRENT#,HIDE,Smooth_DTM,#CURRENT#,HIDE,Number_of_passes,#CURRENT#,HIDE,Simulation_Details,#CURRENT#,HIDE,Waves,#CURRENT#,HIDE,Radiation_Stresses,#CURRENT#,HIDE,Wave_dispersion_effects_on_WQ,#CURRENT#,HIDE,epswdwave_[m],#CURRENT#,HIDE,iradwave,#CURRENT#,HIDE,idispwave,#CURRENT#)
+DEPENDENCIES: (Show,RESTORE,Strict_Courant_Condition,#CURRENT#,RESTORE,Tolerance_stepped_discharge_[%],#CURRENT#,RESTORE,Wall_friction,#CURRENT#,HIDE,Wall_Roughness,#CURRENT#,RESTORE,Wall_Manning,#CURRENT#,RESTORE,Multiplier_n,#CURRENT#,RESTORE,Molecular_viscosity_[m2/s],#CURRENT#,RESTORE,Baroclinic_Pressure,#CURRENT#,RESTORE,Coriolis,#CURRENT#,HIDE,Latitude_[degrees],#CURRENT#,RESTORE,Fill_Sinks,#CURRENT#,RESTORE,Smooth_DTM,#CURRENT#,HIDE,Number_of_passes,#CURRENT#,RESTORE,Simulation_Details,#CURRENT#,RESTORE,Waves,#CURRENT#,HIDE,Radiation_Stresses,#CURRENT#,HIDE,Wave_dispersion_effects_on_WQ,#CURRENT#,HIDE,epswdwave_[m],#CURRENT#,HIDE,iradwave,#CURRENT#,HIDE,idispwave,#CURRENT#)
+QUESTION: Molecular_viscosity_[m2/s]
+VALUE: 0.000001
+QUESTION: Strict_Courant_Condition#CB#(Off,On)
+VALUE: Off
+HELP: Change the consideration of minimum side in Courant condition validation.
+QUESTION: Tolerance_stepped_discharge_[%]
+VALUE: 5
+QUESTION: Wall_friction#CB#(Manning_Coefficient,Roughness_Height,No_Friction)
+VALUE: Manning_Coefficient
+DEPENDENCIES: (No_Friction,HIDE,Wall_Roughness,#CURRENT#,HIDE,Wall_Manning,#CURRENT#)
+DEPENDENCIES: (Roughness_Height,RESTORE,Wall_Roughness,#CURRENT#,HIDE,Wall_Manning,#CURRENT#)
+DEPENDENCIES: (Manning_Coefficient,HIDE,Wall_Roughness,#CURRENT#,RESTORE,Wall_Manning,#CURRENT#)
+QUESTION: Wall_Roughness
+VALUE: 0.001
+HELP: Considers friction at material walls.
+QUESTION: Wall_Manning
+VALUE: 0.015
+QUESTION: Multiplier_n
+VALUE: 1
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Baroclinic_Pressure#CB#(Yes,No)
+VALUE: No
+QUESTION: Coriolis#CB#(Yes,No)
+VALUE: No
+DEPENDENCIES: (Yes,RESTORE,Latitude_[degrees],#CURRENT#)
+DEPENDENCIES: (No,HIDE,Latitude_[degrees],#CURRENT#)
+QUESTION: Latitude_[degrees]
+VALUE: 42.88
+QUESTION: Fill_Sinks#CB#(Yes,No)
+VALUE: No
+HELP: Fills numerically the depressions (sinks) on topography. Recommended for hydrological drying.
+QUESTION: Simulation_Details#CB#(1,0)
+VALUE: 0
+HELP: Write simulation details file or not.
+QUESTION: Smooth_DTM#CB#(Yes,No)
+VALUE: No
+DEPENDENCIES: (Yes,RESTORE,Number_of_passes,#CURRENT#)
+DEPENDENCIES: (No,HIDE,Number_of_passes,#CURRENT#)
+QUESTION: Number_of_passes
+VALUE: 2
+QUESTION: Waves#CB#(0,1)
+VALUE: 0
+STATE: HIDDEN
+HELP: This option considers additional dissipation stresses due to waves
+DEPENDENCIES: (0,HIDE,Radiation_Stresses,#CURRENT#,HIDE,Wave_dispersion_effects_on_WQ,#CURRENT#,HIDE,epswdwave_[m],#CURRENT#,HIDE,iradwave,#CURRENT#,HIDE,idispwave,#CURRENT#)
+DEPENDENCIES: (1,RESTORE,Radiation_Stresses,#CURRENT#,RESTORE,Wave_dispersion_effects_on_WQ,#CURRENT#,HIDE,epswdwave_[m],#CURRENT#,HIDE,iradwave,#CURRENT#,HIDE,idispwave,#CURRENT#)
+QUESTION: Radiation_Stresses#CB#(Yes,No)
+VALUE: No
+STATE: HIDDEN
+HELP: include radiation stresses in the hydrodynamic equations. File needed hwave1.dat
+DEPENDENCIES: (No,HIDE,epswdwave_[m],#CURRENT#,HIDE,iradwave,0)
+DEPENDENCIES: (Yes,RESTORE,epswdwave_[m],#CURRENT#,HIDE,iradwave,1)
+QUESTION: Wave_dispersion_effects_on_WQ#CB#(yes,no)
+VALUE: no
+STATE: HIDDEN
+HELP: include longitudinal dispersion in solutes due to waves. File needed hwave1.dat
+DEPENDENCIES: (no,HIDE,epswdwave_[m],#CURRENT#,HIDE,idispwave,0)
+DEPENDENCIES: (yes,RESTORE,epswdwave_[m],#CURRENT#,HIDE,idispwave,1)
+QUESTION: epswdwave_[m]
+VALUE: 0.5
+STATE: HIDDEN
+HELP: Wave effects are not considered in regions where h < epswdwave.
+QUESTION: iradwave
+VALUE: 0
+STATE: HIDDEN
+QUESTION: idispwave
+VALUE: 0
+STATE: HIDDEN
+TITLE: Results
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Hydrodynamics#CB#(Show,Hide)
+VALUE: Show
+DEPENDENCIES: (Show,RESTORE,Depth,#CURRENT#,RESTORE,Velocity,#CURRENT#,RESTORE,Specific_Discharge,#CURRENT#,RESTORE,Water_Elevation,#CURRENT#,RESTORE,Froude_Number,#CURRENT#,RESTORE,Energy,#CURRENT#,RESTORE,Maximum_Depth,#CURRENT#,RESTORE,Maximum_Velocity,#CURRENT#,RESTORE,Maximum_Spec_Discharge,#CURRENT#,RESTORE,Maximum_Water_Elev,#CURRENT#)
+DEPENDENCIES: (Hide,HIDE,Depth,#CURRENT#,HIDE,Velocity,#CURRENT#,HIDE,Specific_Discharge,#CURRENT#,HIDE,Water_Elevation,#CURRENT#,HIDE,Froude_Number,#CURRENT#,HIDE,Energy,#CURRENT#,HIDE,Maximum_Depth,#CURRENT#,HIDE,Maximum_Velocity,#CURRENT#,HIDE,Maximum_Spec_Discharge,#CURRENT#,HIDE,Maximum_Water_Elev,#CURRENT#)
+QUESTION: Depth#CB#(1,0)
+VALUE: 1
+QUESTION: Velocity#CB#(1,0)
+VALUE: 1
+QUESTION: Specific_Discharge#CB#(1,0)
+VALUE: 1
+QUESTION: Water_Elevation#CB#(1,0)
+VALUE: 1
+QUESTION: Froude_Number#CB#(1,0)
+VALUE: 1
+QUESTION: Energy#CB#(1,0)
+VALUE: 0
+QUESTION: Maximum_Depth#CB#(1,0)
+VALUE: 1
+QUESTION: Maximum_Velocity#CB#(1,0)
+VALUE: 1
+QUESTION: Maximum_Spec_Discharge#CB#(1,0)
+VALUE: 1
+QUESTION: Maximum_Water_Elev#CB#(1,0)
+VALUE: 1
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Hydrodynamic_dependent#CB#(Hide,Show)
+VALUE: Hide
+DEPENDENCIES: (Hide,HIDE,Critical_Diameter,#CURRENT#,HIDE,Bed_Shear_Stress,#CURRENT#,HIDE,Manning_Coefficient,#CURRENT#,HIDE,Maximum_Critical_Diameter,#CURRENT#,HIDE,Maximum_Bed_Shear_Stress,#CURRENT#,HIDE,Depth_vector,#CURRENT#,HIDE,Streamlines,#CURRENT#)
+DEPENDENCIES: (Show,RESTORE,Critical_Diameter,#CURRENT#,RESTORE,Bed_Shear_Stress,#CURRENT#,RESTORE,Manning_Coefficient,#CURRENT#,RESTORE,Maximum_Critical_Diameter,#CURRENT#,RESTORE,Maximum_Bed_Shear_Stress,#CURRENT#,RESTORE,Depth_vector,#CURRENT#,RESTORE,Streamlines,#CURRENT#)
+QUESTION: Bed_Shear_Stress#CB#(1,0)
+VALUE: 0
+QUESTION: Critical_Diameter#CB#(1,0)
+VALUE: 0
+QUESTION: Depth_vector#CB#(1,0)
+VALUE: 0
+QUESTION: Manning_Coefficient#CB#(1,0)
+VALUE: 0
+QUESTION: Maximum_Critical_Diameter#CB#(1,0)
+VALUE: 0
+QUESTION: Maximum_Bed_Shear_Stress#CB#(1,0)
+VALUE: 0
+QUESTION: Streamlines#CB#(1,0)
+VALUE: 0
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Hazard#CB#(Hide,Show)
+VALUE: Hide
+DEPENDENCIES: (Hide,HIDE,RD_9/2008,#CURRENT#,HIDE,ACA_2003,#CURRENT#,HIDE,Custom_Hazard,#CURRENT#,HIDE,Class,#CURRENT#)
+DEPENDENCIES: (Show,RESTORE,RD_9/2008,#CURRENT#,RESTORE,ACA_2003,#CURRENT#,RESTORE,Custom_Hazard,#CURRENT#,HIDE,Class,#CURRENT#)
+QUESTION: RD_9/2008#CB#(1,0)
+VALUE: 0
+HELP: Spanish national legislation [Real Decreto 9/2008]
+QUESTION: ACA_2003#CB#(1,0)
+VALUE: 0
+HELP: Catalan regional legislation [Ag�ncia Catalana de l'Aigua 2003]
+QUESTION: Custom_Hazard#CB#(1,0)
+VALUE: 0
+DEPENDENCIES: (0,HIDE,Class,#CURRENT#)
+DEPENDENCIES: (1,RESTORE,Class,#CURRENT#)
+HELP: Activate the Hazard Ranges Results
+QUESTION: Class(Name,Hmax_[m],Vmax_[m],HVmax_[m2/s])
+VALUE: #N# 4 Name NA NA NA
+HELP: If you don't want to assign any value use "NA" (Not Applicable)
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Flood_damage#CB#(Off,On)
+VALUE: Off
+DEPENDENCIES: (Off,HIDE,Flood_damage_mode,#CURRENT#,HIDE,Return_periods,#CURRENT#)
+DEPENDENCIES: (On,RESTORE,Flood_damage_mode,#CURRENT#,HIDE,Return_periods,#CURRENT#)
+QUESTION: Flood_damage_mode#CB#(Single_event,Multiple_events)
+VALUE: Single_event
+DEPENDENCIES: (Single_event,HIDE,Return_periods,#CURRENT#)
+DEPENDENCIES: (Multiple_events,RESTORE,Return_periods,#CURRENT#)
+HELP: Choose flood damage mode
+QUESTION: Return_periods(ID,T_(years))
+VALUE: #N# 2 0 0
+STATE: HIDDEN
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Gauges#CB#(Off,On)
+VALUE: Off
+STATE: NORMAL
+DEPENDENCIES: (On,RESTORE,Gauge_coordinates,#CURRENT#,RESTORE,Gauge_time_interval_[s],#CURRENT#)
+DEPENDENCIES: (Off,HIDE,Gauge_coordinates,#CURRENT#,HIDE,Gauge_time_interval_[s],#CURRENT#)
+QUESTION: Gauge_time_interval_[s]
+VALUE: 0
+STATE: NORMAL
+QUESTION: Gauge_coordinates(X_[m],Y_[m])
+VALUE: #N# 2 0 0
+STATE: NORMAL
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Other_options#CB#(Hide,Show)
+VALUE: Hide
+DEPENDENCIES: (Hide,HIDE,Local_Time_Step,#CURRENT#,HIDE,Maximum_Local_Time_Step,#CURRENT#,HIDE,Force_Results_to_Vertex,#CURRENT#,HIDE,No_Results_on_Dry_elem,#CURRENT#,HIDE,Write_ASCII_Results,#CURRENT#,HIDE,Results_only_in_steps_of_stepped_discharge,#CURRENT#)
+DEPENDENCIES: (Show,RESTORE,Local_Time_Step,#CURRENT#,RESTORE,Maximum_Local_Time_Step,#CURRENT#,HIDE,Force_Results_to_Vertex,#CURRENT#,RESTORE,No_Results_on_Dry_elem,#CURRENT#,RESTORE,Write_ASCII_Results,#CURRENT#,RESTORE,Results_only_in_steps_of_stepped_discharge,#CURRENT#)
+QUESTION: Local_Time_Step#CB#(1,0)
+VALUE: 0
+QUESTION: Maximum_Local_Time_Step#CB#(1,0)
+VALUE: 0
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Force_Results_to_Vertex#CB#(0,1)
+VALUE: 0
+STATE: HIDDEN
+QUESTION: No_Results_on_Dry_elem#CB#(1,0)
+VALUE: 1
+HELP: When activated the computation is faster.
+QUESTION: Write_ASCII_Results#CB#(0,1)
+VALUE: 0
+QUESTION: Results_only_in_steps_of_stepped_discharge#CB#(1,0)
+VALUE: 1
+HELP: If this option is chosen, the results will be written only when the stepped discharge changes
+TITLE: Encroachment
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Encroachment#CB#(Off,On)
+VALUE: Off
+HELP: Activate the module that allows to investigate the encroachment definition.
+DEPENDENCIES: (Off,HIDE,Based_on,#CURRENT#,HIDE,Width_[m],#CURRENT#)
+DEPENDENCIES: (On,RESTORE,Based_on,#CURRENT#,HIDE,Width_[m],#CURRENT#)
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Based_on#CB#(Polygon,Line_and_width,Hydraulic_criteria)
+VALUE: Polygon
+DEPENDENCIES: (Polygon,HIDE,Width_[m],#CURRENT#)
+DEPENDENCIES: (Line_and_width,HIDE,Width_[m],#CURRENT#)
+DEPENDENCIES: (Hydraulic_criteria,HIDE,Width_[m],#CURRENT#)
+QUESTION: Width_[m]
+VALUE: 1000
+TITLE: Lids
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Method#CB#(No_lids,TPA,PSM)
+VALUE: No_lids
+DEPENDENCIES: (No_lids,HIDE,Stiffness_constant_[m/s2],#CURRENT#,HIDE,Slot_width_[%],#CURRENT#)
+DEPENDENCIES: (TPA,RESTORE,Stiffness_constant_[m/s2],#CURRENT#,HIDE,Slot_width_[%],#CURRENT#)
+DEPENDENCIES: (PSM,HIDE,Stiffness_constant_[m/s2],#CURRENT#,RESTORE,Slot_width_[%],#CURRENT#)
+HELP: Two-component Pressure Approach (TPA) & Preissmann Slot Method (PSM)
+QUESTION: Stiffness_constant_[m/s2]
+VALUE: 50
+HELP: Roof stiffness constant.
+QUESTION: Slot_width_[%]
+VALUE: 10
+HELP: Percentage of length used as preissman slot width.
+TITLE: Turbulence
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Turbulence_model#CB#(No_turbulence,Constant_v,Parabolic,Mixing_length,k-eps)
+VALUE: No_turbulence
+DEPENDENCIES: (No_turbulence,HIDE,Viscosity_coef_[m2/s],#CURRENT#,HIDE,Limit_depth_[m],#CURRENT#,HIDE,Wall_functions,#CURRENT#,HIDE,K-eps_Options,#CURRENT#,HIDE,K_Von_Karman,#CURRENT#,HIDE,Ecte,#CURRENT#,HIDE,Stabilization,#CURRENT#,HIDE,Scheme,#CURRENT#,HIDE,ischemeke,#CURRENT#)
+DEPENDENCIES: (Constant_v,RESTORE,Viscosity_coef_[m2/s],#CURRENT#,HIDE,Limit_depth_[m],#CURRENT#,HIDE,Wall_functions,#CURRENT#,HIDE,K-eps_Options,#CURRENT#,HIDE,K_Von_Karman,#CURRENT#,HIDE,Ecte,#CURRENT#,HIDE,Stabilization,#CURRENT#,HIDE,Scheme,#CURRENT#,HIDE,ischemeke,#CURRENT#)
+DEPENDENCIES: (Parabolic,HIDE,Viscosity_coef_[m2/s],#CURRENT#,HIDE,Limit_depth_[m],#CURRENT#,HIDE,Wall_functions,#CURRENT#,HIDE,K-eps_Options,#CURRENT#,HIDE,K_Von_Karman,#CURRENT#,HIDE,Ecte,#CURRENT#,HIDE,Stabilization,#CURRENT#,HIDE,Scheme,#CURRENT#,HIDE,ischemeke,#CURRENT#)
+DEPENDENCIES: (Mixing_length,HIDE,Viscosity_coef_[m2/s],#CURRENT#,HIDE,Limit_depth_[m],#CURRENT#,HIDE,Wall_functions,#CURRENT#,HIDE,K-eps_Options,#CURRENT#,HIDE,K_Von_Karman,#CURRENT#,HIDE,Ecte,#CURRENT#,HIDE,Stabilization,#CURRENT#,HIDE,Scheme,#CURRENT#,HIDE,ischemeke,#CURRENT#)
+DEPENDENCIES: (k-eps,HIDE,Viscosity_coef_[m2/s],#CURRENT#,RESTORE,Limit_depth_[m],#CURRENT#,HIDE,Wall_functions,#CURRENT#,RESTORE,K-eps_Options,Hide,HIDE,K_Von_Karman,#CURRENT#,HIDE,Ecte,#CURRENT#,HIDE,Stabilization,#CURRENT#,HIDE,Scheme,#CURRENT#,HIDE,ischemeke,#CURRENT#)
+QUESTION: Viscosity_coef_[m2/s]
+VALUE: 0
+QUESTION: Limit_depth_[m]
+VALUE: 0.01
+QUESTION: Wall_functions#CB#(Off,On)
+VALUE: Off
+QUESTION: K-eps_Options#CB#(Hide,Show)
+VALUE: Hide
+DEPENDENCIES: (Hide,HIDE,K_Von_Karman,#CURRENT#,HIDE,Ecte,#CURRENT#,HIDE,Stabilization,#CURRENT#,HIDE,Scheme,#CURRENT#,HIDE,ischemeke,#CURRENT#)
+DEPENDENCIES: (Show,HIDE,K_Von_Karman,#CURRENT#,HIDE,Ecte,#CURRENT#,HIDE,Stabilization,#CURRENT#,RESTORE,Scheme,#CURRENT#,HIDE,ischemeke,#CURRENT#)
+QUESTION: K_Von_Karman
+VALUE: 0.4
+QUESTION: Ecte
+VALUE: 8.43
+QUESTION: Stabilization#CB#(On,Off)
+VALUE: On
+QUESTION: Scheme#CB#(1st_Order,MUSCL)
+VALUE: 1st_Order
+DEPENDENCIES: (1st_Order,HIDE,ischemeke,11)
+DEPENDENCIES: (MUSCL,HIDE,ischemeke,22)
+QUESTION: ischemeke
+VALUE: 11
+TITLE: Habitat
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Habitat#CB#(Off,On)
+VALUE: Off
+DEPENDENCIES: (Off,HIDE,Habitat_criterion,#CURRENT#,HIDE,Generic,#CURRENT#,HIDE,Salmo_Trutta,#CURRENT#,HIDE,Martinez-Capel_2006,#CURRENT#,HIDE,Raleigh_1986,#CURRENT#,HIDE,Waddle_2006,#CURRENT#,HIDE,Cyprinids,#CURRENT#,HIDE,Luciobarbus_bocagei,#CURRENT#,HIDE,Pseudochondrostoma_polylepis,#CURRENT#,HIDE,Squalius_pyrenaicus,#CURRENT#,HIDE,Spanish_database,#CURRENT#,HIDE,Salmo_Trutta_[Bovee],#CURRENT#,HIDE,Salmo_Trutta_[Raleigh],#CURRENT#,HIDE,Custom_Suitability,#CURRENT#)
+DEPENDENCIES: (On,RESTORE,Habitat_criterion,#CURRENT#,RESTORE,Generic,#CURRENT#,HIDE,Salmo_Trutta,#CURRENT#,HIDE,Martinez-Capel_2006,#CURRENT#,HIDE,Raleigh_1986,#CURRENT#,HIDE,Waddle_2006,#CURRENT#,HIDE,Cyprinids,#CURRENT#,HIDE,Luciobarbus_bocagei,#CURRENT#,HIDE,Pseudochondrostoma_polylepis,#CURRENT#,HIDE,Squalius_pyrenaicus,#CURRENT#,RESTORE,Spanish_database,#CURRENT#,HIDE,Salmo_Trutta_[Bovee],#CURRENT#,HIDE,Salmo_Trutta_[Raleigh],#CURRENT#,RESTORE,Custom_Suitability,#CURRENT#)
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Habitat_criterion#CB#(Multiplication,Addition,Arithmetic_mean,Geometric_mean)
+VALUE: Multiplication
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Generic#CB#(Hide,Show)
+VALUE: Hide
+DEPENDENCIES: (Show,RESTORE,Salmo_Trutta,#CURRENT#,HIDE,Martinez-Capel_2006,#CURRENT#,HIDE,Raleigh_1986,#CURRENT#,HIDE,Waddle_2006,#CURRENT#,RESTORE,Cyprinids,#CURRENT#,HIDE,Luciobarbus_bocagei,#CURRENT#,HIDE,Pseudochondrostoma_polylepis,#CURRENT#,HIDE,Squalius_pyrenaicus,#CURRENT#)
+DEPENDENCIES: (Hide,HIDE,Salmo_Trutta,#CURRENT#,HIDE,Martinez-Capel_2006,#CURRENT#,HIDE,Raleigh_1986,#CURRENT#,HIDE,Waddle_2006,#CURRENT#,HIDE,Cyprinids,#CURRENT#,HIDE,Luciobarbus_bocagei,#CURRENT#,HIDE,Pseudochondrostoma_polylepis,#CURRENT#,HIDE,Squalius_pyrenaicus,#CURRENT#)
+QUESTION: Salmo_Trutta#CB#(Hide,Show)
+VALUE: Hide
+DEPENDENCIES: (Show,RESTORE,Martinez-Capel_2006,#CURRENT#,RESTORE,Raleigh_1986,#CURRENT#,RESTORE,Waddle_2006,#CURRENT#)
+DEPENDENCIES: (Hide,HIDE,Martinez-Capel_2006,#CURRENT#,HIDE,Raleigh_1986,#CURRENT#,HIDE,Waddle_2006,#CURRENT#)
+QUESTION: Martinez-Capel_2006#CB#(1,0)
+VALUE: 0
+QUESTION: Raleigh_1986#CB#(1,0)
+VALUE: 0
+HELP: Fry stage only available "generic curves"
+QUESTION: Waddle_2006#CB#(1,0)
+VALUE: 0
+IMAGE: icos/PD_Hab_salmotrutta.png
+QUESTION: Cyprinids#CB#(Hide,Show)
+VALUE: Hide
+HELP: All species listed below correspond to Martinez-Capel 2000
+DEPENDENCIES: (Show,RESTORE,Luciobarbus_bocagei,#CURRENT#,RESTORE,Pseudochondrostoma_polylepis,#CURRENT#,RESTORE,Squalius_pyrenaicus,#CURRENT#)
+DEPENDENCIES: (Hide,HIDE,Luciobarbus_bocagei,#CURRENT#,HIDE,Pseudochondrostoma_polylepis,#CURRENT#,HIDE,Squalius_pyrenaicus,#CURRENT#)
+QUESTION: Luciobarbus_bocagei#CB#(1,0)
+VALUE: 0
+HELP: Data from Tajo river by Martinez-Capel 2000
+QUESTION: Pseudochondrostoma_polylepis#CB#(1,0)
+VALUE: 0
+HELP: Data from Tajo river by Martinez-Capel 2000
+QUESTION: Squalius_pyrenaicus#CB#(1,0)
+VALUE: 0
+HELP: Data from Tajo river by Martinez-Capel 2000
+IMAGE: icos/PD_Hab_Cyprinidae.png
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Spanish_database#CB#(Hide,Show)
+VALUE: Hide
+DEPENDENCIES: (Show,RESTORE,Salmo_Trutta_[Bovee],#CURRENT#,RESTORE,Salmo_Trutta_[Raleigh],#CURRENT#)
+DEPENDENCIES: (Hide,HIDE,Salmo_Trutta_[Bovee],#CURRENT#,HIDE,Salmo_Trutta_[Raleigh],#CURRENT#)
+QUESTION: Salmo_Trutta_[Bovee]#CB#(1,0)
+VALUE: 0
+HELP: Data from Spanish database
+QUESTION: Salmo_Trutta_[Raleigh]#CB#(1,0)
+VALUE: 0
+HELP: Data from Spanish database
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Custom_Suitability#CB#(0,1)
+VALUE: 0
+QUESTION: SuitabilityData
+VALUE: 
+STATE: HIDDEN
+TITLE: Hydrological_processes
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Precipitation#CB#(No_rain,Hyetograph,Rasters,Rasters_interpolation)
+VALUE: No_rain
+HELP: Enable/disable rainfall calculation and select the source of the rain event information.
+DEPENDENCIES: (No_rain,HIDE,Raster_value,#CURRENT#,HIDE,Raster_list,#CURRENT#,HIDE,Rasters_folder,#CURRENT#)
+DEPENDENCIES: (Hyetograph,HIDE,Raster_value,#CURRENT#,HIDE,Raster_list,#CURRENT#,HIDE,Rasters_folder,#CURRENT#)
+DEPENDENCIES: (Rasters,RESTORE,Raster_value,#CURRENT#,RESTORE,Raster_list,#CURRENT#,RESTORE,Rasters_folder,#CURRENT#)
+DEPENDENCIES: (Rasters_interpolation,HIDE,Raster_value,#CURRENT#,RESTORE,Raster_list,#CURRENT#,RESTORE,Rasters_folder,#CURRENT#)
+QUESTION: Raster_value#CB#(Rainfall_intensity,Rainfall_depth)
+VALUE: Rainfall_intensity
+QUESTION: Raster_list(Time_[s],Name)
+VALUE: #N# 2 0 Name
+QUESTION: Rasters_folder
+VALUE: 
+TKWIDGET: IberUtils::SelectRainRastersDirectory
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Infiltration_losses#CB#(Off,Manual_/_By_parameters,By_zones)
+VALUE: Off
+HELP: Enable/disable the calculation of infiltration losses by choosing between the basic and the zonal allocation.
+DEPENDENCIES: (Off,HIDE,Start_time_infiltration,#CURRENT#,HIDE,Losses_model,#CURRENT#,HIDE,Zonal_losses_model,#CURRENT#,HIDE,CN_multiplier,#CURRENT#,HIDE,Ia_coefficient,#CURRENT#,HIDE,Ia_multiplier,#CURRENT#,HIDE,Fi_multiplier,#CURRENT#,HIDE,f0_multiplier,#CURRENT#,HIDE,fc_multiplier,#CURRENT#,HIDE,K_multiplier,#CURRENT#,HIDE,Suction_multiplier,#CURRENT#,HIDE,T_porosity_multip,#CURRENT#,HIDE,Ini_saturation_multip,#CURRENT#,HIDE,Ks_multiplier,#CURRENT#,HIDE,Initial_loss_multiplier,#CURRENT#,HIDE,Soil_depth_multiplier,#CURRENT#,HIDE,B_depletion,#CURRENT#,HIDE,Initial_S_coef,#CURRENT#,HIDE,Groundwater__flow,Off,HIDE,Groundwater_flow,Off,HIDE,khs_multiplier,#CURRENT#,HIDE,Evapotranspiration_process,#CURRENT#,HIDE,Evapotranspiration__process,#CURRENT#,HIDE,Correction_coef_for_potential_ETP,#CURRENT#,HIDE,Soil_water_stress,0,HIDE,Percolation_process,#CURRENT#,HIDE,Pore_distribution_index,#CURRENT#,HIDE,Ks_for_percolation_[mm/h],#CURRENT#,HIDE,A_multiplier,#CURRENT#,HIDE,B_multiplier,#CURRENT#,HIDE,C_multiplier,#CURRENT#)
+DEPENDENCIES: (Manual_/_By_parameters,RESTORE,Start_time_infiltration,#CURRENT#,RESTORE,Losses_model,#CURRENT#,HIDE,Zonal_losses_model,#CURRENT#,HIDE,CN_multiplier,#CURRENT#,HIDE,Ia_coefficient,#CURRENT#,RESTORE,Ia_multiplier,#CURRENT#,RESTORE,Fi_multiplier,#CURRENT#,HIDE,f0_multiplier,#CURRENT#,HIDE,fc_multiplier,#CURRENT#,HIDE,K_multiplier,#CURRENT#,HIDE,Suction_multiplier,#CURRENT#,HIDE,T_porosity_multip,#CURRENT#,HIDE,Ini_saturation_multip,#CURRENT#,HIDE,Ks_multiplier,#CURRENT#,HIDE,Initial_loss_multiplier,#CURRENT#,HIDE,Soil_depth_multiplier,#CURRENT#,HIDE,B_depletion,#CURRENT#,HIDE,Initial_S_coef,#CURRENT#,RESTORE,Groundwater__flow,#CURRENT#,HIDE,Groundwater_flow,#CURRENT#,HIDE,khs_multiplier,#CURRENT#,HIDE,Evapotranspiration_process,#CURRENT#,HIDE,Evapotranspiration__process,#CURRENT#,HIDE,Correction_coef_for_potential_ETP,#CURRENT#,HIDE,Soil_water_stress,#CURRENT#,HIDE,Percolation_process,#CURRENT#,HIDE,Pore_distribution_index,#CURRENT#,HIDE,Ks_for_percolation_[mm/h],#CURRENT#,HIDE,A_multiplier,#CURRENT#,HIDE,B_multiplier,#CURRENT#,HIDE,C_multiplier,#CURRENT#)
+DEPENDENCIES: (By_zones,RESTORE,Start_time_infiltration,#CURRENT#,HIDE,Losses_model,#CURRENT#,RESTORE,Zonal_losses_model,#CURRENT#,HIDE,CN_multiplier,#CURRENT#,HIDE,Ia_coefficient,#CURRENT#,HIDE,Ia_multiplier,#CURRENT#,HIDE,Fi_multiplier,#CURRENT#,HIDE,f0_multiplier,#CURRENT#,HIDE,fc_multiplier,#CURRENT#,HIDE,K_multiplier,#CURRENT#,HIDE,Suction_multiplier,#CURRENT#,HIDE,T_porosity_multip,#CURRENT#,HIDE,Ini_saturation_multip,#CURRENT#,HIDE,Ks_multiplier,#CURRENT#,HIDE,Initial_loss_multiplier,#CURRENT#,HIDE,Soil_depth_multiplier,#CURRENT#,HIDE,B_depletion,#CURRENT#,HIDE,Initial_S_coef,#CURRENT#,RESTORE,Groundwater__flow,#CURRENT#,HIDE,Groundwater_flow,#CURRENT#,HIDE,khs_multiplier,#CURRENT#,HIDE,Evapotranspiration_process,#CURRENT#,HIDE,Evapotranspiration__process,#CURRENT#,HIDE,Correction_coef_for_potential_ETP,#CURRENT#,HIDE,Soil_water_stress,#CURRENT#,HIDE,Percolation_process,#CURRENT#,HIDE,Pore_distribution_index,#CURRENT#,HIDE,Ks_for_percolation_[mm/h],#CURRENT#,HIDE,A_multiplier,#CURRENT#,HIDE,B_multiplier,#CURRENT#,HIDE,C_multiplier,#CURRENT#)
+QUESTION: Start_time_infiltration
+VALUE: 0.
+STATE: HIDDEN
+QUESTION: Losses_model#CB#(Lineal_,SCS_,SCS_continuous,Horton_,Green_Ampt_,Depth_dependent_)
+VALUE: Lineal_
+HELP: Select the numerical model to be used.
+DEPENDENCIES: (Lineal_,HIDE,CN_multiplier,#CURRENT#,HIDE,Ia_coefficient,#CURRENT#,RESTORE,Ia_multiplier,#CURRENT#,RESTORE,Fi_multiplier,#CURRENT#,HIDE,f0_multiplier,#CURRENT#,HIDE,fc_multiplier,#CURRENT#,HIDE,K_multiplier,#CURRENT#,HIDE,Suction_multiplier,#CURRENT#,HIDE,T_porosity_multip,#CURRENT#,HIDE,Ini_saturation_multip,#CURRENT#,HIDE,Ks_multiplier,#CURRENT#,HIDE,Initial_loss_multiplier,#CURRENT#,HIDE,Soil_depth_multiplier,#CURRENT#,HIDE,B_depletion,#CURRENT#,HIDE,Initial_S_coef,#CURRENT#,RESTORE,Groundwater__flow,#CURRENT#,HIDE,Groundwater_flow,Off,HIDE,khs_multiplier,#CURRENT#,HIDE,Evapotranspiration_process,#CURRENT#,HIDE,Evapotranspiration__process,Off,HIDE,Correction_coef_for_potential_ETP,#CURRENT#,HIDE,Soil_water_stress,0,HIDE,Percolation_process,Off,HIDE,Pore_distribution_index,#CURRENT#,HIDE,Ks_for_percolation_[mm/h],#CURRENT#,HIDE,A_multiplier,#CURRENT#,HIDE,B_multiplier,#CURRENT#,HIDE,C_multiplier,#CURRENT#)
+DEPENDENCIES: (SCS_,RESTORE,CN_multiplier,#CURRENT#,RESTORE,Ia_coefficient,#CURRENT#,HIDE,Ia_multiplier,#CURRENT#,HIDE,Fi_multiplier,#CURRENT#,HIDE,f0_multiplier,#CURRENT#,HIDE,fc_multiplier,#CURRENT#,HIDE,K_multiplier,#CURRENT#,HIDE,Suction_multiplier,#CURRENT#,HIDE,T_porosity_multip,#CURRENT#,HIDE,Ini_saturation_multip,#CURRENT#,HIDE,Ks_multiplier,#CURRENT#,HIDE,Initial_loss_multiplier,#CURRENT#,HIDE,Soil_depth_multiplier,#CURRENT#,HIDE,B_depletion,#CURRENT#,HIDE,Initial_S_coef,#CURRENT#,RESTORE,Groundwater__flow,#CURRENT#,HIDE,Groundwater_flow,Off,HIDE,khs_multiplier,#CURRENT#,HIDE,Evapotranspiration_process,#CURRENT#,HIDE,Evapotranspiration__process,Off,HIDE,Correction_coef_for_potential_ETP,#CURRENT#,HIDE,Soil_water_stress,0,HIDE,Percolation_process,Off,HIDE,Pore_distribution_index,#CURRENT#,HIDE,Ks_for_percolation_[mm/h],#CURRENT#,HIDE,A_multiplier,#CURRENT#,HIDE,B_multiplier,#CURRENT#,HIDE,C_multiplier,#CURRENT#)
+DEPENDENCIES: (SCS_continuous,RESTORE,CN_multiplier,#CURRENT#,RESTORE,Ia_coefficient,#CURRENT#,HIDE,Ia_multiplier,#CURRENT#,HIDE,Fi_multiplier,#CURRENT#,HIDE,f0_multiplier,#CURRENT#,HIDE,fc_multiplier,#CURRENT#,HIDE,K_multiplier,#CURRENT#,HIDE,Suction_multiplier,#CURRENT#,HIDE,T_porosity_multip,#CURRENT#,HIDE,Ini_saturation_multip,#CURRENT#,HIDE,Ks_multiplier,#CURRENT#,HIDE,Initial_loss_multiplier,#CURRENT#,HIDE,Soil_depth_multiplier,#CURRENT#,RESTORE,B_depletion,#CURRENT#,RESTORE,Initial_S_coef,#CURRENT#,RESTORE,Groundwater__flow,#CURRENT#,HIDE,Groundwater_flow,Off,HIDE,khs_multiplier,#CURRENT#,RESTORE,Evapotranspiration_process,#CURRENT#,HIDE,Evapotranspiration__process,Off,HIDE,Correction_coef_for_potential_ETP,#CURRENT#,HIDE,Soil_water_stress,0,RESTORE,Percolation_process,#CURRENT#,HIDE,Pore_distribution_index,#CURRENT#,HIDE,Ks_for_percolation_[mm/h],#CURRENT#,HIDE,A_multiplier,#CURRENT#,HIDE,B_multiplier,#CURRENT#,HIDE,C_multiplier,#CURRENT#)
+DEPENDENCIES: (Horton_,HIDE,CN_multiplier,#CURRENT#,HIDE,Ia_coefficient,#CURRENT#,HIDE,Ia_multiplier,#CURRENT#,HIDE,Fi_multiplier,#CURRENT#,RESTORE,f0_multiplier,#CURRENT#,RESTORE,fc_multiplier,#CURRENT#,RESTORE,K_multiplier,#CURRENT#,HIDE,Suction_multiplier,#CURRENT#,HIDE,T_porosity_multip,#CURRENT#,HIDE,Ini_saturation_multip,#CURRENT#,HIDE,Ks_multiplier,#CURRENT#,HIDE,Initial_loss_multiplier,#CURRENT#,HIDE,Soil_depth_multiplier,#CURRENT#,HIDE,B_depletion,#CURRENT#,HIDE,Initial_S_coef,#CURRENT#,RESTORE,Groundwater__flow,#CURRENT#,HIDE,Groundwater_flow,Off,HIDE,khs_multiplier,#CURRENT#,HIDE,Evapotranspiration_process,#CURRENT#,HIDE,Evapotranspiration__process,Off,HIDE,Correction_coef_for_potential_ETP,#CURRENT#,HIDE,Soil_water_stress,0,HIDE,Percolation_process,Off,HIDE,Pore_distribution_index,#CURRENT#,HIDE,Ks_for_percolation_[mm/h],#CURRENT#,HIDE,A_multiplier,#CURRENT#,HIDE,B_multiplier,#CURRENT#,HIDE,C_multiplier,#CURRENT#)
+DEPENDENCIES: (Green_Ampt_,HIDE,CN_multiplier,#CURRENT#,HIDE,Ia_coefficient,#CURRENT#,HIDE,Ia_multiplier,#CURRENT#,HIDE,Fi_multiplier,#CURRENT#,HIDE,f0_multiplier,#CURRENT#,HIDE,fc_multiplier,#CURRENT#,HIDE,K_multiplier,#CURRENT#,RESTORE,Suction_multiplier,#CURRENT#,RESTORE,T_porosity_multip,#CURRENT#,RESTORE,Ini_saturation_multip,#CURRENT#,RESTORE,Ks_multiplier,#CURRENT#,RESTORE,Initial_loss_multiplier,#CURRENT#,RESTORE,Soil_depth_multiplier,#CURRENT#,HIDE,B_depletion,#CURRENT#,HIDE,Initial_S_coef,#CURRENT#,HIDE,Groundwater__flow,Off,RESTORE,Groundwater_flow,#CURRENT#,HIDE,khs_multiplier,#CURRENT#,HIDE,Evapotranspiration_process,Off,RESTORE,Evapotranspiration__process,#CURRENT#,HIDE,Correction_coef_for_potential_ETP,#CURRENT#,HIDE,Soil_water_stress,#CURRENT#,RESTORE,Percolation_process,#CURRENT#,HIDE,Pore_distribution_index,#CURRENT#,HIDE,Ks_for_percolation_[mm/h],#CURRENT#,HIDE,A_multiplier,#CURRENT#,HIDE,B_multiplier,#CURRENT#,HIDE,C_multiplier,#CURRENT#)
+DEPENDENCIES: (Depth_dependent_,HIDE,CN_multiplier,#CURRENT#,HIDE,Ia_coefficient,#CURRENT#,HIDE,Ia_multiplier,#CURRENT#,HIDE,Fi_multiplier,#CURRENT#,HIDE,f0_multiplier,#CURRENT#,HIDE,fc_multiplier,#CURRENT#,HIDE,K_multiplier,#CURRENT#,HIDE,Suction_multiplier,#CURRENT#,HIDE,T_porosity_multip,#CURRENT#,HIDE,Ini_saturation_multip,#CURRENT#,HIDE,Ks_multiplier,#CURRENT#,HIDE,Initial_loss_multiplier,#CURRENT#,HIDE,Soil_depth_multiplier,#CURRENT#,HIDE,B_depletion,#CURRENT#,HIDE,Initial_S_coef,#CURRENT#,HIDE,Groundwater__flow,Off,RESTORE,Groundwater_flow,#CURRENT#,HIDE,khs_multiplier,#CURRENT#,HIDE,Evapotranspiration_process,Off,HIDE,Evapotranspiration__process,#CURRENT#,HIDE,Correction_coef_for_potential_ETP,#CURRENT#,HIDE,Soil_water_stress,#CURRENT#,HIDE,Percolation_process,#CURRENT#,HIDE,Pore_distribution_index,#CURRENT#,HIDE,Ks_for_percolation_[mm/h],#CURRENT#,RESTORE,A_multiplier,#CURRENT#,RESTORE,B_multiplier,#CURRENT#,RESTORE,C_multiplier,#CURRENT#)
+QUESTION: Zonal_losses_model#CB#(Lineal_,SCS_,SCS_continuous,Horton_,Green_Ampt_)
+VALUE: Lineal_
+HELP: Select the numerical model to be used.
+DEPENDENCIES: (Lineal_,HIDE,CN_multiplier,#CURRENT#,HIDE,Ia_coefficient,#CURRENT#,HIDE,Ia_multiplier,#CURRENT#,HIDE,Fi_multiplier,#CURRENT#,HIDE,f0_multiplier,#CURRENT#,HIDE,fc_multiplier,#CURRENT#,HIDE,K_multiplier,#CURRENT#,HIDE,Suction_multiplier,#CURRENT#,HIDE,T_porosity_multip,#CURRENT#,HIDE,Ini_saturation_multip,#CURRENT#,HIDE,Ks_multiplier,#CURRENT#,HIDE,Initial_loss_multiplier,#CURRENT#,HIDE,Soil_depth_multiplier,#CURRENT#,HIDE,B_depletion,#CURRENT#,HIDE,Initial_S_coef,#CURRENT#,RESTORE,Groundwater__flow,#CURRENT#,HIDE,Groundwater_flow,Off,HIDE,khs_multiplier,#CURRENT#,HIDE,Evapotranspiration_process,#CURRENT#,HIDE,Evapotranspiration__process,Off,HIDE,Correction_coef_for_potential_ETP,#CURRENT#,HIDE,Soil_water_stress,0,HIDE,Percolation_process,Off,HIDE,Pore_distribution_index,#CURRENT#,HIDE,Ks_for_percolation_[mm/h],#CURRENT#)
+DEPENDENCIES: (SCS_,HIDE,CN_multiplier,#CURRENT#,RESTORE,Ia_coefficient,#CURRENT#,HIDE,Ia_multiplier,#CURRENT#,HIDE,Fi_multiplier,#CURRENT#,HIDE,f0_multiplier,#CURRENT#,HIDE,fc_multiplier,#CURRENT#,HIDE,K_multiplier,#CURRENT#,HIDE,Suction_multiplier,#CURRENT#,HIDE,T_porosity_multip,#CURRENT#,HIDE,Ini_saturation_multip,#CURRENT#,HIDE,Ks_multiplier,#CURRENT#,HIDE,Initial_loss_multiplier,#CURRENT#,HIDE,Soil_depth_multiplier,#CURRENT#,HIDE,B_depletion,#CURRENT#,HIDE,Initial_S_coef,#CURRENT#,RESTORE,Groundwater__flow,#CURRENT#,HIDE,Groundwater_flow,Off,HIDE,khs_multiplier,#CURRENT#,HIDE,Evapotranspiration_process,#CURRENT#,HIDE,Evapotranspiration__process,Off,HIDE,Correction_coef_for_potential_ETP,#CURRENT#,HIDE,Soil_water_stress,0,HIDE,Percolation_process,Off,HIDE,Pore_distribution_index,#CURRENT#,HIDE,Ks_for_percolation_[mm/h],#CURRENT#)
+DEPENDENCIES: (SCS_continuous,HIDE,CN_multiplier,#CURRENT#,RESTORE,Ia_coefficient,#CURRENT#,HIDE,Ia_multiplier,#CURRENT#,HIDE,Fi_multiplier,#CURRENT#,HIDE,f0_multiplier,#CURRENT#,HIDE,fc_multiplier,#CURRENT#,HIDE,K_multiplier,#CURRENT#,HIDE,Suction_multiplier,#CURRENT#,HIDE,T_porosity_multip,#CURRENT#,HIDE,Ini_saturation_multip,#CURRENT#,HIDE,Ks_multiplier,#CURRENT#,HIDE,Initial_loss_multiplier,#CURRENT#,HIDE,Soil_depth_multiplier,#CURRENT#,RESTORE,B_depletion,#CURRENT#,RESTORE,Initial_S_coef,#CURRENT#,RESTORE,Groundwater__flow,#CURRENT#,HIDE,Groundwater_flow,Off,HIDE,khs_multiplier,#CURRENT#,RESTORE,Evapotranspiration_process,#CURRENT#,HIDE,Evapotranspiration__process,Off,HIDE,Correction_coef_for_potential_ETP,#CURRENT#,HIDE,Soil_water_stress,0,RESTORE,Percolation_process,#CURRENT#,HIDE,Pore_distribution_index,#CURRENT#,HIDE,Ks_for_percolation_[mm/h],#CURRENT#)
+DEPENDENCIES: (Horton_,HIDE,CN_multiplier,#CURRENT#,HIDE,Ia_coefficient,#CURRENT#,HIDE,Ia_multiplier,#CURRENT#,HIDE,Fi_multiplier,#CURRENT#,HIDE,f0_multiplier,#CURRENT#,HIDE,fc_multiplier,#CURRENT#,HIDE,K_multiplier,#CURRENT#,HIDE,Suction_multiplier,#CURRENT#,HIDE,T_porosity_multip,#CURRENT#,HIDE,Ini_saturation_multip,#CURRENT#,HIDE,Ks_multiplier,#CURRENT#,HIDE,Initial_loss_multiplier,#CURRENT#,HIDE,Soil_depth_multiplier,#CURRENT#,HIDE,B_depletion,#CURRENT#,HIDE,Initial_S_coef,#CURRENT#,RESTORE,Groundwater__flow,#CURRENT#,HIDE,Groundwater_flow,Off,HIDE,khs_multiplier,#CURRENT#,HIDE,Evapotranspiration_process,#CURRENT#,HIDE,Evapotranspiration__process,Off,HIDE,Correction_coef_for_potential_ETP,#CURRENT#,HIDE,Soil_water_stress,0,HIDE,Percolation_process,Off,HIDE,Pore_distribution_index,#CURRENT#,HIDE,Ks_for_percolation_[mm/h],#CURRENT#)
+DEPENDENCIES: (Green_Ampt_,HIDE,CN_multiplier,#CURRENT#,HIDE,Ia_coefficient,#CURRENT#,HIDE,Ia_multiplier,#CURRENT#,HIDE,Fi_multiplier,#CURRENT#,HIDE,f0_multiplier,#CURRENT#,HIDE,fc_multiplier,#CURRENT#,HIDE,K_multiplier,#CURRENT#,HIDE,Suction_multiplier,#CURRENT#,HIDE,T_porosity_multip,#CURRENT#,HIDE,Ini_saturation_multip,#CURRENT#,HIDE,Ks_multiplier,#CURRENT#,HIDE,Initial_loss_multiplier,#CURRENT#,HIDE,Soil_depth_multiplier,#CURRENT#,HIDE,B_depletion,#CURRENT#,HIDE,Initial_S_coef,#CURRENT#,HIDE,Groundwater__flow,Off,RESTORE,Groundwater_flow,#CURRENT#,HIDE,khs_multiplier,#CURRENT#,HIDE,Evapotranspiration_process,Off,RESTORE,Evapotranspiration__process,#CURRENT#,HIDE,Correction_coef_for_potential_ETP,#CURRENT#,HIDE,Soil_water_stress,#CURRENT#,RESTORE,Percolation_process,#CURRENT#,HIDE,Pore_distribution_index,#CURRENT#,HIDE,Ks_for_percolation_[mm/h],#CURRENT#)
+QUESTION: CN_multiplier
+VALUE: 1
+HELP: Multiplier of the curve number (CN) parameter in the SCS infiltration model.
+QUESTION: Ia_coefficient
+VALUE: 0.2
+HELP: Coefficient to compute initial abstraction in the SCS model (0-1)
+QUESTION: Ia_multiplier
+VALUE: 1
+HELP: Multiplier of the initial losses (Ia) parameter inthe Lineal infiltration model.
+QUESTION: Fi_multiplier
+VALUE: 1
+HELP: Multiplier of the potential infiltration (Fi) parameter in the Lineal infiltration model.
+QUESTION: f0_multiplier
+VALUE: 1
+HELP: Multiplier of the maximum initial infiltration losses (f0) parameter in the Horton infiltration model.
+QUESTION: fc_multiplier
+VALUE: 1
+HELP: Multiplier of the minimum infiltration losses (fr) parameter in the Horton infiltration model.
+QUESTION: K_multiplier
+VALUE: 1
+HELP: Multiplier of the decay coefficient (K) parameter in the Horton infiltration model.
+QUESTION: Suction_multiplier
+VALUE: 1
+HELP: Multiplier of the suction parameter in the Green&Ampt infiltration model.
+QUESTION: T_porosity_multip
+VALUE: 1
+HELP: Multiplier of the total porosity parameter in the Green&Ampt infiltration model.
+QUESTION: Ini_saturation_multip
+VALUE: 1
+HELP: Multiplier of the saturated permeability parameter in the Green&Ampt infiltration model.
+QUESTION: Ks_multiplier
+VALUE: 1
+HELP: Multiplier of the saturated soil permeability in the Green&Ampt infiltration model.
+QUESTION: Initial_loss_multiplier
+VALUE: 1
+HELP: Multiplier of the initial infiltration losses parameter in the Green&Ampt infiltration model.
+QUESTION: Soil_depth_multiplier
+VALUE: 1
+HELP: Multiplier of the depth of soil stratum parameter in the Green&Ampt infiltration model.
+QUESTION: B_depletion
+VALUE: 1
+QUESTION: Initial_S_coef
+VALUE: 1
+QUESTION: A_multiplier
+VALUE: 1
+QUESTION: B_multiplier
+VALUE: 1
+QUESTION: C_multiplier
+VALUE: 1
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Groundwater__flow#CB#(Off,Lumped)
+VALUE: Off
+HELP: Enable/disable lumped groundwater flow model.
+DEPENDENCIES: (Off,HIDE,khs_multiplier,#CURRENT#,HIDE,Evapotranspiration_process,#CURRENT#,HIDE,Percolation_process,#CURRENT#)
+DEPENDENCIES: (Lumped,HIDE,khs_multiplier,#CURRENT#,RESTORE,Evapotranspiration_process,#CURRENT#,RESTORE,Percolation_process,#CURRENT#)
+QUESTION: Groundwater_flow#CB#(Off,Lumped,Distributed)
+VALUE: Off
+HELP: Enable/disable lumped or distributed groundwater flow model.
+DEPENDENCIES: (Off,HIDE,khs_multiplier,#CURRENT#)
+DEPENDENCIES: (Lumped,HIDE,khs_multiplier,#CURRENT#)
+DEPENDENCIES: (Distributed,RESTORE,khs_multiplier,#CURRENT#)
+QUESTION: khs_multiplier
+VALUE: 1
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Evapotranspiration_process#CB#(Off,On)
+VALUE: Off
+HELP: Enable/disable evapotranspiration process calculation.
+DEPENDENCIES: (On,RESTORE,Correction_coef_for_potential_ETP,#CURRENT#,HIDE,Soil_water_stress,#CURRENT#)
+DEPENDENCIES: (Off,HIDE,Correction_coef_for_potential_ETP,#CURRENT#,HIDE,Soil_water_stress,#CURRENT#)
+QUESTION: Evapotranspiration__process#CB#(Off,On)
+VALUE: Off
+HELP: Enable/disable evapotranspiration process calculation.
+DEPENDENCIES: (On,RESTORE,Correction_coef_for_potential_ETP,#CURRENT#,RESTORE,Soil_water_stress,#CURRENT#)
+DEPENDENCIES: (Off,HIDE,Correction_coef_for_potential_ETP,#CURRENT#,HIDE,Soil_water_stress,#CURRENT#)
+QUESTION: Correction_coef_for_potential_ETP
+VALUE: 1
+HELP: Adimensional evapotranspiration process correction parameter, recomended values (0.70-2)
+QUESTION: Soil_water_stress#CB#(1,0)
+VALUE: 0
+HELP: Enable/disable soil water stress calculation.
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Percolation_process#CB#(Off,On)
+VALUE: Off
+HELP: Enable/disable percolation calculation.
+DEPENDENCIES: (On,RESTORE,Pore_distribution_index,#CURRENT#,RESTORE,Ks_for_percolation_[mm/h],#CURRENT#)
+DEPENDENCIES: (Off,HIDE,Pore_distribution_index,#CURRENT#,HIDE,Ks_for_percolation_[mm/h],#CURRENT#)
+QUESTION: Pore_distribution_index
+VALUE: 0.2
+HELP: Soil size distribution index adimensional parameter, recomended values (0.05-0.50).
+QUESTION: Ks_for_percolation_[mm/h]
+VALUE: 0.0
+HELP: Permeability of the lower soil layers.
+QUESTION: CatchmentsData
+VALUE: 
+STATE: HIDDEN
+QUESTION: LossesData
+VALUE: 
+STATE: HIDDEN
+QUESTION: SoilWaterStressData
+VALUE: 
+STATE: HIDDEN
+TITLE: Sediment_transport
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Suspended_Transport#CB#(Off,On)
+VALUE: Off
+DEPENDENCIES: (Off,HIDE,Method_,#CURRENT#,HIDE,Erosion_Rate_[m/s],#CURRENT#,HIDE,Max_Erosion_Rate_[m/s],#CURRENT#,HIDE,Min_Erosion_Rate_[m/s],#CURRENT#,HIDE,Critical_Erosion_Stress_[N/m2],#CURRENT#,HIDE,Max_Erosion_Stress_[N/m2],#CURRENT#,HIDE,Min_Erosion_Stress_[N/m2],#CURRENT#,HIDE,Critical_Deposition_Stress_[N/m2],#CURRENT#,HIDE,Diameter_Susp_Sed_[m],#CURRENT#,HIDE,Porosity_ST,#CURRENT#,HIDE,Relative_Density_ST,#CURRENT#,HIDE,Diffusion_coefficient_[m2/s],#CURRENT#,HIDE,Schmidt_num_,#CURRENT#,HIDE,Bed_conc/Average_conc,#CURRENT#,HIDE,Avalanche_Model_ST,#CURRENT#,HIDE,Friction_Angle_ST_[rad],#CURRENT#,HIDE,Start_time_ST_[s],#CURRENT#)
+DEPENDENCIES: (On,RESTORE,Method_,#CURRENT#,RESTORE,Erosion_Rate_[m/s],#CURRENT#,HIDE,Max_Erosion_Rate_[m/s],#CURRENT#,HIDE,Min_Erosion_Rate_[m/s],#CURRENT#,RESTORE,Critical_Erosion_Stress_[N/m2],#CURRENT#,HIDE,Max_Erosion_Stress_[N/m2],#CURRENT#,HIDE,Min_Erosion_Stress_[N/m2],#CURRENT#,RESTORE,Critical_Deposition_Stress_[N/m2],#CURRENT#,RESTORE,Diameter_Susp_Sed_[m],#CURRENT#,RESTORE,Porosity_ST,#CURRENT#,RESTORE,Relative_Density_ST,#CURRENT#,RESTORE,Diffusion_coefficient_[m2/s],#CURRENT#,RESTORE,Schmidt_num_,#CURRENT#,HIDE,Bed_conc/Average_conc,#CURRENT#,RESTORE,Avalanche_Model_ST,#CURRENT#,RESTORE,Friction_Angle_ST_[rad],#CURRENT#,RESTORE,Start_time_ST_[s],#CURRENT#)
+QUESTION: Method_#CB#(Ariathurai,Ariathurai-Lopez,Smith_McLean,Van_Rijn)
+VALUE: Smith_McLean
+DEPENDENCIES: (Ariathurai,RESTORE,Erosion_Rate_[m/s],#CURRENT#,HIDE,Max_Erosion_Rate_[m/s],#CURRENT#,HIDE,Min_Erosion_Rate_[m/s],#CURRENT#,RESTORE,Critical_Erosion_Stress_[N/m2],#CURRENT#,HIDE,Max_Erosion_Stress_[N/m2],#CURRENT#,HIDE,Min_Erosion_Stress_[N/m2],#CURRENT#,RESTORE,Critical_Deposition_Stress_[N/m2],#CURRENT#,RESTORE,Diameter_Susp_Sed_[m],#CURRENT#,RESTORE,Porosity_ST,#CURRENT#,RESTORE,Relative_Density_ST,#CURRENT#,RESTORE,Diffusion_coefficient_[m2/s],#CURRENT#,RESTORE,Schmidt_num_,#CURRENT#,HIDE,Bed_conc/Average_conc,#CURRENT#,RESTORE,Avalanche_Model_ST,#CURRENT#,RESTORE,Friction_Angle_ST_[rad],#CURRENT#,RESTORE,Start_time_ST_[s],#CURRENT#)
+DEPENDENCIES: (Ariathurai-Lopez,HIDE,Erosion_Rate_[m/s],#CURRENT#,RESTORE,Max_Erosion_Rate_[m/s],#CURRENT#,RESTORE,Min_Erosion_Rate_[m/s],#CURRENT#,HIDE,Critical_Erosion_Stress_[N/m2],#CURRENT#,RESTORE,Max_Erosion_Stress_[N/m2],#CURRENT#,RESTORE,Min_Erosion_Stress_[N/m2],#CURRENT#,RESTORE,Critical_Deposition_Stress_[N/m2],#CURRENT#,RESTORE,Diameter_Susp_Sed_[m],#CURRENT#,RESTORE,Porosity_ST,#CURRENT#,RESTORE,Relative_Density_ST,#CURRENT#,RESTORE,Diffusion_coefficient_[m2/s],#CURRENT#,RESTORE,Schmidt_num_,#CURRENT#,HIDE,Bed_conc/Average_conc,#CURRENT#,RESTORE,Avalanche_Model_ST,#CURRENT#,RESTORE,Friction_Angle_ST_[rad],#CURRENT#,RESTORE,Start_time_ST_[s],#CURRENT#)
+DEPENDENCIES: (Smith_McLean,HIDE,Erosion_Rate_[m/s],#CURRENT#,HIDE,Max_Erosion_Rate_[m/s],#CURRENT#,HIDE,Min_Erosion_Rate_[m/s],#CURRENT#,HIDE,Critical_Erosion_Stress_[N/m2],#CURRENT#,HIDE,Max_Erosion_Stress_[N/m2],#CURRENT#,HIDE,Min_Erosion_Stress_[N/m2],#CURRENT#,HIDE,Critical_Deposition_Stress_[N/m2],#CURRENT#,RESTORE,Diameter_Susp_Sed_[m],#CURRENT#,RESTORE,Porosity_ST,#CURRENT#,RESTORE,Relative_Density_ST,#CURRENT#,RESTORE,Diffusion_coefficient_[m2/s],#CURRENT#,RESTORE,Schmidt_num_,#CURRENT#,HIDE,Bed_conc/Average_conc,#CURRENT#,RESTORE,Avalanche_Model_ST,#CURRENT#,RESTORE,Friction_Angle_ST_[rad],#CURRENT#,RESTORE,Start_time_ST_[s],#CURRENT#)
+DEPENDENCIES: (Van_Rijn,HIDE,Erosion_Rate_[m/s],#CURRENT#,HIDE,Max_Erosion_Rate_[m/s],#CURRENT#,HIDE,Min_Erosion_Rate_[m/s],#CURRENT#,HIDE,Critical_Erosion_Stress_[N/m2],#CURRENT#,HIDE,Max_Erosion_Stress_[N/m2],#CURRENT#,HIDE,Min_Erosion_Stress_[N/m2],#CURRENT#,HIDE,Critical_Deposition_Stress_[N/m2],#CURRENT#,RESTORE,Diameter_Susp_Sed_[m],#CURRENT#,RESTORE,Porosity_ST,#CURRENT#,RESTORE,Relative_Density_ST,#CURRENT#,RESTORE,Diffusion_coefficient_[m2/s],#CURRENT#,RESTORE,Schmidt_num_,#CURRENT#,HIDE,Bed_conc/Average_conc,#CURRENT#,RESTORE,Avalanche_Model_ST,#CURRENT#,RESTORE,Friction_Angle_ST_[rad],#CURRENT#,RESTORE,Start_time_ST_[s],#CURRENT#)
+QUESTION: Erosion_Rate_[m/s]
+VALUE: 0.001
+QUESTION: Max_Erosion_Rate_[m/s]
+VALUE: 0.000001
+QUESTION: Min_Erosion_Rate_[m/s]
+VALUE: 0.00000001
+QUESTION: Critical_Erosion_Stress_[N/m2]
+VALUE: 1
+QUESTION: Max_Erosion_Stress_[N/m2]
+VALUE: 50
+QUESTION: Min_Erosion_Stress_[N/m2]
+VALUE: 2.5
+QUESTION: Critical_Deposition_Stress_[N/m2]
+VALUE: 1
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Diameter_Susp_Sed_[m]
+VALUE: 0.001
+QUESTION: Porosity_ST
+VALUE: 0.4
+QUESTION: Relative_Density_ST
+VALUE: 2.65
+QUESTION: Diffusion_coefficient_[m2/s]
+VALUE: 0.001
+QUESTION: Schmidt_num_
+VALUE: 0.7
+QUESTION: Bed_conc/Average_conc
+VALUE: 1
+QUESTION: Avalanche_Model_ST#CB#(1,0)
+VALUE: 0
+QUESTION: Friction_Angle_ST_[rad]
+VALUE: 0.55
+QUESTION: Start_time_ST_[s]
+VALUE: 0
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Bed_Transport#CB#(Off,On)
+VALUE: Off
+DEPENDENCIES: (Off,HIDE,Model,#CURRENT#,HIDE,Alpha,#CURRENT#,HIDE,Tau_crit_adim,#CURRENT#,HIDE,Beta,#CURRENT#,HIDE,A_Recking,#CURRENT#,HIDE,Alpha_Recking,#CURRENT#,HIDE,Beta_Recking,#CURRENT#,HIDE,Mobility_strength,#CURRENT#,HIDE,Sediment_type,#CURRENT#,HIDE,Hiding-Exposure,#CURRENT#,HIDE,deltaH,#CURRENT#,HIDE,deltaR,#CURRENT#,HIDE,A_Hid,#CURRENT#,HIDE,B_Hid,#CURRENT#,HIDE,Number_Hiding_Exposure,#CURRENT#,HIDE,d50_[m],#CURRENT#,HIDE,Porosity_BT,#CURRENT#,HIDE,Relative_Density_BT,#CURRENT#,HIDE,Number_M-P&M=1/VR=2,#CURRENT#,HIDE,Einstein_Partition,#CURRENT#,HIDE,Avalanche_Model_BT,#CURRENT#,HIDE,Friction_angle_BT_[rad],#CURRENT#,HIDE,Start_time_BT_[s],#CURRENT#)
+DEPENDENCIES: (On,RESTORE,Model,#CURRENT#,HIDE,Alpha,#CURRENT#,HIDE,Tau_crit_adim,#CURRENT#,HIDE,Beta,#CURRENT#,HIDE,A_Recking,#CURRENT#,HIDE,Alpha_Recking,#CURRENT#,HIDE,Beta_Recking,#CURRENT#,HIDE,Mobility_strength,#CURRENT#,RESTORE,Sediment_type,#CURRENT#,HIDE,Hiding-Exposure,#CURRENT#,HIDE,deltaH,#CURRENT#,HIDE,deltaR,#CURRENT#,HIDE,A_Hid,#CURRENT#,HIDE,B_Hid,#CURRENT#,HIDE,Number_Hiding_Exposure,#CURRENT#,RESTORE,d50_[m],#CURRENT#,RESTORE,Porosity_BT,#CURRENT#,RESTORE,Relative_Density_BT,#CURRENT#,HIDE,Number_M-P&M=1/VR=2,#CURRENT#,RESTORE,Einstein_Partition,#CURRENT#,RESTORE,Avalanche_Model_BT,#CURRENT#,RESTORE,Friction_angle_BT_[rad],#CURRENT#,RESTORE,Start_time_BT_[s],#CURRENT#)
+QUESTION: Model#CB#(Ad_Hoc,Ashida&Michiue,Engelund-Fredsoe,Engelund-Hansen,Meyer-Peter&Muller,Van_Rijn,Recking)
+VALUE: Meyer-Peter&Muller
+HELP: The AdHoc expression used is q=Alpha*(Tau-Tau_crit)**Beta
+DEPENDENCIES: (Meyer-Peter&Muller,HIDE,Number_M-P&M=1/VR=2,1,HIDE,Alpha,#CURRENT#,HIDE,Tau_crit_adim,#CURRENT#,HIDE,Beta,#CURRENT#,HIDE,A_Recking,#CURRENT#,HIDE,Alpha_Recking,#CURRENT#,HIDE,Beta_Recking,#CURRENT#,HIDE,Mobility_strength,#CURRENT#,RESTORE,Sediment_type,#CURRENT#)
+DEPENDENCIES: (Van_Rijn,HIDE,Number_M-P&M=1/VR=2,2,HIDE,Alpha,#CURRENT#,HIDE,Tau_crit_adim,#CURRENT#,HIDE,Beta,#CURRENT#,HIDE,A_Recking,#CURRENT#,HIDE,Alpha_Recking,#CURRENT#,HIDE,Beta_Recking,#CURRENT#,HIDE,Mobility_strength,#CURRENT#,RESTORE,Sediment_type,#CURRENT#)
+DEPENDENCIES: (Ad_Hoc,HIDE,Number_M-P&M=1/VR=2,3,RESTORE,Alpha,#CURRENT#,RESTORE,Tau_crit_adim,#CURRENT#,RESTORE,Beta,#CURRENT#,HIDE,A_Recking,#CURRENT#,HIDE,Alpha_Recking,#CURRENT#,HIDE,Beta_Recking,#CURRENT#,HIDE,Mobility_strength,#CURRENT#,RESTORE,Sediment_type,#CURRENT#)
+DEPENDENCIES: (Recking,HIDE,Number_M-P&M=1/VR=2,4,HIDE,Alpha,#CURRENT#,HIDE,Tau_crit_adim,#CURRENT#,HIDE,Beta,#CURRENT#,RESTORE,A_Recking,#CURRENT#,RESTORE,Alpha_Recking,#CURRENT#,RESTORE,Beta_Recking,#CURRENT#,RESTORE,Mobility_strength,#CURRENT#,RESTORE,Sediment_type,#CURRENT#)
+DEPENDENCIES: (Engelund-Fredsoe,HIDE,Number_M-P&M=1/VR=2,6,HIDE,Alpha,#CURRENT#,HIDE,Tau_crit_adim,#CURRENT#,HIDE,Beta,#CURRENT#,HIDE,A_Recking,#CURRENT#,HIDE,Alpha_Recking,#CURRENT#,HIDE,Beta_Recking,#CURRENT#,HIDE,Mobility_strength,#CURRENT#,RESTORE,Sediment_type,#CURRENT#)
+DEPENDENCIES: (Engelund-Hansen,HIDE,Number_M-P&M=1/VR=2,7,HIDE,Alpha,#CURRENT#,HIDE,Tau_crit_adim,#CURRENT#,HIDE,Beta,#CURRENT#,HIDE,A_Recking,#CURRENT#,HIDE,Alpha_Recking,#CURRENT#,HIDE,Beta_Recking,#CURRENT#,HIDE,Mobility_strength,#CURRENT#,RESTORE,Sediment_type,#CURRENT#)
+DEPENDENCIES: (Ashida&Michiue,HIDE,Number_M-P&M=1/VR=2,8,HIDE,Alpha,#CURRENT#,HIDE,Tau_crit_adim,#CURRENT#,HIDE,Beta,#CURRENT#,HIDE,A_Recking,#CURRENT#,HIDE,Alpha_Recking,#CURRENT#,HIDE,Beta_Recking,#CURRENT#,HIDE,Mobility_strength,#CURRENT#,RESTORE,Sediment_type,#CURRENT#)
+QUESTION: Alpha
+VALUE: 3.97
+QUESTION: Tau_crit_adim
+VALUE: 0.0495
+QUESTION: Beta
+VALUE: Version
+IMAGE: icos/PD_Sed_AdHoc.png
+QUESTION: A_Recking
+VALUE: 14
+QUESTION: Alpha_Recking
+VALUE: 2.5
+QUESTION: Beta_Recking
+VALUE: 4
+QUESTION: Mobility_strength
+VALUE: 0.033
+IMAGE: icos/PD_Sed_Recking.png
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Sediment_type#CB#(Uniform,Mixtures)
+VALUE: Uniform
+DEPENDENCIES: (Uniform,HIDE,Hiding-Exposure,#CURRENT#,HIDE,deltaH,#CURRENT#,HIDE,deltaR,#CURRENT#,HIDE,A_Hid,#CURRENT#,HIDE,B_Hid,#CURRENT#,HIDE,Number_Hiding_Exposure,#CURRENT#)
+DEPENDENCIES: (Mixtures,RESTORE,Hiding-Exposure,#CURRENT#,HIDE,deltaH,#CURRENT#,HIDE,deltaR,#CURRENT#,HIDE,A_Hid,#CURRENT#,HIDE,B_Hid,#CURRENT#,HIDE,Number_Hiding_Exposure,#CURRENT#)
+QUESTION: Hiding-Exposure#CB#(Ad_Hoc,Ashida&Michiue,Egiazaroff,Parker-Klingeman-McLean,Solari-Parker,Wilcock&Crowe,None)
+VALUE: Ashida&Michiue
+DEPENDENCIES: (Parker-Klingeman-McLean,HIDE,Number_Hiding_Exposure,1,HIDE,deltaH,#CURRENT#,HIDE,deltaR,#CURRENT#,HIDE,A_Hid,#CURRENT#,HIDE,B_Hid,#CURRENT#)
+DEPENDENCIES: (Egiazaroff,HIDE,Number_Hiding_Exposure,2,HIDE,deltaH,#CURRENT#,HIDE,deltaR,#CURRENT#,HIDE,A_Hid,#CURRENT#,HIDE,B_Hid,#CURRENT#)
+DEPENDENCIES: (Ashida&Michiue,HIDE,Number_Hiding_Exposure,3,HIDE,deltaH,#CURRENT#,HIDE,deltaR,#CURRENT#,HIDE,A_Hid,#CURRENT#,HIDE,B_Hid,#CURRENT#)
+DEPENDENCIES: (Wilcock&Crowe,HIDE,Number_Hiding_Exposure,4,HIDE,deltaH,#CURRENT#,HIDE,deltaR,#CURRENT#,HIDE,A_Hid,#CURRENT#,HIDE,B_Hid,#CURRENT#)
+DEPENDENCIES: (Solari-Parker,HIDE,Number_Hiding_Exposure,5,RESTORE,deltaH,#CURRENT#,RESTORE,deltaR,#CURRENT#,HIDE,A_Hid,#CURRENT#,HIDE,B_Hid,#CURRENT#)
+DEPENDENCIES: (Ad_Hoc,HIDE,Number_Hiding_Exposure,6,HIDE,deltaH,#CURRENT#,HIDE,deltaR,#CURRENT#,RESTORE,A_Hid,#CURRENT#,RESTORE,B_Hid,#CURRENT#)
+DEPENDENCIES: (None,HIDE,Number_Hiding_Exposure,0,HIDE,deltaH,#CURRENT#,HIDE,deltaR,#CURRENT#,HIDE,A_Hid,#CURRENT#,HIDE,B_Hid,#CURRENT#)
+QUESTION: deltaH
+VALUE: 0.10
+QUESTION: deltaR
+VALUE: 0.9
+QUESTION: A_Hid
+VALUE: 1
+STATE: HIDDEN
+QUESTION: B_Hid
+VALUE: -0.90
+STATE: HIDDEN
+QUESTION: Number_Hiding_Exposure
+VALUE: 1
+STATE: HIDDEN
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: d50_[m]
+VALUE: 1.0
+QUESTION: Porosity_BT
+VALUE: 0.4
+QUESTION: Relative_Density_BT
+VALUE: 2.65
+QUESTION: Number_M-P&M=1/VR=2
+VALUE: 1
+QUESTION: Einstein_Partition#CB#(1,0)
+VALUE: 1
+QUESTION: Avalanche_Model_BT#CB#(1,0)
+VALUE: 0
+QUESTION: Friction_angle_BT_[rad]
+VALUE: 0.55
+QUESTION: Start_time_BT_[s]
+VALUE: 0
+HELP: Starting time of bedload sediment (in its case)
+TITLE: Soil_Erosion
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: SoilErosionData
+VALUE: 
+STATE: HIDDEN
+QUESTION: Soil_Erosion#CB#(Off,Manual_Assignation,Automatic_Assignation)
+VALUE: Off
+DEPENDENCIES: (Off,HIDE,Start_time_Soil_Erosion,#CURRENT#,HIDE,Suspended_load_discharge,#CURRENT#,HIDE,Depth_of_NON-cohesive_layer,#CURRENT#,HIDE,Bed_load_discharge,#CURRENT#,HIDE,SS_concentration,#CURRENT#,HIDE,Output_options,Hide,HIDE,Bed_load_discharge,#CURRENT#,HIDE,Depth_of_NON-cohesive_layer,#CURRENT#,HIDE,SS_concentration,#CURRENT#,HIDE,Suspended_load_discharge,#CURRENT#,HIDE,Mixture_model,#CURRENT#,HIDE,Model_corrections,Hide,HIDE,A_parameter,#CURRENT#,HIDE,B_parameter,#CURRENT#,HIDE,NON-dimensional_critical_stress,#CURRENT#,HIDE,BL_critical_shear_stress,#CURRENT#,HIDE,Bed_load_model,#CURRENT#,HIDE,Hiding_factor_BL,#CURRENT#,HIDE,Equilibrium_Cs,#CURRENT#,HIDE,Hiding_factor_SL,#CURRENT#,HIDE,Rain_damping_depth_[mm],#CURRENT#,HIDE,Taucrit_Cohesive_Layer_[N/m2],#CURRENT#,HIDE,Resuspension_model,#CURRENT#,HIDE,Update_sediment_classes_distribution,#CURRENT#,HIDE,Sediment_classes_1_layer,#CURRENT#,HIDE,Sediment_classes_2_layers,#CURRENT#,HIDE,Solve__Suspended__Load,Off,HIDE,Solve_suspended_load,#CURRENT#,HIDE,Solve_bed_load,Off,HIDE,Shield_length_of_eroded_layer_[mm],#CURRENT#,HIDE,Sediment_density_[kg/m3],#CURRENT#,HIDE,Sediment_porosity,#CURRENT#,HIDE,Angle_of_friction_[rad],#CURRENT#,HIDE,SP_Einstein,#CURRENT#,HIDE,Bed_slope_correction,#CURRENT#,HIDE,Max_slope_correction,#CURRENT#,HIDE,Apsley_smoothing,#CURRENT#,HIDE,Non-Equilibrium_bed_load,#CURRENT#,HIDE,Dispersion_of_Cs,#CURRENT#,HIDE,Flow_damping_near_walls,#CURRENT#,HIDE,Secondary_flows_corrections,#CURRENT#,HIDE,Secondary_flow_in_bedload,#CURRENT#,HIDE,Grain_Roughness_factor,#CURRENT#)
+DEPENDENCIES: (Manual_Assignation,RESTORE,Start_time_Soil_Erosion,#CURRENT#,RESTORE,Output_options,#CURRENT#,HIDE,Bed_load_discharge,#CURRENT#,HIDE,Depth_of_NON-cohesive_layer,#CURRENT#,HIDE,SS_concentration,#CURRENT#,HIDE,Suspended_load_discharge,#CURRENT#,RESTORE,Mixture_model,#CURRENT#,RESTORE,Model_corrections,#CURRENT#)
+DEPENDENCIES: (Automatic_Assignation,RESTORE,Start_time_Soil_Erosion,#CURRENT#,RESTORE,Output_options,#CURRENT#,HIDE,Bed_load_discharge,#CURRENT#,HIDE,Depth_of_NON-cohesive_layer,#CURRENT#,HIDE,SS_concentration,#CURRENT#,HIDE,Suspended_load_discharge,#CURRENT#,RESTORE,Mixture_model,#CURRENT#,RESTORE,Model_corrections,#CURRENT#)
+HELP: Activate/desactivate the Soil Erosion module, deciding between the manual or automatic assignment of erosion zones.
+QUESTION: Start_time_Soil_Erosion
+VALUE: 0.
+STATE: HIDDEN
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Mixture_model#CB#(-Select_method-,One_NON-Cohesive_layer,One_NON-Cohesive_layer_over_one_cohesive_layer)
+VALUE: -Select_method-
+DEPENDENCIES: (One_NON-Cohesive_layer,RESTORE,Update_sediment_classes_distribution,#CURRENT#,RESTORE,Sediment_classes_1_layer,#CURRENT#,HIDE,Sediment_classes_2_layers,#CURRENT#,RESTORE,Solve__Suspended__Load,#CURRENT#,HIDE,Solve_suspended_load,#CURRENT#,RESTORE,Solve_bed_load,#CURRENT#,RESTORE,Shield_length_of_eroded_layer_[mm],#CURRENT#,RESTORE,Sediment_density_[kg/m3],#CURRENT#,RESTORE,Sediment_porosity,#CURRENT#,RESTORE,Angle_of_friction_[rad],#CURRENT#)
+DEPENDENCIES: (One_NON-Cohesive_layer_over_one_cohesive_layer,RESTORE,Update_sediment_classes_distribution,#CURRENT#,HIDE,Sediment_classes_1_layer,#CURRENT#,RESTORE,Sediment_classes_2_layers,#CURRENT#,HIDE,Solve__Suspended__Load,#CURRENT#,RESTORE,Solve_suspended_load,#CURRENT#,RESTORE,Solve_bed_load,#CURRENT#,RESTORE,Shield_length_of_eroded_layer_[mm],#CURRENT#,RESTORE,Sediment_density_[kg/m3],#CURRENT#,RESTORE,Sediment_porosity,#CURRENT#,RESTORE,Angle_of_friction_[rad],#CURRENT#)
+DEPENDENCIES: (-Select_method-,HIDE,Update_sediment_classes_distribution,#CURRENT#,HIDE,Sediment_classes_1_layer,#CURRENT#,HIDE,Sediment_classes_2_layers,#CURRENT#,HIDE,Solve__Suspended__Load,#CURRENT#,HIDE,Solve_suspended_load,#CURRENT#,HIDE,Solve_bed_load,#CURRENT#,HIDE,Shield_length_of_eroded_layer_[mm],#CURRENT#,HIDE,Sediment_density_[kg/m3],#CURRENT#,HIDE,Sediment_porosity,#CURRENT#,HIDE,Angle_of_friction_[rad],#CURRENT#)
+HELP: Choose mixture model structure.
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Update_sediment_classes_distribution#CB#(On,Off)
+VALUE: On
+HELP: Update the distribution of different types of soils.
+STATE: HIDDEN
+QUESTION: Sediment_classes_1_layer(Soil_ID,D_[mm],a_rd_[kg/m2/m],SPcrit_[W/m2],F)
+VALUE: #N# 5 Soil-number NA NA NA NA
+QUESTION: Sediment_classes_2_layers(Soil_ID,D_[mm],a_rd_[kg/m2/m],SPcrit_[W/m2],F,ad_[kg/m2/m],K_[kg/s/N])
+VALUE: #N# 7 Soil-number NA NA NA NA NA NA
+STATE: HIDDEN
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Shield_length_of_eroded_layer_[mm]
+VALUE: 5
+STATE: HIDDEN
+QUESTION: Sediment_density_[kg/m3]
+VALUE: 2400
+STATE: HIDDEN
+QUESTION: Sediment_porosity
+VALUE: 0.5
+STATE: HIDDEN
+QUESTION: Angle_of_friction_[rad]
+VALUE: 0.6
+STATE: HIDDEN
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Solve__Suspended__Load#CB#(Off,On)
+VALUE: Off
+DEPENDENCIES: (Off,HIDE,Equilibrium_Cs,#CURRENT#,HIDE,Hiding_factor_SL,#CURRENT#,HIDE,Rain_damping_depth_[mm],#CURRENT#,HIDE,Taucrit_Cohesive_Layer_[N/m2],#CURRENT#,HIDE,Resuspension_model,#CURRENT#)
+DEPENDENCIES: (On,RESTORE,Rain_damping_depth_[mm],#CURRENT#,HIDE,Taucrit_Cohesive_Layer_[N/m2],#CURRENT#,RESTORE,Resuspension_model,#CURRENT#)
+STATE: HIDDEN
+HELP: Activate suspended sediment mixture module.
+QUESTION: Solve_suspended_load#CB#(Off,On)
+VALUE: Off
+DEPENDENCIES: (Off,HIDE,Equilibrium_Cs,#CURRENT#,HIDE,Hiding_factor_SL,#CURRENT#,HIDE,Rain_damping_depth_[mm],#CURRENT#,HIDE,Taucrit_Cohesive_Layer_[N/m2],#CURRENT#,HIDE,Resuspension_model,#CURRENT#)
+DEPENDENCIES: (On,RESTORE,Rain_damping_depth_[mm],#CURRENT#,RESTORE,Taucrit_Cohesive_Layer_[N/m2],#CURRENT#,RESTORE,Resuspension_model,#CURRENT#)
+STATE: HIDDEN
+HELP: Activate suspended sediment mixture module.
+QUESTION: Rain_damping_depth_[mm]
+VALUE: 0.8
+STATE: HIDDEN
+HELP: Insert rainfall damping critical depth (mm).
+QUESTION: Taucrit_Cohesive_Layer_[N/m2]
+VALUE: 1.d10
+STATE: HIDDEN
+HELP: Insert critical shear stress for cohesive soil (Pa).
+QUESTION: Resuspension_model#CB#(Hairsine,Van_Rijn)
+VALUE: Hairsine
+DEPENDENCIES: (Van_Rijn,RESTORE,Equilibrium_Cs,#CURRENT#,HIDE,Hiding_factor_SL,#CURRENT#)
+DEPENDENCIES: (Hairsine,HIDE,Equilibrium_Cs,#CURRENT#,HIDE,Hiding_factor_SL,#CURRENT#)
+STATE: HIDDEN
+HELP: Choose exchange model between eroded layer and Cs
+QUESTION: Equilibrium_Cs#CB#(VanRijn1984,Smith1977,Garcia1991,Zyserman1994)
+VALUE: VanRijn1984
+STATE: HIDDEN
+HELP: Choose equilibrium hyphotesis.
+QUESTION: Hiding_factor_SL
+VALUE: 0
+STATE: HIDDEN
+HELP: Van Rijn hiding factor, only values between 0 and 1 allowed.
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Solve_bed_load#CB#(Off,On)
+VALUE: Off
+DEPENDENCIES: (Off,HIDE,A_parameter,#CURRENT#,HIDE,B_parameter,#CURRENT#,HIDE,NON-dimensional_critical_stress,#CURRENT#,HIDE,BL_critical_shear_stress,#CURRENT#,HIDE,Bed_load_model,#CURRENT#,HIDE,Hiding_factor_BL,#CURRENT#)
+DEPENDENCIES: (On,RESTORE,Bed_load_model,#CURRENT#,RESTORE,Hiding_factor_BL,#CURRENT#)
+STATE: HIDDEN
+HELP: Activate bed load sediment mixture module.
+QUESTION: Bed_load_model#CB#(Generic,Meyer_Peter_Muller,Wong_Parker_MPM_modified,Einstein_Brown,Van_Rijn_BL,Engelund_Hansen,Yalin,Ashida_Michiue)
+VALUE: Generic
+DEPENDENCIES: (Generic,RESTORE,A_parameter,#CURRENT#,RESTORE,B_parameter,#CURRENT#,RESTORE,BL_critical_shear_stress,#CURRENT#)
+DEPENDENCIES: (Meyer_Peter_Muller,HIDE,A_parameter,#CURRENT#,HIDE,B_parameter,#CURRENT#,HIDE,BL_critical_shear_stress,#CURRENT#)
+DEPENDENCIES: (Wong_Parker_MPM_modified,HIDE,A_parameter,#CURRENT#,HIDE,B_parameter,#CURRENT#,HIDE,BL_critical_shear_stress,#CURRENT#)
+DEPENDENCIES: (Einstein_Brown,HIDE,A_parameter,#CURRENT#,HIDE,B_parameter,#CURRENT#,HIDE,BL_critical_shear_stress,#CURRENT#)
+DEPENDENCIES: (Van_Rijn_BL,HIDE,A_parameter,#CURRENT#,HIDE,B_parameter,#CURRENT#,RESTORE,BL_critical_shear_stress,#CURRENT#)
+DEPENDENCIES: (Engelund_Hansen,HIDE,A_parameter,#CURRENT#,HIDE,B_parameter,#CURRENT#,HIDE,BL_critical_shear_stress,#CURRENT#)
+DEPENDENCIES: (Yalin,HIDE,A_parameter,#CURRENT#,HIDE,B_parameter,#CURRENT#,RESTORE,BL_critical_shear_stress,#CURRENT#)
+DEPENDENCIES: (Ashida_Michiue,HIDE,A_parameter,#CURRENT#,HIDE,B_parameter,#CURRENT#,RESTORE,BL_critical_shear_stress,#CURRENT#)
+STATE: HIDDEN
+HELP: Choose bed load model.
+QUESTION: A_parameter
+VALUE: 0.4
+STATE: HIDDEN
+HELP: Insert parameter for the Generic formula.
+IMAGE: icos/PD_SoilErosion_GenericBedLoad.png
+QUESTION: B_parameter
+VALUE: 0.5
+STATE: HIDDEN
+HELP: Insert parameter for the Generic formula.
+QUESTION: BL_critical_shear_stress#CB#(Constant_stress,Shields,Parker)
+VALUE: Shields
+DEPENDENCIES: (Constant_stress,RESTORE,NON-dimensional_critical_stress,#CURRENT#)
+DEPENDENCIES: (Shields,HIDE,NON-dimensional_critical_stress,#CURRENT#)
+DEPENDENCIES: (Parker,HIDE,NON-dimensional_critical_stress,#CURRENT#)
+STATE: HIDDEN
+HELP: Establish critical shear stress criteria.
+QUESTION: NON-dimensional_critical_stress
+VALUE: 0.021
+STATE: HIDDEN
+HELP: Set constant NON-dimensional critical stress.
+QUESTION: Hiding_factor_BL
+VALUE: 0
+STATE: HIDDEN
+HELP: Insert parameter for the Generic formula.
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Model_corrections#CB#(Hide,Show)
+VALUE: Hide
+DEPENDENCIES: (Hide,HIDE,SP_Einstein,#CURRENT#,HIDE,Bed_slope_correction,#CURRENT#,HIDE,Max_slope_correction,#CURRENT#,HIDE,Apsley_smoothing,#CURRENT#,HIDE,Non-Equilibrium_bed_load,#CURRENT#,HIDE,Dispersion_of_Cs,#CURRENT#,HIDE,Flow_damping_near_walls,#CURRENT#,HIDE,Secondary_flows_corrections,#CURRENT#,HIDE,Secondary_flow_in_bedload,#CURRENT#,HIDE,Grain_Roughness_factor,#CURRENT#)
+DEPENDENCIES: (Show,RESTORE,SP_Einstein,#CURRENT#,RESTORE,Bed_slope_correction,#CURRENT#,RESTORE,Max_slope_correction,#CURRENT#,RESTORE,Apsley_smoothing,#CURRENT#,RESTORE,Non-Equilibrium_bed_load,#CURRENT#,RESTORE,Dispersion_of_Cs,#CURRENT#,RESTORE,Flow_damping_near_walls,#CURRENT#,RESTORE,Secondary_flows_corrections,#CURRENT#,RESTORE,Secondary_flow_in_bedload,#CURRENT#)
+STATE: HIDDEN
+HELP: Activate model correction parameters.
+QUESTION: SP_Einstein#CB#(Off,On)
+VALUE: Off
+DEPENDENCIES: (Off,HIDE,Grain_Roughness_factor,#CURRENT#)
+DEPENDENCIES: (On,RESTORE,Grain_Roughness_factor,#CURRENT#)
+STATE: HIDDEN
+HELP: Activate Einstein stress partition
+QUESTION: Grain_Roughness_factor
+VALUE: 1
+STATE: HIDDEN
+HELP: Insert Einstein grain roughness factor.
+QUESTION: Bed_slope_correction#CB#(Off,On)
+VALUE: Off
+STATE: HIDDEN
+HELP: Activate bed slope effect model.
+QUESTION: Max_slope_correction#CB#(Off,On)
+VALUE: Off
+STATE: HIDDEN
+HELP: Activate maximum slope correction
+QUESTION: Apsley_smoothing#CB#(Off,On)
+VALUE: Off
+STATE: HIDDEN
+HELP: Activate Apsley smoothing
+QUESTION: Non-Equilibrium_bed_load#CB#(Equilibrium,Non-Equilibrium)
+VALUE: Equilibrium
+STATE: HIDDEN
+HELP: Activate/deactivate equilibrium on bed load.
+QUESTION: Secondary_flow_in_bedload#CB#(Off,On)
+VALUE: Off
+STATE: HIDDEN
+HELP: Activate/desactivate secondary flow in bed load.
+QUESTION: Dispersion_of_Cs#CB#(No,Longitudinal,Longitudinal+Transversal)
+VALUE: No
+STATE: HIDDEN
+HELP: Choose dispersion model of Cs.
+QUESTION: Flow_damping_near_walls
+VALUE: 1
+STATE: HIDDEN
+QUESTION: Secondary_flows_corrections
+VALUE: 10000000000
+STATE: HIDDEN
+HELP: Set maximum curvature for secondary flows corrections.
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Output_options#CB#(Hide,Show)
+VALUE: Hide
+DEPENDENCIES: (Show,RESTORE,Suspended_load_discharge,#CURRENT#,RESTORE,Depth_of_NON-cohesive_layer,#CURRENT#,RESTORE,Bed_load_discharge,#CURRENT#,RESTORE,SS_concentration,#CURRENT#)
+DEPENDENCIES: (Hide,HIDE,Suspended_load_discharge,#CURRENT#,HIDE,Depth_of_NON-cohesive_layer,#CURRENT#,HIDE,Bed_load_discharge,#CURRENT#,HIDE,SS_concentration,#CURRENT#)
+STATE: HIDDEN
+QUESTION: SS_concentration#CB#(1,0)
+VALUE: 1
+STATE: HIDDEN
+HELP: Activate/desactivate suspended sediment concentration mixture output.
+QUESTION: Suspended_load_discharge#CB#(1,0)
+VALUE: 1
+STATE: HIDDEN
+HELP: Activate/desactivate suspended load discharge output.
+QUESTION: Bed_load_discharge#CB#(1,0)
+VALUE: 0
+STATE: HIDDEN
+HELP: Activate/desactivate bed load output.
+QUESTION: Depth_of_NON-cohesive_layer#CB#(1,0)
+VALUE: 1
+STATE: HIDDEN
+HELP: Activate/desactivate depth of eroded layer output.
+QUESTION: ZoneData
+VALUE: 
+STATE: HIDDEN
+TITLE: Urban_drainage
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Flow#CB#(Surface,Subsurface,Both)
+VALUE: Surface
+DEPENDENCIES: (Surface,HIDE,Flow_through_manhole_covers,#CURRENT#,RESTORE,Exchange_flow_method,#CURRENT#,HIDE,mfm,#CURRENT#,HIDE,Friction_Loss_Formula,#CURRENT#,HIDE,Absolute_roughness_[m],#CURRENT#,HIDE,Kinetic_viscocity_[m2/s],#CURRENT#,HIDE,In_loss_coef.,#CURRENT#,HIDE,Out_loss_coef.,#CURRENT#,HIDE,Cover_thickness_[m],#CURRENT#,HIDE,Cover_density_[kg/m3],#CURRENT#,HIDE,Flow_method,#CURRENT#)
+DEPENDENCIES: (Subsurface,HIDE,Flow_through_manhole_covers,#CURRENT#,HIDE,Exchange_flow_method,#CURRENT#,HIDE,Friction_Loss_Formula,#CURRENT#,HIDE,Absolute_roughness_[m],#CURRENT#,HIDE,Kinetic_viscocity_[m2/s],#CURRENT#,HIDE,In_loss_coef.,#CURRENT#,HIDE,Out_loss_coef.,#CURRENT#,HIDE,Cover_thickness_[m],#CURRENT#,HIDE,Cover_density_[kg/m3],#CURRENT#,HIDE,Flow_method,#CURRENT#)
+DEPENDENCIES: (Both,HIDE,Flow_through_manhole_covers,#CURRENT#,RESTORE,Exchange_flow_method,#CURRENT#,HIDE,Friction_Loss_Formula,#CURRENT#,HIDE,Absolute_roughness_[m],#CURRENT#,HIDE,Kinetic_viscocity_[m2/s],#CURRENT#,HIDE,In_loss_coef.,#CURRENT#,HIDE,Out_loss_coef.,#CURRENT#,HIDE,Cover_thickness_[m],#CURRENT#,HIDE,Cover_density_[kg/m3],#CURRENT#,HIDE,Flow_method,#CURRENT#)
+QUESTION: Flow_through_manhole_covers#CB#(1,0)
+VALUE: 0
+HELP: Allows water to enter or leave.
+QUESTION: In_loss_coef.
+VALUE: 0.00
+QUESTION: Out_loss_coef.
+VALUE: 0.00
+QUESTION: Cover_thickness_[m]
+VALUE: 0.05
+QUESTION: Cover_density_[kg/m3]
+VALUE: 7850.00
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Exchange_flow_method#CB#(UPC,Orifice&weir)
+VALUE: UPC
+QUESTION: Flow_method#CB#(Preissmann_slot)
+VALUE: Preissmann_slot
+DEPENDENCIES: (Free_surface_flow,HIDE,mfm,0)
+DEPENDENCIES: (Preissmann_slot,HIDE,mfm,1)
+DEPENDENCIES: (Modified_Preissmann_slot,HIDE,mfm,2)
+DEPENDENCIES: (Constant_Density_2EQ,HIDE,mfm,3)
+DEPENDENCIES: (Variable_Density_2EQ,HIDE,mfm,4)
+QUESTION: mfm
+VALUE: 1
+STATE: HIDDEN
+QUESTION: Friction_Loss_Formula#CB#(Manning)
+VALUE: Manning
+HELP: Darcy_Weisbach friction formula will be used for all pipes
+DEPENDENCIES: (Manning,HIDE,Absolute_roughness_[m],#CURRENT#,HIDE,Kinetic_viscocity_[m2/s],#CURRENT#)
+DEPENDENCIES: (Darcy_Weisbach,RESTORE,Absolute_roughness_[m],#CURRENT#,RESTORE,Kinetic_viscocity_[m2/s],#CURRENT#)
+QUESTION: Absolute_roughness_[m]
+VALUE: 0.001
+QUESTION: Kinetic_viscocity_[m2/s]
+VALUE: 0.000001
+TITLE: Iber_SWMM
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Urban_Drainage_network#CB#(Complete_UD_network,Only_inlets)
+VALUE: Complete_UD_network
+DEPENDENCIES: (Complete_UD_network,RESTORE,Outfall_to_2D,#CURRENT#)
+DEPENDENCIES: (Only_inlets,HIDE,Outfall_to_2D,#CURRENT#)
+QUESTION: Outfall_to_2D#CB#(1,0)
+VALUE: 1
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Discharge_results_on:#CB#(_)
+VALUE: 
+QUESTION: Manholes#CB#(1,0)
+VALUE: 1
+QUESTION: Outfalls#CB#(1,0)
+VALUE: 1
+QUESTION: Inlets#CB#(1,0)
+VALUE: 1
+QUESTION: Roofs#CB#(1,0)
+VALUE: 1
+TITLE: Water_Quality
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Dispersion_coef_[m2/s]
+VALUE: 0.0
+QUESTION: Schmidt_Number
+VALUE: 0.7
+HELP: Schmidt number used for computing the turbulent diffusion in the transport equation
+QUESTION: Computation_scheme#CB#(1st_Order,Gamma,MUSCL)
+VALUE: 1st_Order
+DEPENDENCIES: (1st_Order,HIDE,sc,11,HIDE,Beta_coef,#CURRENT#)
+DEPENDENCIES: (Gamma,HIDE,sc,21,RESTORE,Beta_coef,#CURRENT#)
+DEPENDENCIES: (MUSCL,HIDE,sc,22,HIDE,Beta_coef,#CURRENT#)
+QUESTION: sc
+VALUE: 11
+QUESTION: Beta_coef
+VALUE: 0.5
+HELP: Beta coefficient used in the second order gamma scheme for solving the transport equation. Its value should be within the range 0.1-0.5. With a value of 0.1 the scheme is more accurate but less stable.
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Salinity#CB#(Off,On,Read)
+VALUE: Off
+DEPENDENCIES: (Off,HIDE,Salinity_Time_Series,#CURRENT#,HIDE,CHECKING_Salinity,Needs.to.be.activated.but.not.here)
+DEPENDENCIES: (On,HIDE,Salinity_Time_Series,#CURRENT#,HIDE,CHECKING_Salinity,Correct)
+DEPENDENCIES: (Read,RESTORE,Salinity_Time_Series,#CURRENT#,HIDE,CHECKING_Salinity,Correct)
+QUESTION: Salinity_Time_Series(Time_[s],Salinity_[kg/m3])
+VALUE: #N# 2 0.0 0.0
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Temperature#CB#(Off,On,Read)
+VALUE: Off
+DEPENDENCIES: (Off,HIDE,Temperature_Time_Series,#CURRENT#,HIDE,CHECKING_Temperature,Needs.to.be.activated.but.not.here)
+DEPENDENCIES: (On,HIDE,Temperature_Time_Series,#CURRENT#,HIDE,CHECKING_Temperature,Correct)
+DEPENDENCIES: (Read,RESTORE,Temperature_Time_Series,#CURRENT#,HIDE,CHECKING_Temperature,Correct)
+QUESTION: Temperature_Time_Series(Time_[s],T_[Celsius])
+VALUE: #N# 2 0.0 0.0
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Coliforms#CB#(Off,On)
+VALUE: Off
+DEPENDENCIES: (Off,HIDE,Degradation_Model,#CURRENT#,HIDE,T90_Time_Series,#CURRENT#,HIDE,Hmax_[m],#CURRENT#,HIDE,Keluz_[1/m],#CURRENT#,HIDE,dmc,#CURRENT#,HIDE,CHECKING_Salinity,#CURRENT#,HIDE,CHECKING_Temperature,#CURRENT#)
+DEPENDENCIES: (On,RESTORE,Degradation_Model,#CURRENT#,HIDE,Hmax_[m],#CURRENT#,HIDE,Keluz_[1/m],#CURRENT#,HIDE,dmc,#CURRENT#,RESTORE,T90_Time_Series,#CURRENT#,HIDE,CHECKING_Salinity,#CURRENT#,HIDE,CHECKING_Temperature,#CURRENT#)
+QUESTION: Degradation_Model#CB#(T90,Mancini,Canteras)
+VALUE: T90
+DEPENDENCIES: (T90,HIDE,dmc,0,RESTORE,T90_Time_Series,#CURRENT#,HIDE,Hmax_[m],#CURRENT#,HIDE,Keluz_[1/m],#CURRENT#,HIDE,CHECKING_Salinity,#CURRENT#,HIDE,CHECKING_Temperature,#CURRENT#)
+DEPENDENCIES: (Mancini,HIDE,dmc,1,HIDE,T90_Time_Series,#CURRENT#,RESTORE,Hmax_[m],#CURRENT#,RESTORE,Keluz_[1/m],#CURRENT#,HIDE,CHECKING_Salinity,#CURRENT#,HIDE,CHECKING_Temperature,#CURRENT#)
+DEPENDENCIES: (Canteras,HIDE,dmc,2,HIDE,T90_Time_Series,#CURRENT#,RESTORE,Hmax_[m],#CURRENT#,RESTORE,Keluz_[1/m],#CURRENT#,HIDE,CHECKING_Salinity,#CURRENT#,HIDE,CHECKING_Temperature,#CURRENT#)
+QUESTION: dmc
+VALUE: 0
+QUESTION: T90_Time_Series(Time_[s],T90_[h])
+VALUE: #N# 2 0.0 0.0
+QUESTION: CHECKING_Salinity#CB#(Needs.to.be.activated.but.not.here,Correct)
+VALUE: Needs.to.be.activated.but.not.here
+QUESTION: CHECKING_Temperature#CB#(Needs.to.be.activated.but.not.here,Correct)
+VALUE: Needs.to.be.activated.but.not.here
+QUESTION: Hmax_[m]
+VALUE: 9999
+QUESTION: Keluz_[1/m]
+VALUE: 1
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Dissolved_Oxygen#CB#(Off,On)
+VALUE: Off
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: CBOD#CB#(Off,On)
+VALUE: Off
+DEPENDENCIES: (Off,HIDE,Settling_Velocity_[m/d],#CURRENT#,HIDE,Degradation_Rate_[1/d],#CURRENT#)
+DEPENDENCIES: (On,RESTORE,Settling_Velocity_[m/d],#CURRENT#,RESTORE,Degradation_Rate_[1/d],#CURRENT#)
+QUESTION: Degradation_Rate_[1/d]
+VALUE: 2.0
+HELP: 0.02-3.40
+QUESTION: Settling_Velocity_[m/d]
+VALUE: 0.01
+HELP: 0.01-0.36
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Nitrogen#CB#(Off,On)
+VALUE: Off
+DEPENDENCIES: (Off,HIDE,Ammonification_Rate_[1/d],#CURRENT#,HIDE,Nitrification_Rate_[1/d],#CURRENT#,HIDE,Denitrification_Rate_[1/d],#CURRENT#,HIDE,Organic_Nitrogen_Settling_Vel_[m/d],#CURRENT#)
+DEPENDENCIES: (On,RESTORE,Ammonification_Rate_[1/d],#CURRENT#,RESTORE,Nitrification_Rate_[1/d],#CURRENT#,RESTORE,Denitrification_Rate_[1/d],#CURRENT#,RESTORE,Organic_Nitrogen_Settling_Vel_[m/d],#CURRENT#)
+QUESTION: Ammonification_Rate_[1/d]
+VALUE: 0.2
+HELP: 0.02-0.40
+QUESTION: Nitrification_Rate_[1/d]
+VALUE: 0.5
+HELP: 0.01-1.00
+QUESTION: Denitrification_Rate_[1/d]
+VALUE: 0.05
+HELP: 0.001-0.100
+QUESTION: Organic_Nitrogen_Settling_Vel_[m/d]
+VALUE: 0.001
+HELP: 0.001-0.100
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Phosphorus#CB#(Off,On)
+VALUE: Off
+DEPENDENCIES: (Off,HIDE,Hydrolisis_Rate_[1/d],#CURRENT#,HIDE,Organic_P_settling_velocity_[m/d],#CURRENT#,HIDE,Inorganic_P_settling_velocity_[m/d],#CURRENT#)
+DEPENDENCIES: (On,RESTORE,Hydrolisis_Rate_[1/d],#CURRENT#,RESTORE,Organic_P_settling_velocity_[m/d],#CURRENT#,RESTORE,Inorganic_P_settling_velocity_[m/d],#CURRENT#)
+QUESTION: Hydrolisis_Rate_[1/d]
+VALUE: 0.2
+HELP: 0.01-1.00
+QUESTION: Organic_P_settling_velocity_[m/d]
+VALUE: 0.0
+QUESTION: Inorganic_P_settling_velocity_[m/d]
+VALUE: 0.0
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Phytoplankton#CB#(Off,On)
+VALUE: Off
+DEPENDENCIES: (Off,HIDE,Ratio_Nitrogen_to_ChlA_[mg/mg],#CURRENT#,HIDE,Ratio_Phosphorus_to_ChlA_[mg/mg],#CURRENT#,HIDE,Ratio_Oxigen_to_ChlA_[mg/mg],#CURRENT#,HIDE,Ratio_Carbon_to_ChlA_[mg/mg],#CURRENT#,HIDE,Phytoplankton_respiration_rate_[1/d],#CURRENT#,HIDE,Maximum_photosynthesis_rate_[1/d],#CURRENT#,HIDE,Phyto_death_rate_[1/d],#CURRENT#,HIDE,Phyto_preference_for_amonia,#CURRENT#,HIDE,Phyto_settling_velocity_[m/d],#CURRENT#,HIDE,Keluz_photosynthesis_attenuation_[1/m],#CURRENT#,HIDE,Photosynthesis_respiration_attenuation,#CURRENT#,HIDE,Nitrogen_half_saturation_[mg/l],#CURRENT#,HIDE,Phosphorus_half_saturation_[mg/l],#CURRENT#,HIDE,Carbon_half_saturation_[mg/l],#CURRENT#,HIDE,Light_half_saturation_[W/m2],#CURRENT#,HIDE,Oxygen_half_saturation_[mg/l],#CURRENT#)
+DEPENDENCIES: (On,RESTORE,Ratio_Nitrogen_to_ChlA_[mg/mg],#CURRENT#,RESTORE,Ratio_Phosphorus_to_ChlA_[mg/mg],#CURRENT#,RESTORE,Ratio_Oxigen_to_ChlA_[mg/mg],#CURRENT#,RESTORE,Ratio_Carbon_to_ChlA_[mg/mg],#CURRENT#,RESTORE,Phytoplankton_respiration_rate_[1/d],#CURRENT#,RESTORE,Maximum_photosynthesis_rate_[1/d],#CURRENT#,RESTORE,Phyto_death_rate_[1/d],#CURRENT#,RESTORE,Phyto_preference_for_amonia,#CURRENT#,RESTORE,Phyto_settling_velocity_[m/d],#CURRENT#,RESTORE,Keluz_photosynthesis_attenuation_[1/m],#CURRENT#,RESTORE,Photosynthesis_respiration_attenuation,#CURRENT#,HIDE,Nitrogen_half_saturation_[mg/l],#CURRENT#,HIDE,Phosphorus_half_saturation_[mg/l],#CURRENT#,HIDE,Carbon_half_saturation_[mg/l],#CURRENT#,HIDE,Light_half_saturation_[W/m2],#CURRENT#,HIDE,Oxygen_half_saturation_[mg/l],#CURRENT#)
+QUESTION: Ratio_Nitrogen_to_ChlA_[mg/mg]
+VALUE: 7.2
+HELP: 0.7-9.0
+QUESTION: Ratio_Phosphorus_to_ChlA_[mg/mg]
+VALUE: 1.0
+HELP: 0.1-2.0
+QUESTION: Ratio_Oxigen_to_ChlA_[mg/mg]
+VALUE: 120
+HELP: 14-180
+QUESTION: Ratio_Carbon_to_ChlA_[mg/mg]
+VALUE: 40
+QUESTION: Phytoplankton_respiration_rate_[1/d]
+VALUE: 0.3
+HELP: 0.04-0.8
+QUESTION: Maximum_photosynthesis_rate_[1/d]
+VALUE: 2
+HELP: 1.0-3.0
+QUESTION: Phyto_death_rate_[1/d]
+VALUE: 0.05
+HELP: 0.05-0.5
+QUESTION: Phyto_preference_for_amonia
+VALUE: 0.5
+HELP: 0-1
+QUESTION: Phyto_settling_velocity_[m/d]
+VALUE: 0
+QUESTION: Keluz_photosynthesis_attenuation_[1/m]
+VALUE: 2
+QUESTION: Photosynthesis_respiration_attenuation#CB#(Hide,Show)
+VALUE: Hide
+DEPENDENCIES: (Hide,HIDE,Nitrogen_half_saturation_[mg/l],#CURRENT#,HIDE,Phosphorus_half_saturation_[mg/l],#CURRENT#,HIDE,Carbon_half_saturation_[mg/l],#CURRENT#,HIDE,Light_half_saturation_[W/m2],#CURRENT#,HIDE,Oxygen_half_saturation_[mg/l],#CURRENT#)
+DEPENDENCIES: (Show,RESTORE,Nitrogen_half_saturation_[mg/l],#CURRENT#,RESTORE,Phosphorus_half_saturation_[mg/l],#CURRENT#,RESTORE,Carbon_half_saturation_[mg/l],#CURRENT#,RESTORE,Light_half_saturation_[W/m2],#CURRENT#,RESTORE,Oxygen_half_saturation_[mg/l],#CURRENT#)
+QUESTION: Nitrogen_half_saturation_[mg/l]
+VALUE: 0.05
+HELP: 0.01-0.3
+QUESTION: Phosphorus_half_saturation_[mg/l]
+VALUE: 0.01
+HELP: 0.001-0.05
+QUESTION: Carbon_half_saturation_[mg/l]
+VALUE: 0.01
+QUESTION: Light_half_saturation_[W/m2]
+VALUE: 0
+HELP: 0.05-0.3
+QUESTION: Oxygen_half_saturation_[mg/l]
+VALUE: 0.5
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: pH#CB#(Off,On)
+VALUE: Off
+DEPENDENCIES: (Off,HIDE,Ratio_DO_consumed_C-org_oxided_C-inorg_[mg/mg],#CURRENT#)
+DEPENDENCIES: (On,RESTORE,Ratio_DO_consumed_C-org_oxided_C-inorg_[mg/mg],#CURRENT#)
+QUESTION: Ratio_DO_consumed_C-org_oxided_C-inorg_[mg/mg]
+VALUE: 2.66
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Metals#CB#(Off,On)
+VALUE: Off
+DEPENDENCIES: (Off,HIDE,Reaction_rate_[1/d],#CURRENT#)
+DEPENDENCIES: (On,RESTORE,Reaction_rate_[1/d],#CURRENT#)
+QUESTION: Reaction_rate_[1/d]
+VALUE: 0.12
+TITLE: Non_Newtonian_Fluid
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Rehological_Model#CB#(Manning,Voellmy,Simplified_Bingham)
+VALUE: Manning
+DEPENDENCIES: (Manning,HIDE,Voellmy_Parameters,#CURRENT#,HIDE,Voellmy_Table,#CURRENT#,HIDE,Russian_Yield_Height,#CURRENT#,HIDE,Critical_Yield_Height,#CURRENT#)
+DEPENDENCIES: (Voellmy,RESTORE,Voellmy_Parameters,#CURRENT#,RESTORE,Voellmy_Table,#CURRENT#,RESTORE,Russian_Yield_Height,#CURRENT#,HIDE,Critical_Yield_Height,#CURRENT#)
+DEPENDENCIES: (Simplified_Bingham,HIDE,Voellmy_Parameters,#CURRENT#,HIDE,Voellmy_Table,#CURRENT#,HIDE,Russian_Yield_Height,#CURRENT#,HIDE,Critical_Yield_Height,#CURRENT#)
+QUESTION: Voellmy_Parameters#CB#(By_Elevation,From_Land_Use)
+VALUE: By_Elevation
+DEPENDENCIES: (By_Elevation,RESTORE,Voellmy_Table,#CURRENT#)
+DEPENDENCIES: (From_Land_Use,HIDE,Voellmy_Table,#CURRENT#)
+QUESTION: Voellmy_Table(Lower_Elevation,Yield_Slope_[mu],Friction_Parameter,Cohesion)
+VALUE: #N# 4 0 0.0 1000 0.0
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Russian_Yield_Height#CB#(Off,On)
+VALUE: Off
+DEPENDENCIES: (On,RESTORE,Critical_Yield_Height,#CURRENT#)
+DEPENDENCIES: (Off,HIDE,Critical_Yield_Height,#CURRENT#)
+QUESTION: Critical_Yield_Height
+VALUE: 10
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Pressure_Factor
+VALUE: 1.0
+QUESTION: Fluid_Density
+VALUE: 1000
+QUESTION: Momentum_Percentage_Stop
+VALUE: 0
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Entrainment#CB#(Off,On)
+VALUE: Off
+DEPENDENCIES: (On,RESTORE,Entrainment_Rate,#CURRENT#,RESTORE,Entrainment_Threshold,#CURRENT#,RESTORE,Bottom_density,#CURRENT#,RESTORE,Entrainment_Criteria,#CURRENT#)
+DEPENDENCIES: (Off,HIDE,Entrainment_Rate,#CURRENT#,HIDE,Entrainment_Threshold,#CURRENT#,HIDE,Bottom_density,#CURRENT#,HIDE,Entrainment_Criteria,#CURRENT#)
+QUESTION: Entrainment_Rate
+VALUE: 0
+QUESTION: Entrainment_Threshold
+VALUE: 0
+QUESTION: Bottom_density
+VALUE: 1000
+QUESTION: Entrainment_Criteria#CB#(Shear_Strength,Velocity,Snow_Depth,Squared_Velocity)
+VALUE: Shear_Strength
+TITLE: Wood
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Drag_Coefficient#CB#(Constant,Gippel)
+VALUE: Constant
+DEPENDENCIES: (Constant,RESTORE,Drag_Coefficient_Value,#CURRENT#)
+DEPENDENCIES: (Gippel,HIDE,Drag_Coefficient_Value,#CURRENT#)
+QUESTION: Drag_Coefficient_Value
+VALUE: 1.2
+QUESTION: Friction_coefficient
+VALUE: 0.25
+QUESTION: Wall_bouncing_angle_[rad]
+VALUE: 0.78
+QUESTION: Restitution_coef
+VALUE: 1.0
+QUESTION: Method_W#CB#(Kinematic,Dynamic)
+VALUE: Kinematic
+QUESTION: Density#CB#(Constant,Variable)
+VALUE: Constant
+DEPENDENCIES: (Constant,RESTORE,Initial_Condition,#CURRENT#,HIDE,Initial_Conditions_,#CURRENT#)
+DEPENDENCIES: (Variable,HIDE,Initial_Condition,#CURRENT#,RESTORE,Initial_Conditions_,#CURRENT#)
+QUESTION: Initial_Condition(Log_Number,Diameter_[m],Length_[m],Density_[kg/m3],X_[m],Y_[m],Angle_[rad],Time_[s],Root_coef)
+VALUE: #N# 9 0 0.0 0.0 0.0 0.0 0.0 0.0 0 0.0
+QUESTION: Initial_Conditions_(Log_Number,Diameter_[m],Length_[m],Density(t0)_[kg/m3],X_[m],Y_[m],Angle_[rad],Time_[s],Density(tf)_[kg/m3],k_[1/h],Root_coef)
+VALUE: #N# 11 0 0.0 0.0 0.0 0.0 0.0 0.0 0 0.0 0.0 0.0
+QUESTION: Max_Root_Diam_[m]
+VALUE: 0.0
+QUESTION: Max_Root_Width_[m]
+VALUE: 0.0
+TITLE: HiddenTitle
+QUESTION: IberDefault#CB#(Enabled,Disabled)
+VALUE: Enabled
+STATE: Enabled
+DEPENDENCIES: (Enabled,TITLESTATE,Time_Parameters,normal,TITLESTATE,General,normal,TITLESTATE,Results,normal,TITLESTATE,Encroachment,normal,TITLESTATE,Lids,normal,TITLESTATE,Turbulence,normal,TITLESTATE,Habitat,hidden,TITLESTATE,Hydrological_processes,hidden,TITLESTATE,Sediment_transport,hidden,TITLESTATE,Soil_Erosion,hidden,TITLESTATE,Urban_drainage,hidden,TITLESTATE,Water_Quality,hidden,TITLESTATE,Non_Newtonian_Fluid,hidden,TITLESTATE,Wood,hidden,TITLESTATE,HiddenTitle,hidden)
+DEPENDENCIES: (Disabled,TITLESTATE,Time_Parameters,normal,TITLESTATE,General,normal,TITLESTATE,Results,normal,TITLESTATE,Encroachment,normal,TITLESTATE,Lids,normal,TITLESTATE,Turbulence,normal,TITLESTATE,Habitat,hidden,TITLESTATE,Hydrological_processes,hidden,TITLESTATE,Sediment_transport,hidden,TITLESTATE,Soil_Erosion,hidden,TITLESTATE,Urban_drainage,hidden,TITLESTATE,Water_Quality,hidden,TITLESTATE,Non_Newtonian_Fluid,hidden,TITLESTATE,Wood,hidden,TITLESTATE,HiddenTitle,hidden)
+QUESTION: IberPlusPlugin#CB#(Enabled,Disabled)
+VALUE: Disabled
+STATE: HIDDEN
+DEPENDENCIES: (Enabled,HIDE,Simulation,New,HIDE,Drying_Method,Default,HIDE,Number_of_Threads,#CURRENT#,HIDE,GPU_id,#CURRENT#)
+QUESTION: IberCDXPlugin#CB#(Enabled,Disabled)
+VALUE: Disabled
+STATE: HIDDEN
+DEPENDENCIES: (Enabled,HIDE,Simulation,New,HIDE,Timeseries_time_interval_[s],1,HIDE,Numerical_Scheme,#CURRENT#,HIDE,Drying_Method,Default,HIDE,Number_of_Threads,#CURRENT#,RESTORE,GPU_id,#CURRENT#,HIDE,Gauges,Off,HIDE,Gauge_time_interval_[s],#CURRENT#,HIDE,Gauge_coordinates,#CURRENT#)
+QUESTION: IberHabitatPlugin#CB#(Enabled,Disabled)
+VALUE: Disabled
+DEPENDENCIES: (Enabled,TITLESTATE,Habitat,normal)
+DEPENDENCIES: (Disabled,TITLESTATE,Habitat,hidden)
+QUESTION: IberHydrologicalProcessesPlugin#CB#(Enabled,Disabled)
+VALUE: Disabled
+DEPENDENCIES: (Enabled,TITLESTATE,Hydrological_processes,normal)
+DEPENDENCIES: (Disabled,TITLESTATE,Hydrological_processes,hidden)
+QUESTION: IberSedimentTransportPlugin#CB#(Enabled,Disabled)
+VALUE: Disabled
+DEPENDENCIES: (Enabled,TITLESTATE,Sediment_transport,normal)
+DEPENDENCIES: (Disabled,TITLESTATE,Sediment_transport,hidden)
+QUESTION: IberSoilErosionPlugin#CB#(Enabled,Disabled)
+VALUE: Disabled
+DEPENDENCIES: (Enabled,TITLESTATE,Soil_Erosion,normal)
+DEPENDENCIES: (Disabled,TITLESTATE,Soil_Erosion,hidden)
+QUESTION: IberUrbanDrainagePlugin#CB#(Enabled,Disabled)
+VALUE: Disabled
+DEPENDENCIES: (Enabled,TITLESTATE,Urban_drainage,normal)
+DEPENDENCIES: (Disabled,TITLESTATE,Urban_drainage,hidden)
+QUESTION: IberIberSWMMPlugin#CB#(Enabled,Disabled)
+VALUE: Disabled
+DEPENDENCIES: (Enabled,TITLESTATE,Iber_SWMM,normal)
+DEPENDENCIES: (Disabled,TITLESTATE,Iber_SWMM,hidden)
+QUESTION: IberWaterQualityPlugin#CB#(Enabled,Disabled)
+VALUE: Disabled
+DEPENDENCIES: (Enabled,TITLESTATE,Water_Quality,normal)
+DEPENDENCIES: (Disabled,TITLESTATE,Water_Quality,hidden)
+QUESTION: IberNonNewtonianPlugin#CB#(Enabled,Disabled)
+VALUE: Disabled
+DEPENDENCIES: (Enabled,TITLESTATE,Non_Newtonian_Fluid,normal)
+DEPENDENCIES: (Disabled,TITLESTATE,Non_Newtonian_Fluid,hidden)
+QUESTION: IberWoodPlugin#CB#(Enabled,Disabled)
+VALUE: Disabled
+DEPENDENCIES: (Enabled,TITLESTATE,Wood,normal)
+DEPENDENCIES: (Disabled,TITLESTATE,Wood,hidden)
+QUESTION: CulvertsData
+VALUE: 
+STATE: HIDDEN
+QUESTION: DrainageInletsData
+VALUE: 
+STATE: HIDDEN
+QUESTION: SourceSinksData
+VALUE: 
+STATE: HIDDEN
+QUESTION: DischargeData
+VALUE: 
+STATE: HIDDEN
+QUESTION: BreachsData
+VALUE: 
+STATE: HIDDEN
+QUESTION: WoodgagesData
+VALUE: 
+STATE: HIDDEN
+QUESTION: TejadosData
+VALUE: 
+STATE: HIDDEN
+QUESTION: GreenRoofsData
+VALUE: 
+STATE: HIDDEN
+QUESTION: HyetographsData
+VALUE: 
+STATE: HIDDEN
+QUESTION: MixturesLCData
+VALUE: 
+STATE: HIDDEN
+QUESTION: MixturesCData
+VALUE: 
+STATE: HIDDEN
+QUESTION: MixturesData
+VALUE: 
+STATE: HIDDEN
+QUESTION: AtmosphericsData
+VALUE: 
+STATE: HIDDEN
+QUESTION: DamageCurvesData
+VALUE: 
+STATE: HIDDEN
+END PROBLEM DATA
+INTERVAL DATA
+END INTERVAL DATA

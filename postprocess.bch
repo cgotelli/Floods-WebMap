@@ -1,0 +1,21 @@
+MEscape Files Read {G:\Floods-WebMap\cruce_test.gid}
+Mescape Postprocess escape
+*****tcl set ::Reproject 0
+*****tcl set ::Interpolation linear
+*****tcl set ::cell 0.1
+*****tcl set ::Timeresults Allsteps
+*****tcl set ::PostRaster(thisanalysis) Hydraulic
+*****tcl set ::PostRaster(thisstep) =
+*****tcl set ::PostRaster(over) elements
+*****tcl set ::PostRaster(thiszone) 1
+*****tcl set ::PostRaster(thishemis) N
+*****tcl set ::PostRaster(output,number) 1
+*****tcl set "::PostRaster(output,Depth (m))" 1
+*****tcl set ::PostRaster(output,Froude) 0
+*****tcl set ::PostRaster(output,connectivities) 0
+*****tcl set "::PostRaster(output,Water Elevation (m))" 0
+*****tcl set "::PostRaster(output,Specific Discharge (m2/s))" 0
+*****tcl set ::PostRaster(output,coordinates) 0
+*****tcl set "::PostRaster(output,Velocity (m/s))" 1
+*****tcl ::PostRaster::ApplyListEntities nada
+MEscape Quit No

@@ -1,0 +1,53 @@
+1 350 1 1 0 0.45 0.01 0 0 0 0 0 0
+Calculating element connectivities 
+Element connectivity computation finished
+Boundary reading begins
+Boundary conditions in new format 1st time
+end boundary conditions reading
+Boundary processing starts
+Boundary processing finished.
+Computing initialization
+Compute normals and slopes
+Calculating edge connectivities
+Computing inner and boundary edges
+Distance vector between nodes for each inner face
+Distance from log-law nodes to wall
+Edge topology finished.
+Classify inner elements: dry and wet.
+Classify inner elements: wettable and not wettable.
+Classify dry and wet boundaries.
+Wetting inlet boundaries.
+Wetting inlet boundaries.
+Counting total flowrate inlet boundaries.
+Counting total flowrate inlet boundaries.
+Counting total flowrate inlet boundaries.
+Counting total flowrate inlet boundaries.
+Counting total flowrate inlet boundaries.
+Counting total flowrate inlet boundaries.
+Counting total flowrate inlet boundaries.
+Counting total flowrate inlet boundaries.
+Counting total flowrate inlet boundaries.
+Counting total flowrate inlet boundaries.
+Counting total flowrate inlet boundaries.
+Counting total flowrate inlet boundaries.
+Counting total flowrate inlet boundaries.
+Counting total flowrate inlet boundaries.
+Counting total flowrate inlet boundaries.
+For inlets of given flow rate.
+Topology initialization finished.
+Breach initialization started.
+Culverts initialization finished.
+AtmosphericVars initialization finished.
+InternalCond initialization finished.
+GroundWater initialization finished.
+Hydrology initialization finished.
+Discharges initialization finished.
+Waves initialization finished.
+WaterQuality initialization finished.
+SoilErosion initialization finished.
+FloodDamage initialization finished.
+Breach initialization finished.
+Encroachment initialization finished.
+Simulation initialization finished.
+Starting computations over time.
+END

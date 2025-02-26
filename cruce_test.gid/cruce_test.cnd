@@ -1,0 +1,884 @@
+BOOK:Encroachment
+NUMBER: 1 CONDITION: Encroachment
+CONDTYPE: over points
+CONDMESHTYPE: over nodes
+QUESTION: Axis_points
+VALUE: 1
+END CONDITION
+BOOK:1D_Analysis
+NUMBER: 2 CONDITION: 1D_Inlet
+CONDTYPE: over points
+CONDMESHTYPE: over nodes
+QUESTION: 2D_Connection#CB#(1,0)
+VALUE: 0
+DEPENDENCIES: (1,HIDE,Base_Discharge_[m3/s],#CURRENT#,HIDE,Flow_Condition,#CURRENT#,HIDE,Water,#CURRENT#,HIDE,Discharge-Elevation_Hydrograph,#CURRENT#,HIDE,Discharge-Depth_Hydrograph,#CURRENT#,HIDE,Hydrograph,#CURRENT#)
+DEPENDENCIES: (0,HIDE,Base_Discharge_[m3/s],#CURRENT#,RESTORE,Flow_Condition,#CURRENT#,HIDE,Water,#CURRENT#,HIDE,Discharge-Elevation_Hydrograph,#CURRENT#,HIDE,Discharge-Depth_Hydrograph,#CURRENT#,RESTORE,Hydrograph,#CURRENT#)
+QUESTION: Base_Discharge_[m3/s]
+VALUE: 0.0
+STATE: HIDDEN
+QUESTION: Flow_Condition#CB#(SUBCRITICAL/CRITICAL,SUPERCRITICAL)
+VALUE: SUBCRITICAL/CRITICAL
+DEPENDENCIES: (SUBCRITICAL/CRITICAL,RESTORE,Hydrograph,#CURRENT#,HIDE,Base_Discharge_[m3/s],#CURRENT#,HIDE,Water,#CURRENT#,HIDE,Discharge-Elevation_Hydrograph,#CURRENT#,HIDE,Discharge-Depth_Hydrograph,#CURRENT#)
+DEPENDENCIES: (SUPERCRITICAL,RESTORE,Water,#CURRENT#,RESTORE,Discharge-Elevation_Hydrograph,#CURRENT#,HIDE,Base_Discharge_[m3/s],#CURRENT#,HIDE,Discharge-Depth_Hydrograph,#CURRENT#,HIDE,Hydrograph,#CURRENT#)
+QUESTION: Water#CB#(Elevation,Depth)
+VALUE: Elevation
+DEPENDENCIES: (Elevation,HIDE,Discharge-Depth_Hydrograph,#CURRENT#,RESTORE,Discharge-Elevation_Hydrograph,#CURRENT#)
+DEPENDENCIES: (Depth,HIDE,Discharge-Elevation_Hydrograph,#CURRENT#,RESTORE,Discharge-Depth_Hydrograph,#CURRENT#)
+QUESTION: Discharge-Elevation_Hydrograph(Time_[s],Q_[m3/s],Elevation_[m])
+VALUE: #N# 3 0.0 0.0 0.0
+QUESTION: Discharge-Depth_Hydrograph(Time_[s],Q_[m3/s],Depth_[m])
+VALUE: #N# 3 0.0 0.0 0.0
+QUESTION: Hydrograph(Time_[s],Q_[m3/s])
+VALUE: #N# 2 0.0 0.0
+END CONDITION
+NUMBER: 3 CONDITION: 1D_Outlet
+CONDTYPE: over points
+CONDMESHTYPE: over nodes
+QUESTION: 2D_Connection#CB#(1,0)
+VALUE: 0
+DEPENDENCIES: (1,HIDE,Nothing,#CURRENT#,HIDE,Exit,#CURRENT#,HIDE,Type,#CURRENT#,HIDE,Weir_by,#CURRENT#,HIDE,Weir_Coefficient,#CURRENT#,HIDE,Given_level_[m],#CURRENT#,HIDE,Weir_height_[m],#CURRENT#,HIDE,Weir_elevation_[m],#CURRENT#,HIDE,Weir_crest_length_[m],#CURRENT#)
+DEPENDENCIES: (0,HIDE,Nothing,#CURRENT#,RESTORE,Exit,#CURRENT#,HIDE,Type,#CURRENT#,HIDE,Weir_by,#CURRENT#,HIDE,Weir_Coefficient,#CURRENT#,HIDE,Given_level_[m],#CURRENT#,HIDE,Weir_height_[m],#CURRENT#,HIDE,Weir_elevation_[m],#CURRENT#,HIDE,Weir_crest_length_[m],#CURRENT#)
+QUESTION: Nothing#CB#(1,0)
+VALUE: 0
+STATE: HIDDEN
+QUESTION: Exit#CB#(Supercritical/Critical_Flow,Subcritical_Flow)
+VALUE: Supercritical/Critical_Flow
+DEPENDENCIES: (Supercritical/Critical_Flow,HIDE,Type,#CURRENT#,HIDE,Weir_by,#CURRENT#,HIDE,Weir_Coefficient,#CURRENT#,HIDE,Given_level_[m],#CURRENT#,HIDE,Weir_height_[m],#CURRENT#,HIDE,Weir_elevation_[m],#CURRENT#,HIDE,Weir_crest_length_[m],#CURRENT#)
+DEPENDENCIES: (Subcritical_Flow,RESTORE,Type,#CURRENT#,RESTORE,Weir_by,#CURRENT#,RESTORE,Weir_Coefficient,#CURRENT#,HIDE,Given_level_[m],#CURRENT#,RESTORE,Weir_height_[m],#CURRENT#,HIDE,Weir_elevation_[m],#CURRENT#,RESTORE,Weir_crest_length_[m],#CURRENT#)
+QUESTION: Type#CB#(Weir,Given_level)
+VALUE: Weir
+DEPENDENCIES: (Given_level,HIDE,Weir_by,#CURRENT#,HIDE,Weir_Coefficient,#CURRENT#,HIDE,Weir_height_[m],#CURRENT#,HIDE,Weir_elevation_[m],#CURRENT#,HIDE,Weir_crest_length_[m],#CURRENT#,RESTORE,Given_level_[m],#CURRENT#)
+DEPENDENCIES: (Weir,HIDE,Given_level_[m],#CURRENT#,RESTORE,Weir_by,#CURRENT#,RESTORE,Weir_Coefficient,#CURRENT#,RESTORE,Weir_height_[m],#CURRENT#,RESTORE,Weir_crest_length_[m],#CURRENT#,HIDE,Weir_elevation_[m],#CURRENT#)
+QUESTION: Given_level_[m](Time_[s],Elevation_[m])
+VALUE: #N# 2 0.0 0.0
+QUESTION: Weir_Coefficient
+VALUE: 1.6
+QUESTION: Weir_by#CB#(Height,Elevation)
+VALUE: Height
+DEPENDENCIES: (Height,HIDE,Weir_elevation_[m],#CURRENT#,RESTORE,Weir_height_[m],#CURRENT#)
+DEPENDENCIES: (Elevation,RESTORE,Weir_elevation_[m],#CURRENT#,HIDE,Weir_height_[m],#CURRENT#)
+QUESTION: Weir_elevation_[m]
+VALUE: 0.0
+QUESTION: Weir_height_[m]
+VALUE: 0.0
+QUESTION: Weir_crest_length_[m]
+VALUE: 1
+END CONDITION
+BOOK:Initial_Condition_1D
+NUMBER: 4 CONDITION: Pipes_Initial_Condition
+CONDTYPE: over lines
+CONDMESHTYPE: over body elements
+QUESTION: Type_of_condition#CB#(User_defined,Normal_depth)
+VALUE: User_defined
+DEPENDENCIES: (Normal_depth,HIDE,Depth_[m],#CURRENT#,HIDE,norm,1)
+DEPENDENCIES: (User_defined,RESTORE,Depth_[m],#CURRENT#,HIDE,norm,0)
+HELP: Calculate the normal depth or assign it
+QUESTION: norm
+VALUE: 1
+QUESTION: Depth_[m]
+VALUE: 0.0
+HELP: Depth in the reach
+QUESTION: Discharge_[m3/s]
+VALUE: 0.0
+HELP: Discharge in the reach
+END CONDITION
+BOOK:2D_Analysis
+NUMBER: 5 CONDITION: 2D_Inlet
+CONDTYPE: over lines
+CONDMESHTYPE: over face elements multiple
+QUESTION: 1D_connection#CB#(1,0)
+VALUE: 0
+STATE: HIDDEN
+DEPENDENCIES: (1,RESTORE,Point_of_Inlet,#CURRENT#,HIDE,Inlet,#CURRENT#,HIDE,Inlet_Condition,#CURRENT#,HIDE,Total_Discharge_sub,#CURRENT#,HIDE,Total_Discharge_super,#CURRENT#,HIDE,Inlet_Num,#CURRENT#,HIDE,Inlet_Condition_q,#CURRENT#,HIDE,Hydrograph,#CURRENT#,HIDE,Water,#CURRENT#,HIDE,Discharge-Elevation_Hydrograph,#CURRENT#,HIDE,Discharge-Depth_Hydrograph,#CURRENT#,HIDE,Table,#CURRENT#,HIDE,Discharge_value,#CURRENT#)
+DEPENDENCIES: (0,HIDE,Point_of_Inlet,#CURRENT#,RESTORE,Inlet,#CURRENT#,RESTORE,Inlet_Condition,#CURRENT#,RESTORE,Total_Discharge_sub,#CURRENT#,HIDE,Total_Discharge_super,#CURRENT#,RESTORE,Inlet_Num,#CURRENT#,HIDE,Inlet_Condition_q,#CURRENT#,HIDE,Hydrograph,#CURRENT#,HIDE,Water,#CURRENT#,HIDE,Discharge-Elevation_Hydrograph,#CURRENT#,HIDE,Discharge-Depth_Hydrograph,#CURRENT#,HIDE,Table,#CURRENT#,HIDE,Discharge_value,#CURRENT#)
+QUESTION: Point_of_Inlet
+VALUE: 0 0 0
+STATE: HIDDEN
+TKWIDGET: IberUtils::TkwidgetPickPointOrNodeCoord
+HELP: End Point of a Pipe.
+QUESTION: Inlet#CB#(Total_Discharge,Specific_Discharge,Water_Elevation,Stepped_discharge)
+VALUE: Total_Discharge
+DEPENDENCIES: (Total_Discharge,RESTORE,Inlet_Condition,#CURRENT#,RESTORE,Total_Discharge_sub,#CURRENT#,HIDE,Total_Discharge_super,#CURRENT#,RESTORE,Inlet_Num,#CURRENT#,HIDE,Inlet_Condition_q,#CURRENT#,HIDE,Hydrograph,#CURRENT#,HIDE,Water,#CURRENT#,HIDE,Discharge-Elevation_Hydrograph,#CURRENT#,HIDE,Discharge-Depth_Hydrograph,#CURRENT#,HIDE,Table,#CURRENT#,HIDE,Discharge_value,#CURRENT#)
+DEPENDENCIES: (Specific_Discharge,HIDE,Inlet_Condition,#CURRENT#,HIDE,Total_Discharge_sub,#CURRENT#,HIDE,Total_Discharge_super,#CURRENT#,RESTORE,Inlet_Num,#CURRENT#,RESTORE,Inlet_Condition_q,#CURRENT#,RESTORE,Hydrograph,#CURRENT#,HIDE,Water,#CURRENT#,HIDE,Discharge-Elevation_Hydrograph,#CURRENT#,HIDE,Discharge-Depth_Hydrograph,#CURRENT#,HIDE,Table,#CURRENT#,HIDE,Discharge_value,#CURRENT#)
+DEPENDENCIES: (Water_Elevation,HIDE,Inlet_Condition,#CURRENT#,HIDE,Total_Discharge_sub,#CURRENT#,HIDE,Total_Discharge_super,#CURRENT#,RESTORE,Inlet_Num,#CURRENT#,HIDE,Inlet_Condition_q,#CURRENT#,HIDE,Hydrograph,#CURRENT#,HIDE,Water,#CURRENT#,HIDE,Discharge-Elevation_Hydrograph,#CURRENT#,HIDE,Discharge-Depth_Hydrograph,#CURRENT#,RESTORE,Table,#CURRENT#,HIDE,Discharge_value,#CURRENT#)
+DEPENDENCIES: (Stepped_discharge,HIDE,Inlet_Condition,#CURRENT#,HIDE,Total_Discharge_sub,#CURRENT#,HIDE,Total_Discharge_super,#CURRENT#,RESTORE,Inlet_Num,#CURRENT#,HIDE,Inlet_Condition_q,#CURRENT#,HIDE,Hydrograph,#CURRENT#,HIDE,Water,#CURRENT#,HIDE,Discharge-Elevation_Hydrograph,#CURRENT#,HIDE,Discharge-Depth_Hydrograph,#CURRENT#,HIDE,Table,#CURRENT#,RESTORE,Discharge_value,#CURRENT#)
+QUESTION: Inlet_Condition#CB#(Critical/Subcritical,Supercritical)
+VALUE: Critical/Subcritical
+DEPENDENCIES: (Critical/Subcritical,RESTORE,Total_Discharge_sub,#CURRENT#,RESTORE,Inlet_Num,#CURRENT#,HIDE,Total_Discharge_super,#CURRENT#)
+DEPENDENCIES: (Supercritical,HIDE,Total_Discharge_sub,#CURRENT#,RESTORE,Inlet_Num,#CURRENT#,RESTORE,Total_Discharge_super,#CURRENT#)
+QUESTION: Total_Discharge_sub(Time_[s],Q_[m3/s])
+VALUE: #N# 2 0.0 0.0
+QUESTION: Total_Discharge_super(Time_[s],Q_[m3/s],v_[m/s])
+VALUE: #N# 3 0.0 0.0 0.0
+QUESTION: Inlet_Num
+VALUE: 1
+HELP: ...
+QUESTION: Inlet_Condition_q#CB#(_Subcritical,_Supercritical)
+VALUE: _Subcritical
+DEPENDENCIES: (_Subcritical,RESTORE,Hydrograph,#CURRENT#,HIDE,Water,#CURRENT#,HIDE,Discharge-Elevation_Hydrograph,#CURRENT#,HIDE,Discharge-Depth_Hydrograph,#CURRENT#)
+DEPENDENCIES: (_Supercritical,RESTORE,Water,Elevation,RESTORE,Discharge-Elevation_Hydrograph,#CURRENT#,HIDE,Discharge-Depth_Hydrograph,#CURRENT#,HIDE,Hydrograph,#CURRENT#)
+QUESTION: Hydrograph(Time_[s],q_[m2/s])
+VALUE: #N# 2 0.0 0.0
+QUESTION: Water#CB#(Depth,Elevation)
+VALUE: Elevation
+DEPENDENCIES: (Elevation,HIDE,Discharge-Depth_Hydrograph,#CURRENT#,RESTORE,Discharge-Elevation_Hydrograph,#CURRENT#)
+DEPENDENCIES: (Depth,HIDE,Discharge-Elevation_Hydrograph,#CURRENT#,RESTORE,Discharge-Depth_Hydrograph,#CURRENT#)
+QUESTION: Discharge-Elevation_Hydrograph(Time_[s],q_[m2/s],Elevation_[m])
+VALUE: #N# 3 0.0 0.0 0.0
+QUESTION: Discharge-Depth_Hydrograph(Time_[s],q_[m2/s],Depth_[m])
+VALUE: #N# 3 0.0 0.0 0.0
+QUESTION: Table(Time_[s],Elevation_[m])
+VALUE: #N# 2 0.0 0.0
+QUESTION: Discharge_value(Q_[m3/s])
+VALUE: #N# 1 0.0
+END CONDITION
+NUMBER: 6 CONDITION: 2D_Outlet
+CONDTYPE: over lines
+CONDMESHTYPE: over face elements multiple
+QUESTION: 1D_connection#CB#(1,0)
+VALUE: 0
+STATE: HIDDEN
+DEPENDENCIES: (1,RESTORE,Outlet_Point,#CURRENT#,HIDE,Flow_condition,#CURRENT#,HIDE,Type,#CURRENT#,HIDE,Given_level_[m],#CURRENT#,HIDE,Weir_Coefficient,#CURRENT#,HIDE,Crest_Definition,#CURRENT#,HIDE,Weir_elevation_[m],#CURRENT#,HIDE,Weir_height_[m],#CURRENT#,HIDE,Table_number,#CURRENT#,HIDE,Table_number_Q,#CURRENT#,HIDE,Elevation_vs_Spec_Discharge,#CURRENT#,HIDE,Elevation_vs_Discharge,#CURRENT#,HIDE,Outlet_Num,#CURRENT#)
+DEPENDENCIES: (0,HIDE,Outlet_Point,#CURRENT#,RESTORE,Flow_condition,#CURRENT#,HIDE,Type,#CURRENT#,HIDE,Given_level_[m],#CURRENT#,HIDE,Weir_Coefficient,#CURRENT#,HIDE,Crest_Definition,#CURRENT#,HIDE,Weir_elevation_[m],#CURRENT#,HIDE,Weir_height_[m],#CURRENT#,HIDE,Table_number,#CURRENT#,HIDE,Table_number_Q,#CURRENT#,HIDE,Elevation_vs_Spec_Discharge,#CURRENT#,HIDE,Elevation_vs_Discharge,#CURRENT#,RESTORE,Outlet_Num,#CURRENT#)
+QUESTION: Outlet_Point
+VALUE: 0 0 0
+STATE: HIDDEN
+TKWIDGET: IberUtils::TkwidgetPickPointOrNodeCoord
+HELP: End Point of a Pipe.
+QUESTION: Flow_condition#CB#(SUPERCRITICAL/CRITICAL,SUBCRITICAL)
+VALUE: SUPERCRITICAL/CRITICAL
+DEPENDENCIES: (SUPERCRITICAL/CRITICAL,HIDE,Type,#CURRENT#,HIDE,Given_level_[m],#CURRENT#,HIDE,Weir_Coefficient,#CURRENT#,HIDE,Crest_Definition,#CURRENT#,HIDE,Weir_elevation_[m],#CURRENT#,HIDE,Weir_height_[m],#CURRENT#,HIDE,Table_number,#CURRENT#,HIDE,Table_number_Q,#CURRENT#,HIDE,Elevation_vs_Spec_Discharge,#CURRENT#,HIDE,Elevation_vs_Discharge,#CURRENT#,RESTORE,Outlet_Num,#CURRENT#)
+DEPENDENCIES: (SUBCRITICAL,RESTORE,Type,#CURRENT#,HIDE,Given_level_[m],#CURRENT#,RESTORE,Weir_Coefficient,#CURRENT#,RESTORE,Crest_Definition,#CURRENT#,HIDE,Weir_elevation_[m],#CURRENT#,RESTORE,Weir_height_[m],#CURRENT#,HIDE,Table_number,#CURRENT#,HIDE,Table_number_Q,#CURRENT#,HIDE,Elevation_vs_Spec_Discharge,#CURRENT#,HIDE,Elevation_vs_Discharge,#CURRENT#,RESTORE,Outlet_Num,#CURRENT#)
+QUESTION: Type#CB#(Weir,Given_level,Rating_curve,Rating_curve_Q)
+VALUE: Weir
+DEPENDENCIES: (Weir,HIDE,Given_level_[m],#CURRENT#,RESTORE,Weir_Coefficient,#CURRENT#,RESTORE,Crest_Definition,#CURRENT#,HIDE,Weir_elevation_[m],#CURRENT#,RESTORE,Weir_height_[m],#CURRENT#,HIDE,Table_number,#CURRENT#,HIDE,Table_number_Q,#CURRENT#,HIDE,Elevation_vs_Spec_Discharge,#CURRENT#,HIDE,Elevation_vs_Discharge,#CURRENT#,RESTORE,Outlet_Num,#CURRENT#)
+DEPENDENCIES: (Given_level,RESTORE,Given_level_[m],#CURRENT#,HIDE,Weir_Coefficient,#CURRENT#,HIDE,Crest_Definition,#CURRENT#,HIDE,Weir_elevation_[m],#CURRENT#,HIDE,Weir_height_[m],#CURRENT#,HIDE,Table_number,#CURRENT#,HIDE,Table_number_Q,#CURRENT#,HIDE,Elevation_vs_Spec_Discharge,#CURRENT#,HIDE,Elevation_vs_Discharge,#CURRENT#,RESTORE,Outlet_Num,#CURRENT#)
+DEPENDENCIES: (Rating_curve,HIDE,Given_level_[m],#CURRENT#,HIDE,Weir_Coefficient,#CURRENT#,HIDE,Crest_Definition,#CURRENT#,HIDE,Weir_elevation_[m],#CURRENT#,HIDE,Weir_height_[m],#CURRENT#,RESTORE,Table_number,#CURRENT#,HIDE,Table_number_Q,#CURRENT#,RESTORE,Elevation_vs_Spec_Discharge,#CURRENT#,HIDE,Elevation_vs_Discharge,#CURRENT#,RESTORE,Outlet_Num,#CURRENT#)
+DEPENDENCIES: (Rating_curve_Q,HIDE,Given_level_[m],#CURRENT#,HIDE,Weir_Coefficient,#CURRENT#,HIDE,Crest_Definition,#CURRENT#,HIDE,Weir_elevation_[m],#CURRENT#,HIDE,Weir_height_[m],#CURRENT#,HIDE,Table_number,#CURRENT#,RESTORE,Table_number_Q,#CURRENT#,HIDE,Elevation_vs_Spec_Discharge,#CURRENT#,RESTORE,Elevation_vs_Discharge,#CURRENT#,RESTORE,Outlet_Num,#CURRENT#)
+QUESTION: Given_level_[m](Time_[s],Elevation_[m])
+VALUE: #N# 2 0.0 0.0
+QUESTION: Weir_Coefficient
+VALUE: 1.6
+QUESTION: Crest_Definition#CB#(Height,Elevation)
+VALUE: Height
+DEPENDENCIES: (Height,RESTORE,Weir_height_[m],#CURRENT#,RESTORE,Weir_Coefficient,#CURRENT#,HIDE,Weir_elevation_[m],#CURRENT#)
+DEPENDENCIES: (Elevation,HIDE,Weir_height_[m],#CURRENT#,RESTORE,Weir_Coefficient,#CURRENT#,RESTORE,Weir_elevation_[m],#CURRENT#)
+QUESTION: Weir_height_[m]
+VALUE: 0.0
+QUESTION: Weir_elevation_[m]
+VALUE: 0.0
+QUESTION: Table_number
+VALUE: 1
+QUESTION: Elevation_vs_Spec_Discharge(z_[m],_q_[m2/s])
+VALUE: #N# 2 0.0 0.0
+QUESTION: Table_number_Q
+VALUE: 1
+QUESTION: Elevation_vs_Discharge(z_[m],_Q_[m3/s])
+VALUE: #N# 2 0.0 0.0
+QUESTION: Outlet_Num
+VALUE: 1
+HELP: Allows inform the discharge in each outlet, if more than one exist, not only the total outlet discharge.
+END CONDITION
+BOOK:Initial_Condition_2D
+NUMBER: 7 CONDITION: IC_manual_assignation
+CONDTYPE: over surfaces
+CONDMESHTYPE: over body elements
+QUESTION: Condition_by#CB#(Depth,Elevation)
+VALUE: Depth
+QUESTION: Value_[m]
+VALUE: 0.0
+QUESTION: Vx_[m/s]
+VALUE: 0.0
+QUESTION: Vy_[m/s]
+VALUE: 0.0
+END CONDITION
+NUMBER: 8 CONDITION: IC_automatic_assignation
+CONDTYPE: over surfaces
+CONDMESHTYPE: over body elements
+QUESTION: Water_by#CB#(.)
+VALUE: 
+QUESTION: IC_files
+VALUE: 
+TKWIDGET: InitialCND::TkwidgetGetFilenameButton
+END CONDITION
+BOOK:Internal_Condition
+NUMBER: 9 CONDITION: 2D_Internal_Condition
+CONDTYPE: over lines
+CONDMESHTYPE: over face elements multiple
+QUESTION: Condition_type#CB#(Gate,Weir,Weir-Gate,Local_loss,Stream_gauge)
+VALUE: Gate
+DEPENDENCIES: (Gate,RESTORE,Ref_Points_Definition,#CURRENT#,RESTORE,Bottom_elevation_[m],#CURRENT#,RESTORE,Gate_elevation_[m],#CURRENT#,RESTORE,Gate_opening_width_[%],#CURRENT#,RESTORE,Free_Gate_Cd,#CURRENT#,RESTORE,Submerged_Gate_Cd,#CURRENT#,HIDE,Weir_elevation_[m],#CURRENT#,HIDE,Weir_opening_length_[%],#CURRENT#,HIDE,Weir_Cd,#CURRENT#,HIDE,Lambda,#CURRENT#,RESTORE,Gauge_Number,#CURRENT#,RESTORE,Gate_Type,Fix,HIDE,Gate_Opening,#CURRENT#)
+DEPENDENCIES: (Weir,RESTORE,Ref_Points_Definition,#CURRENT#,HIDE,Bottom_elevation_[m],#CURRENT#,HIDE,Gate_elevation_[m],#CURRENT#,HIDE,Gate_opening_width_[%],#CURRENT#,HIDE,Free_Gate_Cd,#CURRENT#,HIDE,Submerged_Gate_Cd,#CURRENT#,RESTORE,Weir_elevation_[m],#CURRENT#,RESTORE,Weir_opening_length_[%],#CURRENT#,RESTORE,Weir_Cd,1.7,HIDE,Lambda,#CURRENT#,RESTORE,Gauge_Number,#CURRENT#,HIDE,Gate_Type,Fix,HIDE,Gate_Opening,#CURRENT#)
+DEPENDENCIES: (Weir-Gate,RESTORE,Ref_Points_Definition,#CURRENT#,RESTORE,Bottom_elevation_[m],#CURRENT#,RESTORE,Gate_elevation_[m],#CURRENT#,RESTORE,Gate_opening_width_[%],#CURRENT#,RESTORE,Free_Gate_Cd,#CURRENT#,RESTORE,Submerged_Gate_Cd,#CURRENT#,RESTORE,Weir_elevation_[m],#CURRENT#,RESTORE,Weir_opening_length_[%],#CURRENT#,RESTORE,Weir_Cd,1.7,HIDE,Lambda,#CURRENT#,RESTORE,Gauge_Number,#CURRENT#,RESTORE,Gate_Type,Fix,HIDE,Gate_Opening,#CURRENT#)
+DEPENDENCIES: (Local_loss,HIDE,Ref_Points_Definition,#CURRENT#,HIDE,Ref_Point_1,#CURRENT#,HIDE,Ref_Point_2,#CURRENT#,HIDE,Bottom_elevation_[m],#CURRENT#,HIDE,Gate_elevation_[m],#CURRENT#,HIDE,Gate_opening_width_[%],#CURRENT#,HIDE,Free_Gate_Cd,#CURRENT#,HIDE,Submerged_Gate_Cd,#CURRENT#,HIDE,Weir_elevation_[m],#CURRENT#,HIDE,Weir_opening_length_[%],#CURRENT#,HIDE,Weir_Cd,#CURRENT#,RESTORE,Lambda,#CURRENT#,RESTORE,Gauge_Number,#CURRENT#,HIDE,Gate_Type,Fix,HIDE,Gate_Opening,#CURRENT#)
+DEPENDENCIES: (Stream_gauge,HIDE,Ref_Points_Definition,#CURRENT#,HIDE,Ref_Point_1,#CURRENT#,HIDE,Ref_Point_2,#CURRENT#,HIDE,Bottom_elevation_[m],#CURRENT#,HIDE,Gate_elevation_[m],#CURRENT#,HIDE,Gate_opening_width_[%],#CURRENT#,HIDE,Free_Gate_Cd,#CURRENT#,HIDE,Submerged_Gate_Cd,#CURRENT#,HIDE,Weir_elevation_[m],#CURRENT#,HIDE,Weir_opening_length_[%],#CURRENT#,HIDE,Weir_Cd,#CURRENT#,HIDE,Lambda,#CURRENT#,RESTORE,Gauge_Number,#CURRENT#,HIDE,Gate_Type,Fix,HIDE,Gate_Opening,#CURRENT#)
+QUESTION: Ref_Points_Definition#CB#(Standard,User_defined)
+VALUE: Standard
+DEPENDENCIES: (Standard,HIDE,Ref_Point_1,#CURRENT#,HIDE,Ref_Point_2,#CURRENT#)
+DEPENDENCIES: (User_defined,RESTORE,Ref_Point_1,#CURRENT#,RESTORE,Ref_Point_2,#CURRENT#)
+QUESTION: Ref_Point_1
+VALUE: 0 0 0
+TKWIDGET: IberUtils::TkwidgetPickPointOrNodeCoordCond
+QUESTION: Ref_Point_2
+VALUE: 0 0 0
+TKWIDGET: IberUtils::TkwidgetPickPointOrNodeCoordCond
+QUESTION: Weir_elevation_[m]
+VALUE: 0.0
+QUESTION: Gate_elevation_[m]
+VALUE: 0.0
+QUESTION: Bottom_elevation_[m]
+VALUE: 0.0
+QUESTION: Weir_opening_length_[%]
+VALUE: 100
+QUESTION: Gate_opening_width_[%]
+VALUE: 100
+QUESTION: Gate_Type#CB#(Fix,Mobile)
+VALUE: Fix
+DEPENDENCIES: (Fix,HIDE,Gate_Opening,#CURRENT#,HIDE,Num_gate_table,0)
+DEPENDENCIES: (Mobile,RESTORE,Gate_Opening,#CURRENT#,RESTORE,Num_gate_table,#CURRENT#)
+QUESTION: Gate_Opening(Time_[s],[%])
+VALUE: #N# 2 0.0 100
+QUESTION: Num_gate_table
+VALUE: 1
+QUESTION: Lambda
+VALUE: 0.0
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Weir_Cd
+VALUE: 1.7
+QUESTION: Free_Gate_Cd
+VALUE: 0.6
+QUESTION: Submerged_Gate_Cd
+VALUE: 0.8
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Gauge_Number
+VALUE: 1
+END CONDITION
+BOOK:Bridge
+NUMBER: 10 CONDITION: Line_Bridge
+CONDTYPE: over lines
+CONDMESHTYPE: over face elements multiple
+QUESTION: Ref_Points_Definition#CB#(Standard,User_defined)
+VALUE: Standard
+DEPENDENCIES: (Standard,HIDE,Ref_Point_1,#CURRENT#,HIDE,Ref_Point_2,#CURRENT#,RESTORE,Lower_Deck_Elevation,#CURRENT#,RESTORE,Bridge_Opening_Percent,#CURRENT#,RESTORE,Free_Pressured_Flow_Cd,#CURRENT#,RESTORE,Submerged_Pressured_Flow_Cd,#CURRENT#,RESTORE,Deck_Elevation,#CURRENT#,HIDE,Deck_Length_Percent,#CURRENT#,RESTORE,Deck_Cd,#CURRENT#,RESTORE,Gauge_Number,#CURRENT#)
+DEPENDENCIES: (User_defined,RESTORE,Ref_Point_1,#CURRENT#,RESTORE,Ref_Point_2,#CURRENT#,RESTORE,Lower_Deck_Elevation,#CURRENT#,RESTORE,Bridge_Opening_Percent,#CURRENT#,RESTORE,Free_Pressured_Flow_Cd,#CURRENT#,RESTORE,Submerged_Pressured_Flow_Cd,#CURRENT#,RESTORE,Deck_Elevation,#CURRENT#,HIDE,Deck_Length_Percent,#CURRENT#,RESTORE,Deck_Cd,#CURRENT#,RESTORE,Gauge_Number,#CURRENT#)
+QUESTION: Ref_Point_1
+VALUE: 0 0 0
+TKWIDGET: IberUtils::TkwidgetPickPointOrNodeCoordCond
+QUESTION: Ref_Point_2
+VALUE: 0 0 0
+TKWIDGET: IberUtils::TkwidgetPickPointOrNodeCoordCond
+QUESTION: Deck_Elevation
+VALUE: 0.0
+QUESTION: Lower_Deck_Elevation
+VALUE: 0.0
+QUESTION: Bridge_Opening_Percent
+VALUE: 100
+QUESTION: Deck_Length_Percent
+VALUE: 100
+QUESTION: Deck_Cd
+VALUE: 1.7
+QUESTION: Free_Pressured_Flow_Cd
+VALUE: 0.6
+QUESTION: Submerged_Pressured_Flow_Cd
+VALUE: 0.8
+QUESTION: Gauge_Number
+VALUE: 1
+END CONDITION
+BOOK:Lid
+NUMBER: 11 CONDITION: Lid
+CONDTYPE: over surfaces
+CONDMESHTYPE: over body elements
+QUESTION: Lid_by#CB#(Height,Elevation)
+VALUE: Height
+DEPENDENCIES: (Height,RESTORE,Lid_height,#CURRENT#,HIDE,Lid_elevation,#CURRENT#)
+DEPENDENCIES: (Elevation,HIDE,Lid_height,#CURRENT#,RESTORE,Lid_elevation,#CURRENT#)
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Lid_height_[m]
+VALUE: 0.0
+IMAGE: icos/CND_lid_hei.png
+QUESTION: Lid_elevation_[m]
+VALUE: 0.0
+IMAGE: icos/CND_lid_ele.png
+QUESTION: Inlet_Losses
+VALUE: 0.0
+QUESTION: Outlet_Losses
+VALUE: 0.0
+END CONDITION
+BOOK:K-epsilon_model
+NUMBER: 12 CONDITION: K-epsilon_inlet
+CONDTYPE: over lines
+CONDMESHTYPE: over face elements multiple
+TITLE: Model
+QUESTION: Type#CB#(Uniform_flow,Imposed)
+VALUE: Uniform_flow
+DEPENDENCIES: (Uniform_flow,HIDE,Kinetic_energy_and_dissipation,#N# 3 0.0 -1 -1)
+DEPENDENCIES: (Imposed,RESTORE,Kinetic_energy_and_dissipation,#N# 3 0.0 0.0 0.0)
+QUESTION: Kinetic_energy_and_dissipation(Time_[s],k_[m2/s2],Epsilon_[m2/s3])
+VALUE: #N# 3 0.0 0.0 0.0
+END CONDITION
+NUMBER: 13 CONDITION: Turbulence_initial_cond
+CONDTYPE: over surfaces
+CONDMESHTYPE: over body elements
+QUESTION: k_[m2/s2]
+VALUE: 0
+QUESTION: Epsilon_[m2/s3]
+VALUE: 0
+END CONDITION
+BOOK:Wind
+NUMBER: 14 CONDITION: Wind
+CONDTYPE: over surfaces
+CONDMESHTYPE: over body elements
+QUESTION: Sensor_height_[m]
+VALUE: 10
+QUESTION: Height_exponent
+VALUE: 0.4
+QUESTION: Wind_speed(Time_[s],Vx_[m/s],Vy_[m/s])
+VALUE: #N# 3 0.0 0.0 0.0
+END CONDITION
+BOOK:Atmospherics
+NUMBER: 15 CONDITION: Atmospheric_table
+CONDTYPE: over surfaces
+CONDMESHTYPE: over body elements
+QUESTION: Atmospheric_Name
+VALUE: 
+TKWIDGET: IberUtils::TkwidgetGetAtmosphericname
+END CONDITION
+BOOK:Roofs_IberSWMM
+NUMBER: 16 CONDITION: Roofs_properties
+CONDTYPE: over surfaces
+CONDMESHTYPE: over body elements
+QUESTION: Roof_ID
+VALUE: 
+QUESTION: Slope
+VALUE: 0.2
+QUESTION: Width
+VALUE: 1
+QUESTION: Manning
+VALUE: 0.02
+QUESTION: UD_network_connection#CB#(100%_connected,Partially_connected,Disconnected)
+VALUE: Connected
+DEPENDENCIES: (100%_connected,RESTORE,Manhole,#CURRENT#,HIDE,Volume_to_manhole_[%],#CURRENT#,HIDE,Volume_to_street_[%],#CURRENT#,HIDE,Volume_infiltrated_[%],#CURRENT#)
+DEPENDENCIES: (Partially_connected,RESTORE,Manhole,#CURRENT#,RESTORE,Volume_to_manhole_[%],#CURRENT#,RESTORE,Volume_to_street_[%],#CURRENT#,RESTORE,Volume_infiltrated_[%],#CURRENT#)
+DEPENDENCIES: (Disconnected,HIDE,Manhole,#CURRENT#,HIDE,Volume_to_manhole_[%],#CURRENT#,RESTORE,Volume_to_street_[%],#CURRENT#,RESTORE,Volume_infiltrated_[%],#CURRENT#)
+QUESTION: Manhole
+VALUE: -9999
+QUESTION: Volume_to_manhole_[%]
+VALUE: 0
+QUESTION: Volume_to_street_[%]
+VALUE: 0
+QUESTION: Volume_infiltrated_[%]
+VALUE: 0
+QUESTION: Id_surface#FUNC#(NumEntity)
+VALUE: 0
+STATE: HIDDEN
+END CONDITION
+BOOK:GreenRoof_assignation
+NUMBER: 17 CONDITION: Assign_green_roof
+CONDTYPE: over surfaces
+CONDMESHTYPE: over body elements
+QUESTION: Green_roof_Name
+VALUE: 
+TKWIDGET: IberUtils::TkwidgetGetGreenRoofname
+QUESTION: Id_surface#FUNC#(NumEntity)
+VALUE: 0
+STATE: HIDDEN
+QUESTION: Condition#CB#(Connected,Disconnected)
+VALUE: Connected
+DEPENDENCIES: (Connected,RESTORE,Manhole,#CURRENT#)
+DEPENDENCIES: (Disconnected,HIDE,Manhole,#CURRENT#)
+QUESTION: Manhole
+VALUE: -999
+END CONDITION
+BOOK:Flood_damage
+NUMBER: 18 CONDITION: Max_Damage
+CONDTYPE: over surfaces
+CONDMESHTYPE: over body elements
+QUESTION: Max_Damage_[Euro/m2]
+VALUE: 0.0
+HELP: Curve number, depending on the type of soil, land uses and terrain slopes.
+END CONDITION
+BOOK:Damage_curves_assignation
+NUMBER: 19 CONDITION: Damage_curves
+CONDTYPE: over surfaces
+CONDMESHTYPE: over body elements
+QUESTION: Damage_Curve
+VALUE: 
+TKWIDGET: IberUtils::TkwidgetGetDamageCurvename
+END CONDITION
+BOOK:Rainfall
+NUMBER: 20 CONDITION: Rain
+CONDTYPE: over surfaces
+CONDMESHTYPE: over body elements
+QUESTION: Hyetograph_Name
+VALUE: 
+TKWIDGET: IberUtils::TkwidgetGetHyetographname
+END CONDITION
+BOOK:Infiltration_manual_assignation
+NUMBER: 21 CONDITION: Horton
+CONDTYPE: over surfaces
+CONDMESHTYPE: over body elements
+QUESTION: f0_[mm/h]
+VALUE: 0.0
+HELP: Maximum initial infiltration losses index.
+QUESTION: fc_[mm/h]
+VALUE: 0.0
+HELP: Minimum infiltration losses index, applied once the soil is fully saturated.
+QUESTION: K
+VALUE: 2.9957
+HELP: Decay coefficient that defines the temporal variation of the infiltration rate.
+END CONDITION
+NUMBER: 22 CONDITION: SCS
+CONDTYPE: over surfaces
+CONDMESHTYPE: over body elements
+QUESTION: CN
+VALUE: 0.0
+HELP: Curve number, depending on the type of soil, land uses and terrain slopes.
+END CONDITION
+NUMBER: 23 CONDITION: Lineal_model
+CONDTYPE: over surfaces
+CONDMESHTYPE: over body elements
+QUESTION: Ia_[mm]
+VALUE: 0.0
+HELP: Initial losses, they can be satisfied with the initial rain or with the water draft on the ground surface.
+QUESTION: Fi_[mm/h]
+VALUE: 0.0
+HELP: Potential infiltration, assumed constant over time.
+END CONDITION
+NUMBER: 24 CONDITION: Green&Ampt
+CONDTYPE: over surfaces
+CONDMESHTYPE: over body elements
+QUESTION: Suction_[mm]
+VALUE: 0.0
+HELP: Suction in unsaturated soil layer.
+QUESTION: Total_porosity
+VALUE: 0.0
+HELP: Total soil porosity.
+QUESTION: Initial_saturation
+VALUE: 0.0
+HELP: Initial humidity of soil layer (0-1).
+QUESTION: Ks_[mm/h]
+VALUE: 0.0
+HELP: Saturated soil permeability in the vertical direction.
+QUESTION: Initial_loss_[mm]
+VALUE: 0.0
+HELP: Initial infiltration losses, can be satisfied by initial precipitation or by surface runoff from the ground before precipitation begins.
+QUESTION: Soil_depth_[m]
+VALUE: 0.0
+HELP: Depth of the soil layer.
+END CONDITION
+NUMBER: 25 CONDITION: Infiltration_Zones
+CONDTYPE: over surfaces
+CONDMESHTYPE: over body elements
+QUESTION: infzone_id
+VALUE: 
+STATE: HIDDEN
+END CONDITION
+NUMBER: 26 CONDITION: Depth_dependent
+CONDTYPE: over surfaces
+CONDMESHTYPE: over body elements
+QUESTION: Infiltration_model#CB#(Linear,Quadratic,Logarithmic,Potential,h-I_table)
+VALUE: Linear
+HELP: Depth (h) in [m] and Infiltration (I) in [mm/h]. Linear: I = A*h + B; Quadratic: I = A*h^2 + B*h + C; Logarithmic: I = A*log(h) + B; Potential: I = A*h^(B)
+DEPENDENCIES: (Linear,RESTORE,A,#CURRENT#,RESTORE,B,#CURRENT#,HIDE,C,#CURRENT#,HIDE,h-I_table_ID,#CURRENT#,HIDE,Infiltration_rate,#CURRENT#)
+DEPENDENCIES: (Quadratic,RESTORE,A,#CURRENT#,RESTORE,B,#CURRENT#,RESTORE,C,#CURRENT#,HIDE,h-I_table_ID,#CURRENT#,HIDE,Infiltration_rate,#CURRENT#)
+DEPENDENCIES: (Logarithmic,RESTORE,A,#CURRENT#,RESTORE,B,#CURRENT#,HIDE,C,#CURRENT#,HIDE,h-I_table_ID,#CURRENT#,HIDE,Infiltration_rate,#CURRENT#)
+DEPENDENCIES: (Potential,RESTORE,A,#CURRENT#,RESTORE,B,#CURRENT#,HIDE,C,#CURRENT#,HIDE,h-I_table_ID,#CURRENT#,HIDE,Infiltration_rate,#CURRENT#)
+DEPENDENCIES: (h-I_table,HIDE,A,#CURRENT#,HIDE,B,#CURRENT#,HIDE,C,#CURRENT#,RESTORE,h-I_table_ID,#CURRENT#,RESTORE,Infiltration_rate,#CURRENT#)
+QUESTION: A
+VALUE: 1
+QUESTION: B
+VALUE: 1
+QUESTION: C
+VALUE: 1
+QUESTION: h-I_table_ID
+VALUE: 1
+QUESTION: Infiltration_rate(h_[m],I_[mm/h])
+VALUE: #N# 2 0.0 0.0
+END CONDITION
+BOOK:Distributed_model_boundary_conditions
+NUMBER: 27 CONDITION: Distributed_model_boundary_conditions
+CONDTYPE: over lines
+CONDMESHTYPE: over face elements multiple
+QUESTION: Hyetograph_head_[m]
+VALUE: 0
+HELP: Hydrailic load or piezometric height in the subsoil.
+QUESTION: Unit_discharge_[m2/s]
+VALUE: 0
+HELP: Unit discharge in the main channels.
+END CONDITION
+BOOK:Distributed_model_parameters
+NUMBER: 28 CONDITION: Distributed_model_parameters
+CONDTYPE: over surfaces
+CONDMESHTYPE: over body elements
+QUESTION: Khs_definition#CB#(Value,Multiplier_of_Kga)
+VALUE: Value
+DEPENDENCIES: (Value,HIDE,Multiplier_Kga_[-],#CURRENT#,RESTORE,Khs_[mm/h],#CURRENT#)
+DEPENDENCIES: (Multiplier_of_Kga,HIDE,Khs_[mm/h],#CURRENT#,RESTORE,Multiplier_Kga_[-],#CURRENT#)
+QUESTION: Khs_[mm/h]
+VALUE: 0
+HELP: Value of the horizontal saturated permeability of the soil.
+QUESTION: Multiplier_Kga_[-]
+VALUE: 0
+HELP: The horizontal saturated permeability of the soil is computed as the product of the multiplier times the Green-Ampt permeability.
+END CONDITION
+BOOK:Reservoir_assignation
+NUMBER: 29 CONDITION: Assign_exfiltration_area
+CONDTYPE: over surfaces
+CONDMESHTYPE: over body elements
+QUESTION: Reservoir_name
+VALUE: 
+TKWIDGET: IberUtils::TkwidgetGetCatchmentname
+END CONDITION
+NUMBER: 30 CONDITION: Assign_infiltration_area
+CONDTYPE: over surfaces
+CONDMESHTYPE: over body elements
+QUESTION: Reservoir_name
+VALUE: 
+TKWIDGET: IberUtils::TkwidgetGetCatchmentname
+END CONDITION
+BOOK:Crop_assignation
+NUMBER: 31 CONDITION: Crop
+CONDTYPE: over surfaces
+CONDMESHTYPE: over body elements
+QUESTION: Crop_name
+VALUE: 
+TKWIDGET: IberUtils::TkwidgetGetCropname
+END CONDITION
+BOOK:Rock_Position
+NUMBER: 32 CONDITION: Rock_Position
+CONDTYPE: over surfaces
+CONDMESHTYPE: over body elements
+QUESTION: Position_by#CB#(Depth,Elevation)
+VALUE: Depth
+QUESTION: Rock
+VALUE: 0.0
+END CONDITION
+BOOK:Sediments
+NUMBER: 33 CONDITION: Sediments_Inlet
+CONDTYPE: over lines
+CONDMESHTYPE: over face elements multiple
+QUESTION: Solid_Discharge#CB#(None__-Clear_Water-,BedLoad_Capacity,Time_dependent,ql/qs_Relation)
+VALUE: None__-Clear_Water-
+DEPENDENCIES: (None__-Clear_Water-,HIDE,Sedimentgraph,#CURRENT#,HIDE,Number,#CURRENT#,HIDE,Table,#CURRENT#)
+DEPENDENCIES: (BedLoad_Capacity,HIDE,Sedimentgraph,#CURRENT#,HIDE,Number,#CURRENT#,HIDE,Table,#CURRENT#)
+DEPENDENCIES: (Time_dependent,RESTORE,Sedimentgraph,#CURRENT#,HIDE,Number,#CURRENT#,HIDE,Table,#CURRENT#)
+DEPENDENCIES: (ql/qs_Relation,RESTORE,Number,#CURRENT#,RESTORE,Table,#CURRENT#,HIDE,Sedimentgraph,#CURRENT#)
+QUESTION: Sedimentgraph(Time_[s],qs_[m2/s])
+VALUE: #N# 2 0.0 0.0
+QUESTION: Number
+VALUE: 1
+QUESTION: Table(ql_[m2/s],qs_[m2/s])
+VALUE: #N# 2 0.0 0.0
+END CONDITION
+BOOK:Sediment_mixtures
+NUMBER: 34 CONDITION: Sediments_mixt_Inlet
+CONDTYPE: over lines
+CONDMESHTYPE: over face elements multiple
+QUESTION: Solid_Discharge#CB#(None__-Clear_Water-,BedLoad_Capacity,Total_Mixt_Discharge)
+VALUE: None__-Clear_Water-
+END CONDITION
+BOOK:Mixtures_assignation
+NUMBER: 35 CONDITION: Layers
+CONDTYPE: over surfaces
+CONDMESHTYPE: over body elements
+QUESTION: Soil_Structure
+VALUE: 
+TKWIDGET: IberUtils::TkwidgetGetMixturename
+END CONDITION
+BOOK:Suspended_Inlet
+NUMBER: 36 CONDITION: Suspended_Inlet
+CONDTYPE: over lines
+CONDMESHTYPE: over face elements multiple
+QUESTION: Concentration(Time_[s],C_[g/l])
+VALUE: #N# 2 0.0 0.0
+END CONDITION
+BOOK:Suspended_Source
+NUMBER: 37 CONDITION: Suspended_Source
+CONDTYPE: over surfaces
+CONDMESHTYPE: over body elements
+QUESTION: Discharge_and_Concentration(Time_[s],Q_[m3/s],C_[g/l])
+VALUE: #N# 3 0.0 0.0 0.0
+END CONDITION
+BOOK:Suspended_Initial_Condition
+NUMBER: 38 CONDITION: Suspended_Initial_Condition
+CONDTYPE: over surfaces
+CONDMESHTYPE: over body elements
+QUESTION: Sediment_Concentration_[g/l]
+VALUE: 0
+END CONDITION
+BOOK:SoilErosion_Boundary_Condition
+NUMBER: 39 CONDITION: Suspended_load_boundary_condition
+CONDTYPE: over lines
+CONDMESHTYPE: over face elements multiple
+QUESTION: SS_inlet(Time_[s],SS_[kg/m3])
+VALUE: #N# 2 0.0 0.0
+QUESTION: SS_per_soil_class(Soil_ID,Soil_Fraction)
+VALUE: #N# 2 0.0 0.0
+END CONDITION
+NUMBER: 40 CONDITION: Bed_load_boundary_condition
+CONDTYPE: over lines
+CONDMESHTYPE: over face elements multiple
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Solid_discharge_inlet(Time_[s],qs_[m2/s])
+VALUE: #N# 2 0.0 0.0
+QUESTION: _#CB#(_)
+VALUE: 
+QUESTION: Qs_per_soil_class(Soil_ID,Soil_Fraction)
+VALUE: #N# 2 0.0 0.0
+END CONDITION
+BOOK:Erosion_Zone
+NUMBER: 41 CONDITION: Zone_definition
+CONDTYPE: over surfaces
+CONDMESHTYPE: over body elements
+QUESTION: Zone_Name
+VALUE: 
+TKWIDGET: IberUtils::TkwidgetGetZonename
+QUESTION: zone_id
+VALUE: 
+STATE: HIDDEN
+END CONDITION
+BOOK:Drainage_network
+NUMBER: 42 CONDITION: Junctions
+CONDTYPE: over points
+CONDMESHTYPE: over nodes
+QUESTION: Top_elevation_[m]
+VALUE: 9999.000
+HELP: Only when there is not a grate type manhole.
+QUESTION: Bottom_elevation_[m]
+VALUE: 0.000
+QUESTION: Depth_[m]
+VALUE: 0.000
+QUESTION: Diameter_[m]
+VALUE: 1.000
+QUESTION: Junction_flow_continuity#CB#(1,0)
+VALUE: 1
+QUESTION: In/Out_flow#CB#(1,0)
+VALUE: 0
+DEPENDENCIES: (0,HIDE,Hydrograph,#CURRENT#)
+DEPENDENCIES: (1,RESTORE,Hydrograph,#CURRENT#)
+QUESTION: Hydrograph(Time_[s],Q_[m3/s])
+VALUE: #N# 2 0.0 0.0
+END CONDITION
+NUMBER: 43 CONDITION: Pipes
+CONDTYPE: over lines
+CONDMESHTYPE: over body elements
+QUESTION: Pipe_ID
+VALUE: 1
+QUESTION: Shape#CB#(Rectangular,Circular)
+VALUE: Circular
+DEPENDENCIES: (Rectangular,HIDE,Diameter_[m],#CURRENT#,RESTORE,Width_[m],#CURRENT#,RESTORE,Height_[m],#CURRENT#)
+DEPENDENCIES: (Circular,RESTORE,Diameter_[m],#CURRENT#,HIDE,Width_[m],#CURRENT#,HIDE,Height_[m],#CURRENT#)
+QUESTION: Diameter_[m]
+VALUE: 1.000
+QUESTION: Width_[m]
+VALUE: 1.000
+QUESTION: Height_[m]
+VALUE: 1.000
+QUESTION: Manning
+VALUE: 0.012
+QUESTION: Presurized_flow_celerity_[m/s]
+VALUE: 10.0
+HELP: Only if this value is diferent to urban drainage problem data value
+END CONDITION
+NUMBER: 44 CONDITION: Subsurface_Areas
+CONDTYPE: over surfaces
+CONDMESHTYPE: over body elements
+QUESTION: Assign_for_surfaces_belonging_to_the_subsurface_urban_drainage_system#CB#(.)
+VALUE: 
+HELP: Assign for surfaces belonging to the subsurface urban drainage system
+END CONDITION
+BOOK:Water_Quality_Boundary_Condition
+NUMBER: 45 CONDITION: Salinity_Bound_Cond
+CONDTYPE: over lines
+CONDMESHTYPE: over face elements multiple
+QUESTION: Salinity_inlet(Time[s],Value[kg/m3])
+VALUE: #N# 2 0.0 0.0
+END CONDITION
+NUMBER: 46 CONDITION: Temperature_Bound_Cond
+CONDTYPE: over lines
+CONDMESHTYPE: over face elements multiple
+QUESTION: Temperature_inlet(Time[s],Value[Celsius])
+VALUE: #N# 2 0.0 20.0
+END CONDITION
+NUMBER: 47 CONDITION: Coliforms_Bound_Cond
+CONDTYPE: over lines
+CONDMESHTYPE: over face elements multiple
+QUESTION: Coliforms_inlet(Time[s],Value[cfu/100ml])
+VALUE: #N# 2 0.0 0.0
+END CONDITION
+NUMBER: 48 CONDITION: Dissolved_Oxygen_Bound_Cond
+CONDTYPE: over lines
+CONDMESHTYPE: over face elements multiple
+QUESTION: Dissolved_Oxygen_inlet(Time[s],Value[mg/l])
+VALUE: #N# 2 0.0 0.0
+END CONDITION
+NUMBER: 49 CONDITION: CBOD_Bound_Cond
+CONDTYPE: over lines
+CONDMESHTYPE: over face elements multiple
+QUESTION: CBOD_inlet(Time[s],Value[mg/l])
+VALUE: #N# 2 0.0 0.0
+END CONDITION
+NUMBER: 50 CONDITION: Nitrogen_Bound_Cond
+CONDTYPE: over lines
+CONDMESHTYPE: over face elements multiple
+QUESTION: Nitrogen_inlet(Time[s],Norg_[mg/l],N-NH3_[mg/l],N-NO3_[mg/l])
+VALUE: #N# 4 0.0 0.0 0.0 0.0
+END CONDITION
+NUMBER: 51 CONDITION: Phosphorus_Bound_Cond
+CONDTYPE: over lines
+CONDMESHTYPE: over face elements multiple
+QUESTION: Phosphorus_inlet(Time[s],P-org_[mg/l],P-inorg_[mg/l])
+VALUE: #N# 3 0.0 0.0 0.0
+END CONDITION
+NUMBER: 52 CONDITION: Phytoplankton_Bound_Cond
+CONDTYPE: over lines
+CONDMESHTYPE: over face elements multiple
+QUESTION: Phytoplankton_inlet(Time[s],Chl-A_[mg/l])
+VALUE: #N# 2 0.0 0.0
+END CONDITION
+NUMBER: 53 CONDITION: pH_Bound_Cond
+CONDTYPE: over lines
+CONDMESHTYPE: over face elements multiple
+QUESTION: pH_inlet(Time[s],C-inorg_[mg/l],Alkalinity_CaCO3_[mg/l])
+VALUE: #N# 3 0.0 0.0 0.0
+END CONDITION
+NUMBER: 54 CONDITION: Metals_Bound_Cond
+CONDTYPE: over lines
+CONDMESHTYPE: over face elements multiple
+QUESTION: Metals_inlet(Time[s],HM_[mg/l])
+VALUE: #N# 2 0.0 0.0
+END CONDITION
+BOOK:Water_Quality_Initial_Condition
+NUMBER: 55 CONDITION: Salinity_Initial_Cond
+CONDTYPE: over surfaces
+CONDMESHTYPE: over body elements
+QUESTION: Salinity_[kg/m3]
+VALUE: 0
+END CONDITION
+NUMBER: 56 CONDITION: Temperature_Initial_Cond
+CONDTYPE: over surfaces
+CONDMESHTYPE: over body elements
+QUESTION: Temperature_[Celsius]
+VALUE: 20
+END CONDITION
+NUMBER: 57 CONDITION: Coliforms_Initial_Cond
+CONDTYPE: over surfaces
+CONDMESHTYPE: over body elements
+QUESTION: Coliforms_[cfu/100ml]
+VALUE: 0
+END CONDITION
+NUMBER: 58 CONDITION: Dissolved_Oxygen_Initial_Cond
+CONDTYPE: over surfaces
+CONDMESHTYPE: over body elements
+QUESTION: Dissolved_Oxygen_[mg/l]
+VALUE: 8
+END CONDITION
+NUMBER: 59 CONDITION: CBOD_Initial_Cond
+CONDTYPE: over surfaces
+CONDMESHTYPE: over body elements
+QUESTION: CBOD_[mg/l]
+VALUE: 0
+END CONDITION
+NUMBER: 60 CONDITION: Nitrogen_Initial_Cond
+CONDTYPE: over surfaces
+CONDMESHTYPE: over body elements
+QUESTION: Norg_[mg/l]
+VALUE: 0
+QUESTION: N-NH3_[mg/l]
+VALUE: 0
+QUESTION: N-NO3_[mg/l]
+VALUE: 0
+END CONDITION
+NUMBER: 61 CONDITION: Phosphorus_Initial_Cond
+CONDTYPE: over surfaces
+CONDMESHTYPE: over body elements
+QUESTION: P-org_[mg/l]
+VALUE: 0
+QUESTION: P-inorg_[mg/l]
+VALUE: 0
+END CONDITION
+NUMBER: 62 CONDITION: Phytoplankton_Initial_Cond
+CONDTYPE: over surfaces
+CONDMESHTYPE: over body elements
+QUESTION: Chl-A_[mg/l]
+VALUE: 0
+END CONDITION
+NUMBER: 63 CONDITION: pH_Initial_Cond
+CONDTYPE: over surfaces
+CONDMESHTYPE: over body elements
+QUESTION: C-inorg_[mg/l]
+VALUE: 0
+QUESTION: Alkalinity_CaCO3_[mg/l]
+VALUE: 0
+END CONDITION
+NUMBER: 64 CONDITION: Metals_Initial_Cond
+CONDTYPE: over surfaces
+CONDMESHTYPE: over body elements
+QUESTION: HM_[mg/l]
+VALUE: 0
+END CONDITION
+BOOK:Discharges
+NUMBER: 65 CONDITION: Discharge
+CONDTYPE: over points
+CONDMESHTYPE: over nodes
+TITLE: Model
+QUESTION: Imposed#CB#(Time_Dependent)
+VALUE: Time_Dependent
+DEPENDENCIES: (Time_Dependent,RESTORE,Source_x_coord,#CURRENT#,RESTORE,Source_y_coord,#CURRENT#,RESTORE,Discharge_Number,#CURRENT#,HIDE,VALUE,#CURRENT#,RESTORE,Variables,#N# 13 0.0 0.0 0.0 0.0 0.0 293 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0)
+QUESTION: Source_x_coord
+VALUE: 0.0
+QUESTION: Source_y_coord
+VALUE: 0.0
+QUESTION: Discharge_Number
+VALUE: 1
+QUESTION: VALUE
+VALUE: 0.0
+QUESTION: Variables(Time_[s],Q_[m3/s],Vx_[m/s],Vy_[m/s],Salt_[kg/m3],T_[Celsius],CF_[cfu/100ml],DO_[mg/l],CBOD_[mg/l],Norg_[mg/l],N-NH3_[mg/l],N-NO3_[mg/l],P-org_[mg/l],P-inorg_[mg/l],Chl-A_[mg/l],C-inorg_[mg/l],Alkalinity_CaCO3_[mg/l],HM_[mg/l])
+VALUE: #N# 18 0.0 0.0 0.0 0.0 0.0 293 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0
+END CONDITION
+BOOK:Sediment_Oxygen_Demand_Cond
+NUMBER: 66 CONDITION: Sediment_Oxygen_Demand
+CONDTYPE: over surfaces
+CONDMESHTYPE: over body elements
+QUESTION: Sediment_Oxygen_Demand_[g/m2/day]
+VALUE: 0.0
+END CONDITION
+BOOK:Wood_boundary
+NUMBER: 67 CONDITION: Wood_boundary
+CONDTYPE: over lines
+CONDMESHTYPE: over face elements multiple
+QUESTION: Density#CB#(Constant,Variable)
+VALUE: Constant
+DEPENDENCIES: (Constant,HIDE,Min_Final_Density_[kg/m3],#CURRENT#,HIDE,Max_Final_Density_[kg/m3],#CURRENT#,HIDE,K_[1/h],#CURRENT#)
+DEPENDENCIES: (Variable,RESTORE,Min_Final_Density_[kg/m3],#CURRENT#,RESTORE,Max_Final_Density_[kg/m3],#CURRENT#,RESTORE,K_[1/h],#CURRENT#)
+QUESTION: Inlet_Number
+VALUE: 1
+QUESTION: Min_Diameter_[m]
+VALUE: 0.10
+QUESTION: Max_Diameter_[m]
+VALUE: 0.50
+QUESTION: Min_Length_[m]
+VALUE: 1
+QUESTION: Max_Length_[m]
+VALUE: 5
+QUESTION: Min_Root_Coef
+VALUE: 0
+QUESTION: Max_Root_Coef
+VALUE: 0
+QUESTION: Min_Density_[kg/m3]
+VALUE: 400
+QUESTION: Max_Density_[kg/m3]
+VALUE: 800
+QUESTION: Min_Final_Density_[kg/m3]
+VALUE: 700
+QUESTION: Max_Final_Density_[kg/m3]
+VALUE: 900
+QUESTION: K_[1/h]
+VALUE: 0
+QUESTION: Wood_Rate(Time_[s],Logs_[logs/min])
+VALUE: #N# 2 0 0.0
+END CONDITION
